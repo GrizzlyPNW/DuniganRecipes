@@ -1833,7 +1833,9 @@
       "title": "Mom's Sweet Cornbread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Moms Sweet Cornbread.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2482,7 +2484,10 @@
       "title": "Chicken Pot Pie",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chicken Pot Pie - Front.jpg",
+        "uploads/Chicken Pot Pie - Back.jpg"
+      ],
       "temp": "425°",
       "time": null,
       "makes": null,
@@ -3168,7 +3173,9 @@
       "title": "Mama's Cowboy Beans",
       "category": "Side Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Mamas Cowboy Beans.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4555,7 +4562,9 @@
       "title": "Nana's Chocolate Chip Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Nanas Chocolate Chip Cookies.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
