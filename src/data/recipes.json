@@ -902,6 +902,34 @@
       "note": null,
       "ingredients": null,
       "steps": null
+    },
+    {
+      "id": "r39",
+      "title": "Cornmeal Pudding",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/cornmeal-pudding-front.jpg",
+        "/cards/cornmeal-pudding-back.jpg"
+      ],
+      "temp": "250°",
+      "time": "6 hrs",
+      "makes": null,
+      "note": "Serve with ice cream or Cool Whip.",
+      "ingredients": [
+        "1 qt milk",
+        "½ cup cornmeal",
+        "½ cup sugar or ¼ c honey",
+        "¼ cup molasses",
+        "3–4 Tbsp butter"
+      ],
+      "steps": [
+        "Scald 3 cups of the milk and mix with the cornmeal. Add the other ingredients.",
+        "Bake at 250° for 6 hours.",
+        "After 20 min, mix in the other cup of milk.",
+        "Stir at least 6–7 times within the first 1½ hours, then cook the remaining hours.",
+        "Serve with ice cream or Cool Whip."
+      ]
     }
   ]
 }
