@@ -229,7 +229,17 @@ export function RecipePage({
             </div>
           </>
         )}
-        {r.cardImages.length === 0 && <div ref={cardRef} />}
+        {r.cardImages.length === 0 && (
+          <div ref={cardRef} className="pad" style={{ marginTop: 28 }}>
+            <div className="dashed">
+              <div className="t">No photo of the card yet</div>
+              <div className="s">Have the original card? Snap a photo of the front and back so it's saved with the recipe.</div>
+              <button className="btn btn-outline" style={{ marginTop: 12, height: 44, borderColor: '#2b2521' }} onClick={() => go(`recipe/${r.id}/type`)}>
+                Add a photo of the card
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       {lb !== null && <Lightbox recipe={r} i={lb} setI={setLb} />}
       <AppPortal>

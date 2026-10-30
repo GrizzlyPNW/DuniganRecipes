@@ -169,9 +169,11 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
           </div>
         )}
 
-        {kind !== 'transcribe' && (
+        {(kind !== 'transcribe' || (existing && existing.cardImages.length === 0)) && (
           <div className="form-group">
-            <span className="field-label">{kind === 'photo' ? 'Photos of the card' : 'Photo of the card (optional)'}</span>
+            <span className="field-label">
+              {kind === 'photo' ? 'Photos of the card' : existing ? 'Have the original card? Add a photo (optional)' : 'Photo of the card (optional)'}
+            </span>
             <div className="photo-slots">
               {['Front', 'Back'].map((side, i) => (
                 <label key={side} className="photo-slot">
