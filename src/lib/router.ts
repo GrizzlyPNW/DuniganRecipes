@@ -46,6 +46,12 @@ export function parse(hash: string): Route {
   }
 }
 
+// Every fresh launch starts on Recipes. Phones and the Google sign-in return can
+// reopen the last page; only invite links should land somewhere else.
+if (typeof window !== 'undefined' && !/^#\/?(i|join)\//.test(location.hash) && location.hash) {
+  history.replaceState(null, '', location.pathname + location.search);
+}
+
 // How many in-app steps we can safely go back (so "back" never leaves the site).
 let depth = 0;
 export const go = (path: string) => {
