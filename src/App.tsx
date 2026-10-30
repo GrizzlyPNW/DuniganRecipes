@@ -74,12 +74,9 @@ export default function App() {
         {tab === 'family' && <Family fam={fam} pick={pickWho} />}
         {tab === 'book' && <Book fam={fam} toast={toast} />}
         {tab === 'admin' && <AdminPage fam={fam} toast={toast} />}
-        {!overlay && (
-          <>
-            <TabBar tab={tab} />
-            <Header onMenu={() => setPanel('menu')} onProfile={() => setPanel('profile')} />
-          </>
-        )}
+        {!overlay && <TabBar tab={tab} />}
+        {/* The header sits on every page except full-screen cook mode. */}
+        {route.name !== 'cook' && <Header onMenu={() => setPanel('menu')} onProfile={() => setPanel('profile')} />}
         {panel === 'menu' && (
           <Menu tab={tab} count={fam.recipes.length} mode={fam.mode} admin={fam.admin} close={() => setPanel(null)} />
         )}

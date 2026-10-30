@@ -56,10 +56,15 @@ a { color: var(--accent); }
 }
 .screen.with-tabs { bottom: var(--tabbar); padding-top: calc(var(--top) + var(--header) + 18px); }
 
-/* Header: menu · logo · profile */
+/* Header: menu · logo · profile — on every page (above recipe and add screens, below drawers). */
 :root { --header: 72px; }
+.detail .screen, .overlay-page .screen { padding-top: calc(var(--top) + var(--header) + 64px); }
+.detail .back-pill, .overlay-page .cancel { top: calc(var(--top) + var(--header) + 10px); }
+.detail .top-fade { top: calc(var(--top) + var(--header)); height: 64px; }
+.app:has(.lightbox) .app-header { display: none; }
+.overlay-page .cancel { height: 36px; padding: 0 14px; border-radius: 18px; background: var(--card); box-shadow: 0 2px 8px rgba(43, 37, 33, 0.12); left: 16px; }
 .app-header {
-  position: absolute; z-index: 15; top: 0; left: 0; right: 0;
+  position: absolute; z-index: 26; top: 0; left: 0; right: 0;
   height: calc(var(--top) + var(--header)); padding: var(--top) 12px 0;
   display: grid; grid-template-columns: 48px 1fr 48px; align-items: center;
   background: rgba(247, 242, 232, 0.94); backdrop-filter: saturate(1.2) blur(8px); -webkit-backdrop-filter: saturate(1.2) blur(8px);
