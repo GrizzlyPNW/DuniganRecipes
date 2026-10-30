@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e9e3d8;font-family:'Instrument Sans',system-ui,sans-serif;color:#2b2521}a{color:#a24a2a;text-decoration:none}a:hover{color:#7d3519;text-decoration:underline}</style>
+</helmet>
+<section id="t1" style="padding:44px 48px 48px">
+  <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 8px">
+    <span style="font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#2b2521;color:#fff;border-radius:4px">1a</span>
+    <span style="font:500 22px 'Newsreader',serif">Dunigan Family Recipe Book: every screen</span>
+  </div>
+  <p style="margin:0 0 30px;max-width:760px;font:400 13px/1.55 'Instrument Sans',sans-serif;color:#5f554c;text-wrap:pretty">One app, shown screen by screen. Every phone is live, so you can tap around in any of them. On a recipe page the order is: <b>family stories</b> first, then the recipe, then the original card photos at the bottom.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:40px 32px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">1 · Recipes (home)</div><dc-import name="Recipe App" start-screen="home" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">2 · Menu (opens from the left)</div><dc-import name="Recipe App" start-screen="menu" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">3 · Search</div><dc-import name="Recipe App" start-screen="search" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">4 · Recipe page: family stories first</div><dc-import name="Recipe App" start-screen="recipe" recipe-id="r3" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">5 · Recipe not typed up yet</div><dc-import name="Recipe App" start-screen="recipe" recipe-id="r15" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">6 · Original card, enlarged</div><dc-import name="Recipe App" start-screen="card" recipe-id="r3" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">7 · Cook mode</div><dc-import name="Recipe App" start-screen="cook" recipe-id="r3" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">8 · Finished cooking</div><dc-import name="Recipe App" start-screen="done" recipe-id="r3" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">9 · Family</div><dc-import name="Recipe App" start-screen="family" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">10 · Book (from the menu)</div><dc-import name="Recipe App" start-screen="book" hint-size="410px,864px"></dc-import></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div style="font:600 13px 'Instrument Sans',sans-serif">11 · Add Recipe</div><dc-import name="Recipe App" start-screen="add" hint-size="410px,864px"></dc-import></div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

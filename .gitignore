@@ -1,0 +1,10 @@
+node_modules
+dist
+dev-dist
+.env
+.env.local
+.vercel
+# Full-size original card scans (~90 MB). The app uses the compressed copies in public/cards.
+originals/
+.neon
+*.tsbuildinfo

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Dunigan Family Recipes</title>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#a24a2a"/><text x="50" y="63" font-family="Georgia,serif" font-size="36" text-anchor="middle" fill="#f7f2e8">DR</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9e3d8;font-family:'Instrument Sans',system-ui,sans-serif;color:#2b2521;-webkit-font-smoothing:antialiased}
+a{color:#a24a2a;text-decoration:none}a:hover{color:#7d3519;text-decoration:underline}
+input,textarea,button{font-family:inherit}
+::-webkit-scrollbar{width:0;height:0}
+</style>
+</helmet>
+    <div style="position:fixed;inset:0;background:#e9e3d8;display:flex;justify-content:center">
+      <div style="position:relative;width:100%;max-width:520px;height:100%;margin:0 auto;overflow:hidden;background:#f7f2e8">
+
+        
+
+        <sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;inset:0 0 84px 0;overflow-y:auto;padding:108px 0 24px">
+            <div style="padding:0 22px">
+              <div style="font:600 11px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a24a2a">The Dunigan Kitchen</div>
+              <h1 style="margin:6px 0 16px;font:500 32px/1.1 'Newsreader',serif">What are we cooking today?</h1>
+              <div style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;background:#fffdf8;border:1px solid rgba(43,37,33,.14);border-radius:14px">
+                <div style="width:11px;height:11px;border-radius:50%;border:2px solid #8a7f74;flex:none"></div>
+                <input value="{{query}}" onChange="{{onQuery}}" placeholder="Search recipes, cooks, ingredients" style="flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:16px;color:#2b2521">
+              </div>
+            </div>
+            <sc-if value="{{showBrowse}}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{goBook}}" style="display:block;text-align:left;margin:18px 22px 0;width:calc(100% - 44px);padding:16px 18px;background:#efe7d8;border:0;border-radius:16px;cursor:pointer;color:#2b2521">
+                <div style="font:italic 400 17px/1.45 'Newsreader',serif">"From my kitchen to yours, these recipes hold so much more than ingredients."</div>
+                <div style="margin-top:8px;font:500 12px 'Instrument Sans',sans-serif;color:#6f645a">Mom's note · open the book →</div>
+              </button>
+              <div style="margin:24px 0 10px;padding:0 22px;font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6f645a">Whose kitchen?</div>
+              <div style="display:flex;gap:12px;overflow-x:auto;padding:0 22px">
+                <sc-for list="{{cooks}}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{c.onPick}}" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;cursor:pointer;width:66px;padding:0">
+                    <div style="width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 17px 'Newsreader',serif;background:{{c.bg}};color:{{c.fg}};box-shadow:{{c.ring}}">{{c.ini}}</div>
+                    <div style="font:500 12px/1.2 'Instrument Sans',sans-serif;color:#2b2521;text-align:center">{{c.short}}</div>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:8px;overflow-x:auto;padding:20px 22px 4px">
+                <sc-for list="{{cats}}" as="k" hint-placeholder-count="4">
+                  <button onClick="{{k.onPick}}" style="flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid {{k.border}};background:{{k.bg}};color:{{k.fg}};font:500 14px 'Instrument Sans',sans-serif;cursor:pointer;white-space:nowrap">{{k.label}}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{hasWho}}" hint-placeholder-val="{{ false }}">
+              <div style="margin:14px 22px 0;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:12px;background:#fffdf8;border:1px solid rgba(43,37,33,.12)">
+                <span style="font:500 14px 'Instrument Sans',sans-serif">From the kitchen of <b>{{whoName}}</b></span>
+                <button onClick="{{clearWho}}" style="border:0;background:transparent;color:#a24a2a;font:600 13px 'Instrument Sans',sans-serif;cursor:pointer">Clear</button>
+              </div>
+            </sc-if>
+            <div style="margin:18px 22px 4px;display:flex;justify-content:space-between;align-items:baseline">
+              <span style="font:500 20px 'Newsreader',serif">{{listTitle}}</span>
+              <span style="font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{listCount}}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;padding:0 22px">
+              <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+                <button onClick="{{r.onOpen}}" style="display:flex;gap:14px;align-items:center;padding:12px 0;border:0;border-bottom:1px solid rgba(43,37,33,.1);background:transparent;text-align:left;cursor:pointer;color:#2b2521">
+                  <img src="{{r.thumb}}" alt="" style="flex:none;width:68px;height:52px;object-fit:cover;border-radius:6px;background:#e2d6c0;box-shadow:0 1px 3px rgba(43,37,33,.25);transform:rotate(-1.5deg)">
+                  <div style="flex:1;min-width:0">
+                    <div style="font:500 18px/1.2 'Newsreader',serif">{{r.title}}</div>
+                    <div style="margin-top:4px;font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{r.sub}}</div>
+                  </div>
+                  <sc-if value="{{r.hasStories}}" hint-placeholder-val="{{ false }}"><div style="flex:none;font:600 12px 'Instrument Sans',sans-serif;color:#a24a2a">{{r.storyCount}}</div></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><div style="padding:28px 0;font:italic 400 17px 'Newsreader',serif;color:#6f645a">Nothing in the box matches that yet.</div></sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isFamily}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0 0 84px 0;overflow-y:auto;padding:108px 22px 24px">
+            <div style="font:600 11px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a24a2a">The family</div>
+            <h1 style="margin:6px 0 6px;font:500 32px/1.1 'Newsreader',serif">Whose kitchen it came from</h1>
+            <p style="margin:0 0 14px;font:400 15px/1.45 'Instrument Sans',sans-serif;color:#6f645a">Names as written on the cards. Tap one to see their recipes.</p>
+            <sc-for list="{{familyRows}}" as="f" hint-placeholder-count="6">
+              <button onClick="{{f.onPick}}" style="width:100%;display:flex;align-items:center;gap:14px;padding:13px 0;border:0;border-bottom:1px solid rgba(43,37,33,.1);background:transparent;text-align:left;cursor:pointer;color:#2b2521">
+                <div style="flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 16px 'Newsreader',serif;background:{{f.bg}};color:{{f.fg}}">{{f.ini}}</div>
+                <div style="flex:1"><div style="font:500 19px 'Newsreader',serif">{{f.name}}</div><div style="margin-top:2px;font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{f.sub}}</div></div>
+                <span style="color:#8a7f74;font-size:20px">›</span>
+              </button>
+            </sc-for>
+            <div style="margin-top:18px;padding:16px 18px;border-radius:16px;border:1.5px dashed rgba(162,74,42,.45)">
+              <div style="font:500 17px 'Newsreader',serif">{{unsignedTitle}}</div>
+              <div style="margin-top:4px;font:400 14px/1.45 'Instrument Sans',sans-serif;color:#5f554c">If you know whose handwriting it is, tag the cook so the credit stays in the family.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isBook}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0 0 84px 0;overflow-y:auto;padding:108px 22px 24px">
+            <div style="font:600 11px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a24a2a">The book</div>
+            <h1 style="margin:6px 0 18px;font:500 32px/1.1 'Newsreader',serif">Print a copy</h1>
+            <div style="margin:0 auto;width:220px;height:290px;background:#6d2e1a;border-radius:4px 10px 10px 4px;box-shadow:inset 10px 0 0 rgba(0,0,0,.18),0 18px 30px -12px rgba(43,37,33,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;color:#f3e6d3">
+              <div style="font:500 26px/1.1 'Newsreader',serif">A Family Recipe Book</div>
+              <div style="margin-top:8px;font:italic 400 14px 'Newsreader',serif;color:#e7c9a4">Collected with love over 50 years</div>
+              <div style="margin-top:22px;font:500 10px 'Instrument Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#e7c9a4">First Edition</div>
+            </div>
+            <div style="margin-top:22px;padding:18px;background:#fffdf8;border-radius:16px;border:1px solid rgba(43,37,33,.1)">
+              <p style="margin:0 0 8px;font:italic 400 17px/1.5 'Newsreader',serif;text-wrap:pretty">From my kitchen to yours, these recipes hold so much more than ingredients. They hold memories, laughter, and a love that never fades. I hope each dish wraps you in warmth and brings you joy for years to come.</p>
+              <div style="font:italic 400 16px 'Newsreader',serif">With all my love, Mom</div>
+            </div>
+            <div style="margin:20px 0 8px;font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6f645a">Each page includes</div>
+            <sc-for list="{{bookOpts}}" as="o" hint-placeholder-count="3">
+              <button onClick="{{o.onToggle}}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 0;border:0;border-bottom:1px solid rgba(43,37,33,.1);background:transparent;cursor:pointer;font:500 16px 'Instrument Sans',sans-serif;color:#2b2521">
+                {{o.label}}
+                <div style="width:44px;height:26px;border-radius:13px;background:{{o.track}};display:flex;align-items:center;padding:3px;box-sizing:border-box;justify-content:{{o.justify}}"><div style="width:20px;height:20px;border-radius:50%;background:#fff"></div></div>
+              </button>
+            </sc-for>
+            <button onClick="{{exportBook}}" style="margin-top:20px;width:100%;height:56px;border:0;border-radius:16px;background:#a24a2a;color:#fff;font:600 16px 'Instrument Sans',sans-serif;cursor:pointer">Export PDF for printing</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{showTabs}}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:0;right:0;bottom:0;height:84px;background:#f7f2e8;border-top:1px solid rgba(43,37,33,.1);display:grid;grid-template-columns:1fr 1.5fr 1fr;padding-top:10px;box-sizing:border-box;z-index:10">
+            <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+              <button onClick="{{t.onPick}}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;cursor:pointer;height:48px">
+                <sc-if value="{{t.isAdd}}" hint-placeholder-val="{{ false }}"><div style="height:46px;padding:0 20px;border-radius:23px;background:#2b2521;color:#f7f2e8;display:flex;align-items:center;gap:8px;font:600 15px 'Instrument Sans',sans-serif;white-space:nowrap"><span style="font:300 24px/1 'Instrument Sans',sans-serif">+</span>Add Recipe</div></sc-if>
+                <sc-if value="{{t.notAdd}}" hint-placeholder-val="{{ true }}"><span style="font:600 14px 'Instrument Sans',sans-serif;color:{{t.fg}}">{{t.label}}</span><div style="width:5px;height:5px;border-radius:50%;background:{{t.dot}}"></div></sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{showTabs}}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{openMenu}}" aria-label="Menu" style="position:absolute;top:52px;left:16px;z-index:15;width:44px;height:44px;border-radius:50%;border:1px solid rgba(43,37,33,.14);background:#fffdf8;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+            <div style="width:18px;height:2px;border-radius:1px;background:#2b2521"></div><div style="width:18px;height:2px;border-radius:1px;background:#2b2521"></div><div style="width:18px;height:2px;border-radius:1px;background:#2b2521"></div>
+          </button>
+        </sc-if>
+        <sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{closeMenu}}" style="position:absolute;inset:0;z-index:40;background:rgba(31,27,24,.45)"></div>
+          <div style="position:absolute;top:0;left:0;bottom:0;width:290px;z-index:41;background:#f7f2e8;padding:58px 22px 30px;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:10px 0 30px rgba(0,0,0,.2)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font:600 11px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a24a2a">The Dunigan Kitchen</span>
+              <button onClick="{{closeMenu}}" style="width:40px;height:40px;border-radius:50%;border:0;background:#efe7d8;color:#2b2521;font-size:15px;cursor:pointer">✕</button>
+            </div>
+            <div style="margin-top:18px;display:flex;flex-direction:column">
+              <sc-for list="{{menuItems}}" as="m" hint-placeholder-count="4">
+                <button onClick="{{m.onPick}}" style="display:flex;align-items:center;justify-content:space-between;padding:16px 0;border:0;border-bottom:1px solid rgba(43,37,33,.1);background:transparent;cursor:pointer;text-align:left;color:#2b2521">
+                  <div><div style="font:500 22px 'Newsreader',serif;color:{{m.fg}}">{{m.label}}</div><div style="margin-top:2px;font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{m.sub}}</div></div>
+                  <span style="color:#8a7f74;font-size:20px">›</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isDetail}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:#f7f2e8;z-index:20">
+            <div ref="{{detailRef}}" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:40px">
+              <div style="padding:104px 22px 0">
+                <div style="font:600 11px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a24a2a">{{r.cat}}</div>
+                <h1 style="margin:6px 0 10px;font:500 34px/1.08 'Newsreader',serif;text-wrap:balance">{{r.title}}</h1>
+                <button onClick="{{r.onWho}}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;cursor:pointer;color:#2b2521">
+                  <div style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 12px 'Newsreader',serif;background:{{r.avBg}};color:{{r.avFg}}">{{r.ini}}</div>
+                  <span style="font:500 15px 'Instrument Sans',sans-serif">{{r.fromLine}}</span>
+                </button>
+              </div>
+
+              <div style="padding:0 22px">
+                <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <button onClick="{{jumpRecipe}}" style="height:48px;border-radius:14px;border:0;background:#a24a2a;color:#fff;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer">{{jumpLabel}}</button>
+                  <button onClick="{{jumpCard}}" style="height:48px;border-radius:14px;border:1px solid rgba(43,37,33,.2);background:transparent;color:#2b2521;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer">See the card ↓</button>
+                </div>
+                <div style="margin:22px 0 4px;display:flex;justify-content:space-between;align-items:baseline">
+                  <h2 style="margin:0;font:500 26px 'Newsreader',serif">Family stories</h2>
+                  <span style="font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{storyCountLabel}}</span>
+                </div>
+                <p style="margin:0 0 14px;font:400 14px/1.45 'Instrument Sans',sans-serif;color:#6f645a">Who made it, when, and what you remember. Anyone in the family can add one.</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{stories}}" as="st" hint-placeholder-count="0">
+                    <div style="padding:16px;background:#fffdf8;border:1px solid rgba(43,37,33,.1);border-radius:16px">
+                      <div style="font:400 18px/1.45 'Newsreader',serif;text-wrap:pretty;white-space:pre-wrap">{{st.text}}</div>
+                      <div style="margin-top:10px;display:flex;align-items:center;gap:8px">
+                        <div style="width:24px;height:24px;border-radius:50%;background:#e9d6c8;color:#7d3519;display:flex;align-items:center;justify-content:center;font:600 11px 'Instrument Sans',sans-serif">{{st.ini}}</div>
+                        <span style="font:600 13px 'Instrument Sans',sans-serif">{{st.name}}</span>
+                        <span style="font:400 13px 'Instrument Sans',sans-serif;color:#8a7f74">· {{st.when}}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{noStories}}" hint-placeholder-val="{{ true }}">
+                    <div style="padding:6px 0 4px;font:italic 400 17px 'Newsreader',serif;color:#6f645a">No stories yet. Be the first to share one.</div>
+                  </sc-if>
+                </div>
+                <div style="margin-top:14px;padding:16px;background:#efe7d8;border-radius:16px;display:flex;flex-direction:column;gap:10px">
+                  <input value="{{draftName}}" onChange="{{onDraftName}}" placeholder="Your name" style="height:46px;padding:0 14px;border-radius:12px;border:1px solid rgba(43,37,33,.16);background:#fffdf8;font-size:16px;color:#2b2521;outline:0">
+                  <textarea value="{{draftText}}" onChange="{{onDraftText}}" rows="3" placeholder="Share a memory about this recipe…" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(43,37,33,.16);background:#fffdf8;font:400 17px/1.4 'Newsreader',serif;color:#2b2521;outline:0;resize:none"></textarea>
+                  <button onClick="{{addStory}}" style="height:50px;border:0;border-radius:14px;background:{{shareBg}};color:#fff;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer">Add my story</button>
+                </div>
+                <div ref="{{recipeRef}}" style="height:1px;background:rgba(43,37,33,.12);margin:32px 0 22px"></div>
+                <h2 style="margin:0 0 14px;font:500 26px 'Newsreader',serif">The recipe</h2>
+                <sc-if value="{{r.typed}}" hint-placeholder-val="{{ true }}">
+                  <sc-if value="{{r.hasMeta}}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;border-top:1px solid rgba(43,37,33,.12);border-bottom:1px solid rgba(43,37,33,.12)">
+                      <sc-for list="{{r.meta}}" as="m" hint-placeholder-count="2">
+                        <div style="flex:1;padding:12px 0 12px 12px;border-right:1px solid rgba(43,37,33,.12)">
+                          <div style="font:500 11px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6f645a">{{m.k}}</div>
+                          <div style="margin-top:3px;font:500 17px 'Newsreader',serif">{{m.v}}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{r.hasNote}}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:16px;padding:14px 16px;background:#efe7d8;border-radius:14px;font:italic 400 17px/1.4 'Newsreader',serif">Note on the card: "{{r.note}}"</div>
+                  </sc-if>
+                  <div style="margin:24px 0 4px;display:flex;justify-content:space-between;align-items:baseline">
+                    <h2 style="margin:0;font:500 24px 'Newsreader',serif">Ingredients</h2>
+                    <span style="font:400 13px 'Instrument Sans',sans-serif;color:#6f645a">{{checkedLabel}}</span>
+                  </div>
+                  <sc-for list="{{ings}}" as="i" hint-placeholder-count="5">
+                    <button onClick="{{i.onToggle}}" style="width:100%;display:flex;gap:14px;align-items:flex-start;padding:11px 0;border:0;border-bottom:1px solid rgba(43,37,33,.08);background:transparent;text-align:left;cursor:pointer">
+                      <div style="flex:none;margin-top:1px;width:22px;height:22px;border-radius:7px;border:1.5px solid {{i.boxBorder}};background:{{i.boxBg}};color:#fff;display:flex;align-items:center;justify-content:center;font:600 13px 'Instrument Sans',sans-serif">{{i.mark}}</div>
+                      <span style="font:400 17px/1.35 'Instrument Sans',sans-serif;color:{{i.fg}};text-decoration:{{i.deco}}">{{i.text}}</span>
+                    </button>
+                  </sc-for>
+                  <h2 style="margin:28px 0 10px;font:500 24px 'Newsreader',serif">Method</h2>
+                  <div style="display:flex;flex-direction:column;gap:16px">
+                    <sc-for list="{{r.stepList}}" as="s" hint-placeholder-count="4">
+                      <div style="display:flex;gap:14px"><div style="flex:none;width:24px;font:500 22px/1.2 'Newsreader',serif;color:#a24a2a">{{s.n}}</div><div style="font:400 17px/1.5 'Instrument Sans',sans-serif;text-wrap:pretty">{{s.text}}</div></div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{startCook}}" style="margin-top:22px;width:100%;height:56px;border:0;border-radius:16px;background:#a24a2a;color:#fff;font:600 17px 'Instrument Sans',sans-serif;cursor:pointer">Start cooking · step by step</button>
+                </sc-if>
+                <sc-if value="{{r.untyped}}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:18px;border-radius:16px;border:1.5px dashed rgba(162,74,42,.45)">
+                    <div style="font:500 19px 'Newsreader',serif">This card hasn't been typed up yet</div>
+                    <div style="margin-top:4px;font:400 14px/1.45 'Instrument Sans',sans-serif;color:#5f554c">Read the card above and type it in so it's searchable and works in cook mode.</div>
+                    <button onClick="{{transcribe}}" style="margin-top:12px;height:44px;padding:0 18px;border-radius:12px;border:1px solid #2b2521;background:transparent;font:600 14px 'Instrument Sans',sans-serif;color:#2b2521;cursor:pointer">I'll type it up</button>
+                  </div>
+                </sc-if>
+
+              </div>
+              <div ref="{{cardRef}}" style="margin-top:32px;padding:0 22px;display:flex;justify-content:space-between;align-items:baseline">
+                <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6f645a">The original card</span>
+                <span style="font:400 12px 'Instrument Sans',sans-serif;color:#6f645a">{{r.cardHint}}</span>
+              </div>
+              <div style="display:flex;gap:12px;overflow-x:auto;padding:10px 22px 16px;scroll-snap-type:x mandatory">
+                <sc-for list="{{r.cards}}" as="cd" hint-placeholder-count="2">
+                  <button onClick="{{cd.onOpen}}" style="flex:none;width:170px;scroll-snap-align:start;border:0;padding:0;background:transparent;cursor:zoom-in;text-align:left">
+                    <img src="{{cd.src}}" alt="{{cd.label}}" style="display:block;width:100%;height:130px;object-fit:cover;object-position:top;border-radius:8px;background:#e2d6c0;box-shadow:0 6px 16px -6px rgba(43,37,33,.45)">
+                    <div style="margin-top:8px;font:500 12px 'Instrument Sans',sans-serif;color:#6f645a">{{cd.label}}</div>
+                  </button>
+                </sc-for>
+              </div>
+
+            </div>
+            <div style="position:absolute;top:0;left:0;right:0;height:100px;background:linear-gradient(#f7f2e8 55%,rgba(247,242,232,0));pointer-events:none"></div>
+            <button onClick="{{back}}" style="position:absolute;top:52px;left:16px;height:40px;padding:0 14px 0 10px;border-radius:20px;border:0;background:#fffdf8;font:600 14px 'Instrument Sans',sans-serif;color:#2b2521;cursor:pointer;box-shadow:0 2px 8px rgba(43,37,33,.15)">‹ Recipes</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isLightbox}}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{closeLightbox}}" style="position:absolute;inset:0;z-index:50;background:#14110f;display:flex;flex-direction:column;padding:60px 12px 30px;box-sizing:border-box;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;color:#f7f2e8;padding:0 8px"><span style="font:500 15px 'Instrument Sans',sans-serif">{{lbLabel}}</span><span style="font:600 14px 'Instrument Sans',sans-serif">Close ✕</span></div>
+            <img src="{{lbSrc}}" alt="{{lbLabel}}" style="flex:1;min-height:0;width:100%;object-fit:contain">
+            <sc-if value="{{lbMulti}}" hint-placeholder-val="{{ false }}"><button onClick="{{lbFlip}}" style="align-self:center;height:46px;padding:0 22px;border-radius:23px;border:0;background:#f7f2e8;color:#2b2521;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer">Flip card ↻</button></sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isCook}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:#2b2521;color:#f7f2e8;z-index:30;display:flex;flex-direction:column;padding:56px 22px 30px;box-sizing:border-box">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <button onClick="{{closeCook}}" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(247,242,232,.1);color:#f7f2e8;font-size:16px;cursor:pointer">✕</button>
+              <div style="font:500 14px 'Instrument Sans',sans-serif;color:#d8cbb9">{{r.title}}</div>
+              <div style="width:44px;text-align:right;font:500 14px 'Instrument Sans',sans-serif;color:#d8cbb9">{{stepOf}}</div>
+            </div>
+            <div style="display:flex;gap:5px;margin-top:16px"><sc-for list="{{segments}}" as="g" hint-placeholder-count="4"><div style="flex:1;height:4px;border-radius:2px;background:{{g.bg}}"></div></sc-for></div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px">
+              <div style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e59a78">Step {{stepNum}}</div>
+              <div style="font:400 30px/1.32 'Newsreader',serif;text-wrap:pretty">{{stepText}}</div>
+              <sc-if value="{{hasTimer}}" hint-placeholder-val="{{ false }}">
+                <sc-if value="{{timerIdle}}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{startTimer}}" style="align-self:flex-start;height:52px;padding:0 20px;border-radius:26px;border:1.5px solid #e59a78;background:transparent;color:#f7f2e8;font:600 16px 'Instrument Sans',sans-serif;cursor:pointer">Start {{timerMinLabel}} timer</button>
+                </sc-if>
+                <sc-if value="{{timerActive}}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:20px;background:rgba(247,242,232,.08)">
+                    <div style="flex:1;font:500 44px/1 'Newsreader',serif;font-variant-numeric:tabular-nums;color:{{timerColor}}">{{timerText}}</div>
+                    <button onClick="{{toggleTimer}}" style="height:44px;padding:0 16px;border-radius:22px;border:0;background:#f7f2e8;color:#2b2521;font:600 14px 'Instrument Sans',sans-serif;cursor:pointer">{{timerBtn}}</button>
+                    <button onClick="{{resetTimer}}" style="height:44px;width:44px;border-radius:50%;border:0;background:rgba(247,242,232,.12);color:#f7f2e8;cursor:pointer">↺</button>
+                  </div>
+                </sc-if>
+              </sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px">
+              <button onClick="{{prevStep}}" style="height:60px;border-radius:18px;border:1.5px solid rgba(247,242,232,.25);background:transparent;color:#f7f2e8;font:600 16px 'Instrument Sans',sans-serif;cursor:pointer;opacity:{{prevOpacity}}">Back</button>
+              <button onClick="{{nextStep}}" style="height:60px;border-radius:18px;border:0;background:#e59a78;color:#2b2521;font:600 17px 'Instrument Sans',sans-serif;cursor:pointer">{{nextLabel}}</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:#2b2521;color:#f7f2e8;z-index:31;display:flex;flex-direction:column;justify-content:center;padding:0 30px 40px;box-sizing:border-box">
+            <div style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e59a78">All done</div>
+            <div style="margin-top:12px;font:400 46px/1.05 'Newsreader',serif">Enjoy every bite.</div>
+            <div style="margin-top:14px;font:italic 400 20px/1.4 'Newsreader',serif;color:#d8cbb9">{{r.title}}, from the kitchen of {{r.fromName}}.</div>
+            <button onClick="{{doneToStories}}" style="margin-top:36px;height:58px;border-radius:18px;border:0;background:#e59a78;color:#2b2521;font:600 16px 'Instrument Sans',sans-serif;cursor:pointer">Add a story about today</button>
+            <button onClick="{{closeCook}}" style="margin-top:10px;height:52px;border-radius:18px;border:1.5px solid rgba(247,242,232,.25);background:transparent;color:#f7f2e8;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer">Back to recipe</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isAdd}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:#f7f2e8;z-index:22;padding:56px 22px 30px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px">
+            <button onClick="{{closeAdd}}" style="align-self:flex-start;height:40px;border:0;background:transparent;font:600 15px 'Instrument Sans',sans-serif;color:#a24a2a;cursor:pointer;padding:0">Cancel</button>
+            <h1 style="margin:0 0 6px;font:500 30px/1.12 'Newsreader',serif">Add a card to the box</h1>
+            <button onClick="{{fakeAdd}}" style="text-align:left;padding:20px;border-radius:20px;border:0;background:#2b2521;color:#f7f2e8;cursor:pointer">
+              <div style="font:500 22px 'Newsreader',serif">Photograph a card</div>
+              <div style="margin-top:6px;font:400 14px/1.45 'Instrument Sans',sans-serif;color:#d8cbb9">Shoot the front, then the back. The photos go on the recipe page, and the family can type it up later.</div>
+            </button>
+            <button onClick="{{fakeAdd}}" style="text-align:left;padding:20px;border-radius:20px;border:1px solid rgba(43,37,33,.14);background:#fffdf8;color:#2b2521;cursor:pointer">
+              <div style="font:500 22px 'Newsreader',serif">Type it in</div>
+              <div style="margin-top:6px;font:400 14px/1.45 'Instrument Sans',sans-serif;color:#6f645a">For recipes you know by heart.</div>
+            </button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:22px;right:22px;bottom:100px;z-index:70;padding:14px 18px;border-radius:14px;background:#2b2521;color:#f7f2e8;font:500 14px 'Instrument Sans',sans-serif;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)">{{toast}}</div>
+        </sc-if>
+      </div>
+    </div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;search&quot;,&quot;recipe&quot;,&quot;card&quot;,&quot;cook&quot;,&quot;done&quot;,&quot;family&quot;,&quot;book&quot;,&quot;menu&quot;,&quot;add&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;recipeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;r3&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoTimers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const IMG = n => 'uploads/' + encodeURIComponent(n);
+const P = {
+  jeanette:{name:'Jeanette Russell',short:'Jeanette',ini:'JR',hue:40,rel:'Mom'},
+  romona:{name:'Romona Gains',short:'Romona',ini:'RG',hue:300},
+  delza:{name:'Delza Gains',short:'Delza',ini:'DG',hue:250},
+  vaunie:{name:'Vaunie Gains',short:'Vaunie',ini:'VG',hue:125},
+  fran:{name:'Fran Russell',short:'Fran',ini:'FR',hue:80},
+  elaine:{name:'Elaine Vanek',short:'Elaine',ini:'EV',hue:200},
+  rick:{name:"Rick's Mom",short:"Rick's Mom",ini:'RM',hue:20},
+  don:{name:'Don O.',short:'Don O.',ini:'DO',hue:160},
+  none:{name:'Not signed yet',short:'Unsigned',ini:'?',hue:60}
+};
+const T = (title,cat,from,files,x) => Object.assign({title,cat,from,files},x||{});
+const R = [
+ T('Strip-It-Rich Cake','Cakes','jeanette',['Strip-It-Rich Cake.png'],{time:'Chill 1 hr',makes:'13×9 pan',ing:['1 pkg (2-layer size) cake mix','2 pkgs (4-serving size) Jell-O instant pudding','4 cups cold milk','1 cup confectioners sugar'],steps:['Prepare cake mix as directed, baking in a 13x9 in. pan.','Remove from oven. At once, poke holes down through the cake to the pan with the round handle of a wooden spoon, 1 in. apart.','Only after poking holes, combine pudding mix with sugar in a large bowl. Gradually stir in milk. Beat 1 min.','Quickly, before the pudding thickens, pour half of the thin pudding evenly over the warm cake and into the holes to make the stripes.','Let the remaining pudding thicken slightly, then spoon it over the top, swirling to "frost" the cake.','Chill at least 1 hour. Store cake in refrigerator.']}),
+ T("Light 'n Fruity Pie",'Pies & Pastries','jeanette',['Light n Fruity Pie.png'],{time:'Chill 2 hrs',ing:['1 pkg (3 oz) Jell-O strawberry gelatin','⅔ cup boiling water','2 cups ice cubes','1 container (8 oz) Cool Whip, thawed','1 cup fresh sliced strawberries','1 cracker crust','Optional: 1 can (8¾ oz) apricots, peaches, or fruit cocktail, drained and diced','Optional: 1 can (8¼ oz) crushed pineapple, drained'],steps:['Dissolve gelatin completely in boiling water, stirring about 3 min.','Add ice cubes and stir until gelatin is thickened, about 2 to 3 min. Remove any unmelted ice.','Blend in Cool Whip, then whip until smooth.','Fold in fruit. Chill if necessary until the mixture will mound.','Spoon into crust. Chill 2 hours. Garnish if desired.']}),
+ T('Skillet Tuna Patties','Main Dishes','jeanette',['Skillet Tuna Patties.png'],{makes:'4 patties',ing:['1 can Creamy Chicken Mushroom Soup','2 cans tuna, drained','½ cup cornmeal','1 egg, slightly beaten','½ cup finely chopped onion','2 Tbsp butter','¾ cup milk'],steps:['Mix thoroughly ½ cup soup, tuna, cornmeal, egg, and onion. Shape into 4 patties.','In a skillet, brown patties in butter; remove.','Stir remaining soup and milk into the drippings and add patties back. Heat, stirring occasionally.','Garnish with chopped parsley.']}),
+ T("Romona's Layered Dessert",'Desserts','romona',['Romonas Layered Dessert - Front.png','Romonas Layered Dessert - Back.png'],{temp:'350°',ing:['1 c flour','½ c butter','1 c walnuts, chopped','1 (8 oz) pkg cream cheese','1 c powdered sugar','1 large Cool Whip, divided','2 pkg instant pudding','3 c milk'],steps:['Mix flour, butter, and walnuts. Press into pan and bake at 350° for 12 min. Let cool.','Mix cream cheese, powdered sugar, and half of the Cool Whip. Spread over the cooled crust; cool.','Mix the pudding and 3 c milk. Spread over the cream cheese layer; cool again.','Spread the rest of the Cool Whip over the top.']}),
+ T("Santa's Whiskers",'Cookies & Bars','none',['Santas Whiskers - Front.png','Santas Whiskers - Back.png'],{temp:'375°',makes:'About 60',ing:['1 cup butter or margarine, softened','1 cup sugar','2 Tbsp milk','1 tsp vanilla or rum flavoring','2½ cups all-purpose flour','¾ cup finely chopped red or green candied cherries','½ cup finely chopped pecans','¾ cup flaked coconut'],steps:['Cream together butter and sugar; blend in milk and vanilla or rum flavoring.','Stir in flour, candied cherries, and pecans.','Form dough into two 8-inch rolls. Roll in flaked coconut to coat the outside.','Wrap in waxed paper or plastic wrap; chill thoroughly.','Cut into ¼-inch slices. Place on an ungreased cookie sheet.','Bake at 375° till edges are golden, about 12 minutes.']}),
+ T('Mile High Raspberry Pie','Pies & Pastries','none',['Mile High Raspberry Pie - Front.png','Mile High Raspberry Pie - Back.png'],{note:'Graham cracker pie shell can be used instead.',ing:['1 (10 oz) package raspberries, or 1½ c fresh','1 cup sugar','2 egg whites, at room temp','1 Tbsp lemon juice','Dash salt','1 cup heavy cream, whipped','½ tsp almond extract (optional)','1 baked pastry shell'],steps:['Thaw raspberries. Reserve a few for garnish.','In a bowl combine raspberries, sugar, egg whites, lemon juice, and salt. Beat 15 min or till stiff.','Fold in whipped cream and almond extract.','Mound in the baked pastry shell. Freeze until firm.','Garnish with the reserved berries and a sprig of mint.']}),
+ T('Sugar Ginger Cookies','Cookies & Bars','none',['Sugar Ginger Cookies.png'],{temp:'375°',note:'Cookies will crack.',ing:['1 c sugar','¾ c shortening','1 tsp ginger','2½ tsp soda','2 c flour','1 egg','4 Tbsp molasses','1 tsp cinnamon','¼ tsp salt'],steps:['Mix in order, sifting the dry ingredients together.','Form balls and roll in sugar. Do not press down.','Chill 2 hrs or overnight.','Bake at 375° for 10 min.']}),
+ T('Banana Bread','Breads & Muffins','none',['Banana Bread (not in doc).png'],{temp:'350°',makes:'1 loaf',ing:['⅔ c sugar','¼ c butter, softened','¾ c mashed ripe bananas (1–2 med)','¼ c buttermilk or sour milk','1 egg','1 tsp vanilla','1¼ c flour','½ tsp baking soda','½ tsp salt'],steps:['Beat sugar and butter on medium until well blended.','Add bananas, buttermilk, egg, and vanilla; beat till well blended.','Stir in flour, soda, and salt until moistened.','Pour into a greased loaf pan. Bake at 350°F for 50–60 min.','Cool 10 min, then remove from pan to a wire rack.']}),
+ T('McKenzie River Hazelnut Pie','Pies & Pastries','none',['McKenzie River Hazelnut Pie.png'],{temp:'350° → 325°',makes:'Serves 6',note:'Roast hazelnuts for FULL flavor!',ing:['4 eggs','1 cup sugar','⅛ tsp salt','1½ cups dark corn syrup','2 Tbsp butter, melted','1 tsp vanilla','2 cups roasted hazelnuts, finely chopped','2 unbaked 8" pie shells'],steps:['Preheat oven to 350°.','Beat eggs until blended but not frothy. Add, in order, sugar, salt, corn syrup, melted butter, and vanilla, mixing to blend.','Stir in hazelnuts. Divide filling between the two pie shells and place in oven.','Reduce oven heat to 325° and bake 50–60 minutes.']}),
+ T('Finnish Ribbon Cakes','Pies & Pastries','elaine',['Finnish Ribbon Cakes - Front.png','Finnish Ribbon Cakes - Back.png'],{temp:'375°',ing:['1 cup butter, softened','½ cup sugar','1 egg yolk','1 tsp vanilla','½ tsp grated lemon peel','2½ cups all-purpose flour','¼ tsp salt','Jam','½ cup powdered sugar mixed with 1 Tbs water'],steps:['Beat butter and sugar till creamy. Add egg yolk and vanilla; beat.','Add lemon peel; mix. Gradually add flour and salt; mix thoroughly.','Shape into ropes ¾" thick and as long as your baking sheet. Press a long groove down the center.','Bake at 375° for 7 min.','Spoon jam into the grooves. Bake 5 min more.','Drizzle with powdered sugar icing, then cut at a 45° angle into 1" lengths.']}),
+ T('7 Up Biscuits','Breads & Muffins','none',['7 Up Biscuits.png'],{temp:'425°',ing:['4 c Bisquick','1 c sour cream','1 c 7 Up','½ c melted butter'],steps:["Mix Bisquick, sour cream, and 7 Up. Dough will be very soft — don't worry.",'Knead and fold the dough until coated with baking mix. Pat out and cut biscuits with a round cutter.','Melt butter in the bottom of a cookie sheet pan or 9x13 casserole dish.','Place biscuits on the melted butter and bake 12–15 min at 425°, until brown.']}),
+ T('Beef Stew','Soups & Stews','none',['Beef Stew - Front.png','Beef Stew - Back.png'],{time:'1¼ hrs',ing:['3 Tbsp flour','1½ lbs stew meat','2 Tbsp oil','½ c chopped onion','1 garlic clove, minced','½ tsp thyme','3 c vegetable juice','1 tsp beef bouillon','Hot pepper sauce','1 c water','2 med potatoes, cubed','1½ c celery, sliced','1½ c carrots, sliced'],steps:['Coat meat with flour and brown in oil.','Add onion, garlic, and thyme.','Stir in vegetable juice, bouillon, and hot pepper sauce.','Add water, potatoes, celery, and carrots. Cook 1¼ hrs.','Skim off fat.']}),
+ T('Pumpkin Bread','Breads & Muffins','none',['Pumpkin Bread - Front.png','Pumpkin Bread - Back.png'],{temp:'350°',time:'1 hr',ing:['4 c sugar','1 large can pumpkin','1 c oil','4 tsp soda','1 tsp cloves','1 Tbsp cinnamon','1 Tbsp salt','5 c flour','½ c nuts','1 c raisins'],steps:['Mix well.','Pour into greased pans: 3 large or 5–6 mini.','Bake at 350° for 1 hr.']}),
+ T('Chicken Pie','Main Dishes','none',['Chicken Pie - Front.png','Chicken Pie - Back.png'],{temp:'425°',makes:'Serves 4',ing:['1 pkg chicken strips','2 Tbsp oil','½ c melted margarine','1 c self-rising flour','1 c milk','⅓ c shredded sharp Cheddar','1 (10¾ oz) can cream of celery soup','1¼ c chicken broth'],steps:['Cut strips into two pieces. Sauté chicken in hot oil for 5–6 min.','Transfer to a greased 9" deep-dish pie plate. Drizzle melted margarine over chicken.','Combine flour and milk, beating until smooth. Fold in cheese. Pour over chicken.','In a small saucepan combine soup and broth; bring to a boil. Pour over chicken.','Bake at 425° for 25 min. Cut into wedges.']}),
+ T('Italian Macaroni Pie','Main Dishes','none',['Italian Macaroni Pie - Front.png','Italian Macaroni Pie - Back.png'],{temp:'350°',makes:'Serves 6',ing:['1 (7 oz) pkg elbow macaroni','1 lb ground beef','¼ c sliced celery','1 (15 oz) jar spaghetti sauce','1 (4.5 oz) jar sliced mushrooms, drained','2 eggs, slightly beaten','⅓ c grated Parmesan','½ tsp garlic salt','Grated Parmesan for topping'],steps:['Heat oven to 350°F. Grease a 10" pie pan or 9" square pan. Prepare macaroni according to package; drain.','In a large skillet, brown ground beef with celery; drain. Stir in spaghetti sauce and mushrooms. Simmer 15 min.','In a large bowl combine macaroni, eggs, ⅓ c Parmesan, and garlic salt; toss lightly.','Press macaroni mixture evenly into the bottom and up the sides of the pan, forming a crust.','Pour meat mixture over macaroni; cover with foil. Bake 25–30 min.','Remove foil; let stand 5 min before cutting. Sprinkle with Parmesan.']}),
+ T('Spell-Binders','Cookies & Bars','delza',['Spell-Binders - Front.png','Spell-Binders - Back.png']),
+ T('Applesauce Bars','Cookies & Bars','vaunie',['Applesauce Bars - Front.png']),
+ T('Apple Slices','Pies & Pastries','vaunie',['Apple Slices.png']),
+ T('Cinnamon Cake','Cakes','fran',['Cinnamon Cake.png']),
+ T('Chocolate Lush','Desserts','rick',['Chocolate Lush - Front.png','Chocolate Lush - Back.png']),
+ T('Peanut Butter Pie with Chocolate Ganache','Pies & Pastries','don',['Peanut Butter Pie with Chocolate Ganache - Front.png','Peanut Butter Pie with Chocolate Ganache - Back.png']),
+ T('Almond Caramels','Candy','none',['Almond Caramels - Front.png','Almond Caramels - Back.png']),
+ T('Ambrosia Eggnog Candy','Candy','none',['Ambrosia Eggnog Candy - Front.png','Ambrosia Eggnog Candy - Back.png']),
+ T('Butterscotch-Peanut Fudge','Candy','none',['Butterscotch-Peanut Fudge - Front.png','Butterscotch-Peanut Fudge - Back.png']),
+ T('Chocolate Peanut Butter Swirls','Candy','none',['Chocolate Peanut Butter Swirls - Front.png','Chocolate Peanut Butter Swirls - Back.png']),
+ T('Christmas Jelly Candy','Candy','none',['Christmas Jelly Candy - Front.png','Christmas Jelly Candy - Back.png']),
+ T('Marshmallow Treats','Candy','none',['Marshmallow Treats - Front.png','Marshmallow Treats - Back.png']),
+ T('Chicken Rolls','Main Dishes','none',['Chicken Rolls - Front.png','Chicken Rolls - Back.png']),
+ T('Creamy Ham and Macaroni Bake','Main Dishes','none',['Creamy Ham and Macaroni Bake - Front.png','Creamy Ham and Macaroni Bake - Back.png']),
+ T('Oregon Hazelnut Broccoli','Side Dishes','none',['Oregon Hazelnut Broccoli - Front.png']),
+ T('Famous Pumpkin Pie','Pies & Pastries','none',['Famous Pumpkin Pie - Front.png','Famous Pumpkin Pie - Back.png']),
+ T('Holiday Ribbon Pie','Pies & Pastries','none',['Holiday Ribbon Pie - Front.png','Holiday Ribbon Pie - Back.png']),
+ T('Chocolate Chip Pudding Cookies','Cookies & Bars','none',['Chocolate Chip Pudding Cookies - Front.png']),
+ T('Ice Cream Sandwiches','Cookies & Bars','none',['Ice Cream Sandwiches - Front.png','Ice Cream Sandwiches - Back.png']),
+ T('Mini Kisses Thumbprint Cookies','Cookies & Bars','none',['Mini Kisses Thumbprint Cookies - Front.png','Mini Kisses Thumbprint Cookies - Back.png']),
+ T('Oregon Hazelnut Raisin Cookies','Cookies & Bars','none',['Oregon Hazelnut Raisin Cookies - Front.png']),
+ T('Peanut Butter Fruit Drops','Cookies & Bars','none',['Peanut Butter Fruit Drops - Front.png','Peanut Butter Fruit Drops - Back.png']),
+ T('Delicious Double Layer Chocolate Pie','Desserts','none',['Delicious Double Layer Chocolate Pie - Front.png','Delicious Double Layer Chocolate Pie - Back.png']),
+ T('Sensational Double Layer Pumpkin Pie','Desserts','none',['Sensational Double Layer Pumpkin Pie - Front.png','Sensational Double Layer Pumpkin Pie - Back.png'])
+].map((r,i)=>Object.assign(r,{id:'r'+i}));
+const CATS = ['Breads & Muffins','Soups & Stews','Main Dishes','Side Dishes','Cakes','Pies & Pastries','Cookies & Bars','Candy','Desserts'];
+const av = h => h===60 ? ['#e6ded0','#5f554c'] : ['oklch(0.87 0.06 '+h+')','oklch(0.38 0.09 '+h+')'];
+const SKEY='dunigan-stories', NKEY='dunigan-name';
+function timerMins(t){ if(/½\s*hr/i.test(t)) return 30; const m=t.match(/(\d+)(?:\s*(?:–|-|to)\s*\d+)?\s*(min|minutes|hours?|hrs?)\b/i); if(!m) return null; return /h/i.test(m[2]) ? +m[1]*60 : +m[1]; }
+function ago(ts){ const d=Math.round((Date.now()-ts)/60000); if(d<1) return 'just now'; if(d<60) return d+' min ago'; if(d<1440) return Math.round(d/60)+' hr ago'; return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }
+
+class Component extends DCLogic {
+  state = { tab:'home', view:null, cook:false, done:false, step:0, query:'', cat:null, who:null, checked:{}, lb:null, add:false, toast:null,
+    timerLeft:null, timerTotal:0, timerRunning:false, stories:{}, draftName:'', draftText:'', book:{cards:true,typed:true,stories:true} };
+  detailRef = React.createRef(); recipeRef = React.createRef(); cardRef = React.createRef();
+  jump(ref){ const el=ref.current; if(!el) return; let box=this.detailRef.current||el.parentElement; while(box&&box.scrollHeight<=box.clientHeight) box=box.parentElement; if(!box) return; const top=el.getBoundingClientRect().top-box.getBoundingClientRect().top+box.scrollTop-90; box.scrollTop=top; }
+  componentDidMount(){
+    try{ this.setState({ stories: JSON.parse(localStorage.getItem(SKEY)||'{}'), draftName: localStorage.getItem(NKEY)||'' }); }catch(e){}
+    const s=this.props.startScreen||'home', rid=this.props.recipeId||'r3'; const m={recipe:{view:rid},card:{view:rid,lb:{id:rid,i:0}},cook:{view:rid,cook:true,step:1},done:{view:rid,done:true},family:{tab:'family'},book:{tab:'book'},menu:{menu:true},add:{add:true},search:{query:'pumpkin'}}; if(m[s]) this.setState(m[s]);
+    this.iv=setInterval(()=>{ const st=this.state; if(st.timerRunning&&st.timerLeft>0){ const n=st.timerLeft-1; this.setState({timerLeft:n,timerRunning:n>0}); if(n===0) this.flash('Timer done'); } },1000);
+  }
+  componentWillUnmount(){ clearInterval(this.iv); clearTimeout(this.tt); }
+  componentDidUpdate(_,ps){ if(ps.view!==this.state.view && this.detailRef.current) this.detailRef.current.scrollTop=0; }
+  flash(t){ clearTimeout(this.tt); this.setState({toast:t}); this.tt=setTimeout(()=>this.setState({toast:null}),2400); }
+  open(id){ this.setState({view:id,checked:{},cook:false,done:false,draftText:''}); }
+  recipe(){ return R.find(x=>x.id===this.state.view); }
+  addStory(){
+    const r=this.recipe(), name=this.state.draftName.trim(), text=this.state.draftText.trim();
+    if(!name||!text){ this.flash(!name?'Add your name first':'Write a few words first'); return; }
+    const list=[...(this.state.stories[r.id]||[]),{name,text,ts:Date.now()}];
+    const stories={...this.state.stories,[r.id]:list};
+    this.setState({stories,draftText:''}); try{ localStorage.setItem(SKEY,JSON.stringify(stories)); localStorage.setItem(NKEY,name);}catch(e){}
+    this.flash('Story added to '+r.title);
+  }
+  renderVals(){
+    const s=this.state, q=s.query.trim().toLowerCase();
+    let list=R.filter(r=>(!s.cat||r.cat===s.cat)&&(!s.who||r.from===s.who));
+    if(q) list=R.filter(r=>(r.title+' '+P[r.from].name+' '+(r.ing||[]).join(' ')).toLowerCase().includes(q));
+    const rows=list.map(r=>{ const n=(s.stories[r.id]||[]).length; return {title:r.title, thumb:IMG(r.files[0]), sub:(r.from==='none'?'':P[r.from].name+' · ')+(r.ing?r.cat:'Card only · needs typing'), hasStories:n>0, storyCount:n+(n===1?' story':' stories'), onOpen:()=>this.open(r.id)}; });
+    const used=[...new Set(R.map(r=>r.from))].filter(k=>k!=='none');
+    const cooks=used.map(k=>{ const p=P[k],[bg,fg]=av(p.hue); return {ini:p.ini,short:p.short,bg,fg,ring:s.who===k?'0 0 0 3px #f7f2e8, 0 0 0 5px #a24a2a':'none',onPick:()=>this.setState({who:s.who===k?null:k,query:''})}; });
+    const cats=[null,...CATS].map(c=>{ const on=s.cat===c; return {label:c||'All '+R.length, bg:on?'#2b2521':'transparent', fg:on?'#f7f2e8':'#2b2521', border:on?'#2b2521':'rgba(43,37,33,.2)', onPick:()=>this.setState({cat:c})}; });
+    const familyRows=[...used,'none'].map(k=>{ const p=P[k],[bg,fg]=av(p.hue),n=R.filter(r=>r.from===k).length; return {name:p.name+(p.rel?' · '+p.rel:''),ini:p.ini,bg,fg,sub:n+(n===1?' recipe':' recipes'),onPick:()=>this.setState({tab:'home',who:k==='none'?'none':k,cat:null,query:''})}; });
+    const menuItems=[['home','Recipes',R.length+' cards in the box'],['family','Family','Whose kitchen it came from'],['book','Book','Mom\'s note · print a copy'],['add','Add Recipe','Photograph or type a card']].map(([k,l,sub])=>({label:l,sub,fg:s.tab===k?'#a24a2a':'#2b2521',onPick:()=>k==='add'?this.setState({add:true,menu:false}):this.setState({tab:k,menu:false})}));
+    const tabs=[['home','Recipes'],['add',''],['family','Family']].map(([k,l])=>({label:l,isAdd:k==='add',notAdd:k!=='add',fg:s.tab===k?'#2b2521':'#8a7f74',dot:s.tab===k?'#a24a2a':'transparent',onPick:()=>k==='add'?this.setState({add:true}):this.setState({tab:k})}));
+    const bookOpts=[['cards','Original card photos'],['typed','Typed recipe'],['stories','Family stories']].map(([k,l])=>({label:l,track:s.book[k]?'#a24a2a':'#cfc4b4',justify:s.book[k]?'flex-end':'flex-start',onToggle:()=>this.setState({book:{...s.book,[k]:!s.book[k]}})}));
+
+    const r=this.recipe(); let rv={}, ings=[], stories=[], cookV={};
+    if(r){
+      const p=P[r.from],[bg,fg]=av(p.hue);
+      const meta=[r.temp&&{k:'Oven',v:r.temp},r.time&&{k:'Time',v:r.time},r.makes&&{k:'Makes',v:r.makes}].filter(Boolean);
+      const cards=r.files.map((f,i)=>({src:IMG(f),label:/Back/.test(f)?'Back of card':(r.files.length>1?'Front of card':'Card'),onOpen:()=>this.setState({lb:{id:r.id,i}})}));
+      rv={...r,typed:!!r.ing,untyped:!r.ing,fromName:p.name,fromLine:r.from==='none'?'Not signed · know who wrote it?':'From the kitchen of '+p.name,ini:p.ini,avBg:bg,avFg:fg,onWho:()=>r.from!=='none'&&this.setState({view:null,tab:'home',who:r.from,cat:null,query:''}),
+        meta,hasMeta:meta.length>0,hasNote:!!r.note,cards,cardW:cards.length>1?'280px':'346px',cardHint:cards.length>1?'Swipe · tap to enlarge':'Tap to enlarge',
+        stepList:(r.steps||[]).map((t,i)=>({n:i+1,text:t}))};
+      ings=(r.ing||[]).map((t,i)=>{ const on=!!s.checked[i]; return {text:t,mark:on?'✓':'',boxBg:on?'#a24a2a':'transparent',boxBorder:on?'#a24a2a':'rgba(43,37,33,.35)',fg:on?'#8a7f74':'#2b2521',deco:on?'line-through':'none',onToggle:()=>this.setState({checked:{...s.checked,[i]:!on}})}; });
+      stories=(s.stories[r.id]||[]).slice().reverse().map(x=>({text:x.text,name:x.name,ini:x.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(),when:ago(x.ts)}));
+      if(r.steps){
+        const n=r.steps.length, t=r.steps[s.step]||'', mins=this.props.autoTimers===false?null:timerMins(t), last=s.step===n-1;
+        cookV={stepOf:(s.step+1)+'/'+n,stepNum:s.step+1,stepText:t,segments:r.steps.map((_,i)=>({bg:i<=s.step?'#e59a78':'rgba(247,242,232,.18)'})),
+          hasTimer:!!mins,timerIdle:s.timerLeft===null,timerActive:s.timerLeft!==null,timerMinLabel:mins>=60?(mins/60)+' hr':mins+' min',
+          timerText:s.timerLeft===null?'':Math.floor(s.timerLeft/60)+':'+String(s.timerLeft%60).padStart(2,'0'),timerColor:s.timerLeft===0?'#e59a78':'#f7f2e8',timerBtn:s.timerRunning?'Pause':'Resume',
+          startTimer:()=>this.setState({timerLeft:mins*60,timerTotal:mins*60,timerRunning:true}),toggleTimer:()=>this.setState({timerRunning:!s.timerRunning}),resetTimer:()=>this.setState({timerLeft:null,timerRunning:false}),
+          prevOpacity:s.step===0?.35:1,nextLabel:last?'Finish':'Next step',
+          prevStep:()=>s.step>0&&this.setState({step:s.step-1,timerLeft:null,timerRunning:false}),
+          nextStep:()=>last?this.setState({done:true,cook:false,timerLeft:null,timerRunning:false}):this.setState({step:s.step+1,timerLeft:null,timerRunning:false})};
+      }
+    }
+    const lbR=s.lb&&R.find(x=>x.id===s.lb.id), lbF=lbR&&lbR.files[s.lb.i];
+    const overlay=s.view||s.add;
+    return {
+      statusColor:(s.cook||s.done||s.lb)?'#f7f2e8':'#2b2521',
+      isHome:s.tab==='home', isFamily:s.tab==='family', isBook:s.tab==='book', showTabs:!overlay,
+      isDetail:!!r, isCook:!!r&&s.cook, isDone:!!r&&s.done, isAdd:s.add, isLightbox:!!lbF,
+      query:s.query, onQuery:e=>this.setState({query:e.target.value}), showBrowse:!q,
+      cooks, cats, rows, noRows:rows.length===0, hasWho:!!s.who&&!q, whoName:s.who?P[s.who].name:'', clearWho:()=>this.setState({who:null}),
+      listTitle:q?'Results':(s.cat||'All recipes'), listCount:rows.length+(rows.length===1?' card':' cards'),
+      goBook:()=>this.setState({tab:'book'}), familyRows, unsignedTitle:R.filter(x=>x.from==='none').length+' cards aren\'t signed', tabs, bookOpts,
+      exportBook:()=>this.flash('Preparing your PDF: '+R.length+' recipes'),
+      r:rv, ings, checkedLabel:Object.values(s.checked).filter(Boolean).length+' of '+ings.length+' gathered',
+      stories, noStories:stories.length===0, storyCountLabel:stories.length?stories.length+(stories.length===1?' story':' stories'):'',
+      draftName:s.draftName, draftText:s.draftText, onDraftName:e=>this.setState({draftName:e.target.value}), onDraftText:e=>this.setState({draftText:e.target.value}),
+      shareBg:(s.draftName.trim()&&s.draftText.trim())?'#a24a2a':'#b9a999', addStory:()=>this.addStory(),
+      back:()=>this.setState({view:null}), startCook:()=>this.setState({cook:true,step:0,timerLeft:null}), closeCook:()=>this.setState({cook:false,done:false}),
+      doneToStories:()=>{ this.setState({done:false}); setTimeout(()=>{ const el=this.detailRef.current; if(el) el.scrollTop=0; },50); },
+      transcribe:()=>this.flash('Thanks! Typing mode would open here.'),
+      ...cookV,
+      lbSrc:lbF?IMG(lbF):'', lbLabel:lbF?(lbR.title+(lbR.files.length>1?(/Back/.test(lbF)?' · back':' · front'):'')):'', lbMulti:!!lbR&&lbR.files.length>1,
+      closeLightbox:()=>this.setState({lb:null}), lbFlip:e=>{ e.stopPropagation(); this.setState({lb:{...s.lb,i:(s.lb.i+1)%lbR.files.length}}); },
+      closeAdd:()=>this.setState({add:false}), fakeAdd:()=>{ this.setState({add:false}); this.flash('Camera would open here'); },
+      hasToast:!!s.toast, toast:s.toast,
+      detailRef:this.detailRef, recipeRef:this.recipeRef, cardRef:this.cardRef, jumpRecipe:()=>this.jump(this.recipeRef), jumpCard:()=>this.jump(this.cardRef),
+      jumpLabel:(r&&r.ing)?'Go to recipe ↓':'Help type it ↓',
+      menuItems, menuOpen:!!s.menu&&!overlay, openMenu:()=>this.setState({menu:true}), closeMenu:()=>this.setState({menu:false})
+    };
+  }
+}
+</script>
+</body>
+</html>

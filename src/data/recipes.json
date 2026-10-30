@@ -1,0 +1,907 @@
+{
+  "contributors": {
+    "jeanette": {
+      "name": "Jeanette Russell",
+      "short": "Jeanette",
+      "ini": "JR",
+      "hue": 40,
+      "rel": "Mom"
+    },
+    "romona": {
+      "name": "Romona Gains",
+      "short": "Romona",
+      "ini": "RG",
+      "hue": 300
+    },
+    "delza": {
+      "name": "Delza Gains",
+      "short": "Delza",
+      "ini": "DG",
+      "hue": 250
+    },
+    "vaunie": {
+      "name": "Vaunie Gains",
+      "short": "Vaunie",
+      "ini": "VG",
+      "hue": 125
+    },
+    "fran": {
+      "name": "Fran Russell",
+      "short": "Fran",
+      "ini": "FR",
+      "hue": 80
+    },
+    "elaine": {
+      "name": "Elaine Vanek",
+      "short": "Elaine",
+      "ini": "EV",
+      "hue": 200
+    },
+    "rick": {
+      "name": "Rick's Mom",
+      "short": "Rick's Mom",
+      "ini": "RM",
+      "hue": 20
+    },
+    "don": {
+      "name": "Don O.",
+      "short": "Don O.",
+      "ini": "DO",
+      "hue": 160
+    },
+    "none": {
+      "name": "Not signed yet",
+      "short": "Unsigned",
+      "ini": "?",
+      "hue": 60
+    }
+  },
+  "categories": [
+    "Breads & Muffins",
+    "Soups & Stews",
+    "Main Dishes",
+    "Side Dishes",
+    "Cakes",
+    "Pies & Pastries",
+    "Cookies & Bars",
+    "Candy",
+    "Desserts"
+  ],
+  "recipes": [
+    {
+      "id": "r0",
+      "title": "Strip-It-Rich Cake",
+      "category": "Cakes",
+      "contributor": "jeanette",
+      "cardImages": [
+        "/cards/strip-it-rich-cake.jpg"
+      ],
+      "temp": null,
+      "time": "Chill 1 hr",
+      "makes": "13×9 pan",
+      "note": null,
+      "ingredients": [
+        "1 pkg (2-layer size) cake mix",
+        "2 pkgs (4-serving size) Jell-O instant pudding",
+        "4 cups cold milk",
+        "1 cup confectioners sugar"
+      ],
+      "steps": [
+        "Prepare cake mix as directed, baking in a 13x9 in. pan.",
+        "Remove from oven. At once, poke holes down through the cake to the pan with the round handle of a wooden spoon, 1 in. apart.",
+        "Only after poking holes, combine pudding mix with sugar in a large bowl. Gradually stir in milk. Beat 1 min.",
+        "Quickly, before the pudding thickens, pour half of the thin pudding evenly over the warm cake and into the holes to make the stripes.",
+        "Let the remaining pudding thicken slightly, then spoon it over the top, swirling to \"frost\" the cake.",
+        "Chill at least 1 hour. Store cake in refrigerator."
+      ]
+    },
+    {
+      "id": "r1",
+      "title": "Light 'n Fruity Pie",
+      "category": "Pies & Pastries",
+      "contributor": "jeanette",
+      "cardImages": [
+        "/cards/light-n-fruity-pie.jpg"
+      ],
+      "temp": null,
+      "time": "Chill 2 hrs",
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg (3 oz) Jell-O strawberry gelatin",
+        "⅔ cup boiling water",
+        "2 cups ice cubes",
+        "1 container (8 oz) Cool Whip, thawed",
+        "1 cup fresh sliced strawberries",
+        "1 cracker crust",
+        "Optional: 1 can (8¾ oz) apricots, peaches, or fruit cocktail, drained and diced",
+        "Optional: 1 can (8¼ oz) crushed pineapple, drained"
+      ],
+      "steps": [
+        "Dissolve gelatin completely in boiling water, stirring about 3 min.",
+        "Add ice cubes and stir until gelatin is thickened, about 2 to 3 min. Remove any unmelted ice.",
+        "Blend in Cool Whip, then whip until smooth.",
+        "Fold in fruit. Chill if necessary until the mixture will mound.",
+        "Spoon into crust. Chill 2 hours. Garnish if desired."
+      ]
+    },
+    {
+      "id": "r2",
+      "title": "Skillet Tuna Patties",
+      "category": "Main Dishes",
+      "contributor": "jeanette",
+      "cardImages": [
+        "/cards/skillet-tuna-patties.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": "4 patties",
+      "note": null,
+      "ingredients": [
+        "1 can Creamy Chicken Mushroom Soup",
+        "2 cans tuna, drained",
+        "½ cup cornmeal",
+        "1 egg, slightly beaten",
+        "½ cup finely chopped onion",
+        "2 Tbsp butter",
+        "¾ cup milk"
+      ],
+      "steps": [
+        "Mix thoroughly ½ cup soup, tuna, cornmeal, egg, and onion. Shape into 4 patties.",
+        "In a skillet, brown patties in butter; remove.",
+        "Stir remaining soup and milk into the drippings and add patties back. Heat, stirring occasionally.",
+        "Garnish with chopped parsley."
+      ]
+    },
+    {
+      "id": "r3",
+      "title": "Romona's Layered Dessert",
+      "category": "Desserts",
+      "contributor": "romona",
+      "cardImages": [
+        "/cards/romonas-layered-dessert-front.jpg",
+        "/cards/romonas-layered-dessert-back.jpg"
+      ],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 c flour",
+        "½ c butter",
+        "1 c walnuts, chopped",
+        "1 (8 oz) pkg cream cheese",
+        "1 c powdered sugar",
+        "1 large Cool Whip, divided",
+        "2 pkg instant pudding",
+        "3 c milk"
+      ],
+      "steps": [
+        "Mix flour, butter, and walnuts. Press into pan and bake at 350° for 12 min. Let cool.",
+        "Mix cream cheese, powdered sugar, and half of the Cool Whip. Spread over the cooled crust; cool.",
+        "Mix the pudding and 3 c milk. Spread over the cream cheese layer; cool again.",
+        "Spread the rest of the Cool Whip over the top."
+      ]
+    },
+    {
+      "id": "r4",
+      "title": "Santa's Whiskers",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/santas-whiskers-front.jpg",
+        "/cards/santas-whiskers-back.jpg"
+      ],
+      "temp": "375°",
+      "time": null,
+      "makes": "About 60",
+      "note": null,
+      "ingredients": [
+        "1 cup butter or margarine, softened",
+        "1 cup sugar",
+        "2 Tbsp milk",
+        "1 tsp vanilla or rum flavoring",
+        "2½ cups all-purpose flour",
+        "¾ cup finely chopped red or green candied cherries",
+        "½ cup finely chopped pecans",
+        "¾ cup flaked coconut"
+      ],
+      "steps": [
+        "Cream together butter and sugar; blend in milk and vanilla or rum flavoring.",
+        "Stir in flour, candied cherries, and pecans.",
+        "Form dough into two 8-inch rolls. Roll in flaked coconut to coat the outside.",
+        "Wrap in waxed paper or plastic wrap; chill thoroughly.",
+        "Cut into ¼-inch slices. Place on an ungreased cookie sheet.",
+        "Bake at 375° till edges are golden, about 12 minutes."
+      ]
+    },
+    {
+      "id": "r5",
+      "title": "Mile High Raspberry Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/mile-high-raspberry-pie-front.jpg",
+        "/cards/mile-high-raspberry-pie-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": "Graham cracker pie shell can be used instead.",
+      "ingredients": [
+        "1 (10 oz) package raspberries, or 1½ c fresh",
+        "1 cup sugar",
+        "2 egg whites, at room temp",
+        "1 Tbsp lemon juice",
+        "Dash salt",
+        "1 cup heavy cream, whipped",
+        "½ tsp almond extract (optional)",
+        "1 baked pastry shell"
+      ],
+      "steps": [
+        "Thaw raspberries. Reserve a few for garnish.",
+        "In a bowl combine raspberries, sugar, egg whites, lemon juice, and salt. Beat 15 min or till stiff.",
+        "Fold in whipped cream and almond extract.",
+        "Mound in the baked pastry shell. Freeze until firm.",
+        "Garnish with the reserved berries and a sprig of mint."
+      ]
+    },
+    {
+      "id": "r6",
+      "title": "Sugar Ginger Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/sugar-ginger-cookies.jpg"
+      ],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": "Cookies will crack.",
+      "ingredients": [
+        "1 c sugar",
+        "¾ c shortening",
+        "1 tsp ginger",
+        "2½ tsp soda",
+        "2 c flour",
+        "1 egg",
+        "4 Tbsp molasses",
+        "1 tsp cinnamon",
+        "¼ tsp salt"
+      ],
+      "steps": [
+        "Mix in order, sifting the dry ingredients together.",
+        "Form balls and roll in sugar. Do not press down.",
+        "Chill 2 hrs or overnight.",
+        "Bake at 375° for 10 min."
+      ]
+    },
+    {
+      "id": "r7",
+      "title": "Banana Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/banana-bread-not-in-doc.jpg"
+      ],
+      "temp": "350°",
+      "time": null,
+      "makes": "1 loaf",
+      "note": null,
+      "ingredients": [
+        "⅔ c sugar",
+        "¼ c butter, softened",
+        "¾ c mashed ripe bananas (1–2 med)",
+        "¼ c buttermilk or sour milk",
+        "1 egg",
+        "1 tsp vanilla",
+        "1¼ c flour",
+        "½ tsp baking soda",
+        "½ tsp salt"
+      ],
+      "steps": [
+        "Beat sugar and butter on medium until well blended.",
+        "Add bananas, buttermilk, egg, and vanilla; beat till well blended.",
+        "Stir in flour, soda, and salt until moistened.",
+        "Pour into a greased loaf pan. Bake at 350°F for 50–60 min.",
+        "Cool 10 min, then remove from pan to a wire rack."
+      ]
+    },
+    {
+      "id": "r8",
+      "title": "McKenzie River Hazelnut Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/mckenzie-river-hazelnut-pie.jpg"
+      ],
+      "temp": "350° → 325°",
+      "time": null,
+      "makes": "Serves 6",
+      "note": "Roast hazelnuts for FULL flavor!",
+      "ingredients": [
+        "4 eggs",
+        "1 cup sugar",
+        "⅛ tsp salt",
+        "1½ cups dark corn syrup",
+        "2 Tbsp butter, melted",
+        "1 tsp vanilla",
+        "2 cups roasted hazelnuts, finely chopped",
+        "2 unbaked 8\" pie shells"
+      ],
+      "steps": [
+        "Preheat oven to 350°.",
+        "Beat eggs until blended but not frothy. Add, in order, sugar, salt, corn syrup, melted butter, and vanilla, mixing to blend.",
+        "Stir in hazelnuts. Divide filling between the two pie shells and place in oven.",
+        "Reduce oven heat to 325° and bake 50–60 minutes."
+      ]
+    },
+    {
+      "id": "r9",
+      "title": "Finnish Ribbon Cakes",
+      "category": "Pies & Pastries",
+      "contributor": "elaine",
+      "cardImages": [
+        "/cards/finnish-ribbon-cakes-front.jpg",
+        "/cards/finnish-ribbon-cakes-back.jpg"
+      ],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 cup butter, softened",
+        "½ cup sugar",
+        "1 egg yolk",
+        "1 tsp vanilla",
+        "½ tsp grated lemon peel",
+        "2½ cups all-purpose flour",
+        "¼ tsp salt",
+        "Jam",
+        "½ cup powdered sugar mixed with 1 Tbs water"
+      ],
+      "steps": [
+        "Beat butter and sugar till creamy. Add egg yolk and vanilla; beat.",
+        "Add lemon peel; mix. Gradually add flour and salt; mix thoroughly.",
+        "Shape into ropes ¾\" thick and as long as your baking sheet. Press a long groove down the center.",
+        "Bake at 375° for 7 min.",
+        "Spoon jam into the grooves. Bake 5 min more.",
+        "Drizzle with powdered sugar icing, then cut at a 45° angle into 1\" lengths."
+      ]
+    },
+    {
+      "id": "r10",
+      "title": "7 Up Biscuits",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/7-up-biscuits.jpg"
+      ],
+      "temp": "425°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "4 c Bisquick",
+        "1 c sour cream",
+        "1 c 7 Up",
+        "½ c melted butter"
+      ],
+      "steps": [
+        "Mix Bisquick, sour cream, and 7 Up. Dough will be very soft — don't worry.",
+        "Knead and fold the dough until coated with baking mix. Pat out and cut biscuits with a round cutter.",
+        "Melt butter in the bottom of a cookie sheet pan or 9x13 casserole dish.",
+        "Place biscuits on the melted butter and bake 12–15 min at 425°, until brown."
+      ]
+    },
+    {
+      "id": "r11",
+      "title": "Beef Stew",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/beef-stew-front.jpg",
+        "/cards/beef-stew-back.jpg"
+      ],
+      "temp": null,
+      "time": "1¼ hrs",
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 Tbsp flour",
+        "1½ lbs stew meat",
+        "2 Tbsp oil",
+        "½ c chopped onion",
+        "1 garlic clove, minced",
+        "½ tsp thyme",
+        "3 c vegetable juice",
+        "1 tsp beef bouillon",
+        "Hot pepper sauce",
+        "1 c water",
+        "2 med potatoes, cubed",
+        "1½ c celery, sliced",
+        "1½ c carrots, sliced"
+      ],
+      "steps": [
+        "Coat meat with flour and brown in oil.",
+        "Add onion, garlic, and thyme.",
+        "Stir in vegetable juice, bouillon, and hot pepper sauce.",
+        "Add water, potatoes, celery, and carrots. Cook 1¼ hrs.",
+        "Skim off fat."
+      ]
+    },
+    {
+      "id": "r12",
+      "title": "Pumpkin Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/pumpkin-bread-front.jpg",
+        "/cards/pumpkin-bread-back.jpg"
+      ],
+      "temp": "350°",
+      "time": "1 hr",
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "4 c sugar",
+        "1 large can pumpkin",
+        "1 c oil",
+        "4 tsp soda",
+        "1 tsp cloves",
+        "1 Tbsp cinnamon",
+        "1 Tbsp salt",
+        "5 c flour",
+        "½ c nuts",
+        "1 c raisins"
+      ],
+      "steps": [
+        "Mix well.",
+        "Pour into greased pans: 3 large or 5–6 mini.",
+        "Bake at 350° for 1 hr."
+      ]
+    },
+    {
+      "id": "r13",
+      "title": "Chicken Pie",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/chicken-pie-front.jpg",
+        "/cards/chicken-pie-back.jpg"
+      ],
+      "temp": "425°",
+      "time": null,
+      "makes": "Serves 4",
+      "note": null,
+      "ingredients": [
+        "1 pkg chicken strips",
+        "2 Tbsp oil",
+        "½ c melted margarine",
+        "1 c self-rising flour",
+        "1 c milk",
+        "⅓ c shredded sharp Cheddar",
+        "1 (10¾ oz) can cream of celery soup",
+        "1¼ c chicken broth"
+      ],
+      "steps": [
+        "Cut strips into two pieces. Sauté chicken in hot oil for 5–6 min.",
+        "Transfer to a greased 9\" deep-dish pie plate. Drizzle melted margarine over chicken.",
+        "Combine flour and milk, beating until smooth. Fold in cheese. Pour over chicken.",
+        "In a small saucepan combine soup and broth; bring to a boil. Pour over chicken.",
+        "Bake at 425° for 25 min. Cut into wedges."
+      ]
+    },
+    {
+      "id": "r14",
+      "title": "Italian Macaroni Pie",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/italian-macaroni-pie-front.jpg",
+        "/cards/italian-macaroni-pie-back.jpg"
+      ],
+      "temp": "350°",
+      "time": null,
+      "makes": "Serves 6",
+      "note": null,
+      "ingredients": [
+        "1 (7 oz) pkg elbow macaroni",
+        "1 lb ground beef",
+        "¼ c sliced celery",
+        "1 (15 oz) jar spaghetti sauce",
+        "1 (4.5 oz) jar sliced mushrooms, drained",
+        "2 eggs, slightly beaten",
+        "⅓ c grated Parmesan",
+        "½ tsp garlic salt",
+        "Grated Parmesan for topping"
+      ],
+      "steps": [
+        "Heat oven to 350°F. Grease a 10\" pie pan or 9\" square pan. Prepare macaroni according to package; drain.",
+        "In a large skillet, brown ground beef with celery; drain. Stir in spaghetti sauce and mushrooms. Simmer 15 min.",
+        "In a large bowl combine macaroni, eggs, ⅓ c Parmesan, and garlic salt; toss lightly.",
+        "Press macaroni mixture evenly into the bottom and up the sides of the pan, forming a crust.",
+        "Pour meat mixture over macaroni; cover with foil. Bake 25–30 min.",
+        "Remove foil; let stand 5 min before cutting. Sprinkle with Parmesan."
+      ]
+    },
+    {
+      "id": "r15",
+      "title": "Spell-Binders",
+      "category": "Cookies & Bars",
+      "contributor": "delza",
+      "cardImages": [
+        "/cards/spell-binders-front.jpg",
+        "/cards/spell-binders-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r16",
+      "title": "Applesauce Bars",
+      "category": "Cookies & Bars",
+      "contributor": "vaunie",
+      "cardImages": [
+        "/cards/applesauce-bars-front.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r17",
+      "title": "Apple Slices",
+      "category": "Pies & Pastries",
+      "contributor": "vaunie",
+      "cardImages": [
+        "/cards/apple-slices.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r18",
+      "title": "Cinnamon Cake",
+      "category": "Cakes",
+      "contributor": "fran",
+      "cardImages": [
+        "/cards/cinnamon-cake.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r19",
+      "title": "Chocolate Lush",
+      "category": "Desserts",
+      "contributor": "rick",
+      "cardImages": [
+        "/cards/chocolate-lush-front.jpg",
+        "/cards/chocolate-lush-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r20",
+      "title": "Peanut Butter Pie with Chocolate Ganache",
+      "category": "Pies & Pastries",
+      "contributor": "don",
+      "cardImages": [
+        "/cards/peanut-butter-pie-with-chocolate-ganache-front.jpg",
+        "/cards/peanut-butter-pie-with-chocolate-ganache-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r21",
+      "title": "Almond Caramels",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/almond-caramels-front.jpg",
+        "/cards/almond-caramels-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r22",
+      "title": "Ambrosia Eggnog Candy",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/ambrosia-eggnog-candy-front.jpg",
+        "/cards/ambrosia-eggnog-candy-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r23",
+      "title": "Butterscotch-Peanut Fudge",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/butterscotch-peanut-fudge-front.jpg",
+        "/cards/butterscotch-peanut-fudge-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r24",
+      "title": "Chocolate Peanut Butter Swirls",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/chocolate-peanut-butter-swirls-front.jpg",
+        "/cards/chocolate-peanut-butter-swirls-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r25",
+      "title": "Christmas Jelly Candy",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/christmas-jelly-candy-front.jpg",
+        "/cards/christmas-jelly-candy-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r26",
+      "title": "Marshmallow Treats",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/marshmallow-treats-front.jpg",
+        "/cards/marshmallow-treats-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r27",
+      "title": "Chicken Rolls",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/chicken-rolls-front.jpg",
+        "/cards/chicken-rolls-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r28",
+      "title": "Creamy Ham and Macaroni Bake",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/creamy-ham-and-macaroni-bake-front.jpg",
+        "/cards/creamy-ham-and-macaroni-bake-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r29",
+      "title": "Oregon Hazelnut Broccoli",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/oregon-hazelnut-broccoli-front.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r30",
+      "title": "Famous Pumpkin Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/famous-pumpkin-pie-front.jpg",
+        "/cards/famous-pumpkin-pie-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r31",
+      "title": "Holiday Ribbon Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/holiday-ribbon-pie-front.jpg",
+        "/cards/holiday-ribbon-pie-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r32",
+      "title": "Chocolate Chip Pudding Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/chocolate-chip-pudding-cookies-front.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r33",
+      "title": "Ice Cream Sandwiches",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/ice-cream-sandwiches-front.jpg",
+        "/cards/ice-cream-sandwiches-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r34",
+      "title": "Mini Kisses Thumbprint Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/mini-kisses-thumbprint-cookies-front.jpg",
+        "/cards/mini-kisses-thumbprint-cookies-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r35",
+      "title": "Oregon Hazelnut Raisin Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/oregon-hazelnut-raisin-cookies-front.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r36",
+      "title": "Peanut Butter Fruit Drops",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/peanut-butter-fruit-drops-front.jpg",
+        "/cards/peanut-butter-fruit-drops-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r37",
+      "title": "Delicious Double Layer Chocolate Pie",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/delicious-double-layer-chocolate-pie-front.jpg",
+        "/cards/delicious-double-layer-chocolate-pie-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    },
+    {
+      "id": "r38",
+      "title": "Sensational Double Layer Pumpkin Pie",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [
+        "/cards/sensational-double-layer-pumpkin-pie-front.jpg",
+        "/cards/sensational-double-layer-pumpkin-pie-back.jpg"
+      ],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": null,
+      "steps": null
+    }
+  ]
+}
