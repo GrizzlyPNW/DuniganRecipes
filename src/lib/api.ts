@@ -77,7 +77,30 @@ async function call<T>(method: 'GET' | 'POST', op: string, body?: BodyInit, type
   return data as T;
 }
 
-export const me = () => call<{ member: boolean }>('GET', 'me');
+export const me = () => call<{ member: boolean; admin: boolean; blocked: boolean }>('GET', 'me');
+
+export interface Member {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+  joinedAt: number;
+  blocked: boolean;
+  stories: number;
+  isYou: boolean;
+}
+export const listMembers = () => call<{ members: Member[] }>('GET', 'members').then((r) => r.members);
+export const setMemberRemoved = (userId: string, removed: boolean) =>
+  call('POST', removed ? 'remove-member' : 'restore-member', JSON.stringify({ userId }));
+export const getInviteCode = () => call<{ code: string }>('GET', 'invite').then((r) => r.code);
+
+export async function deleteStory(mode: Mode, id: string) {
+  if (mode === 'local') {
+    write(LOCAL_STORIES, read<Story[]>(LOCAL_STORIES, []).filter((s) => s.id !== id));
+    return;
+  }
+  await call('POST', 'delete-story', JSON.stringify({ id }));
+}
 
 export async function join(code: string): Promise<boolean> {
   try {

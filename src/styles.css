@@ -85,6 +85,20 @@ a { color: var(--accent); }
 .google-btn { background: #fff; color: #1f1f1f; border: 1px solid #dadce0; height: 50px; font-weight: 600; }
 .google-btn:active { background: #f1f3f4; }
 
+/* Admin */
+.admin-card { margin-top: 6px; padding: 16px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.admin-card .t { font: 500 19px var(--serif); }
+.invite-link { padding: 10px 12px; border-radius: 10px; background: var(--tint); font: 500 13px/1.4 var(--sans); overflow-wrap: anywhere; user-select: all; }
+.member-row { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.member-row .t { font: 500 18px var(--serif); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.member-row .s { margin-top: 2px; font: 400 13px var(--sans); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.member-row.removed { opacity: 0.6; }
+.member-row .btn { height: 38px; padding: 0 14px; font-size: 14px; }
+.btn-remove { background: transparent; border: 1px solid rgba(162, 74, 42, 0.45); color: var(--accent); }
+.you-badge { font: 600 10px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: #f3e2d8; padding: 3px 7px; border-radius: 6px; }
+.story-del { margin-left: auto; border: 0; background: transparent; color: var(--muted3); font: 500 12px var(--sans); padding: 4px 0 4px 8px; }
+.story-del:hover { color: var(--accent); }
+
 /* Login screen */
 .login-screen {
   position: absolute; inset: 0; z-index: 60; overflow-y: auto; background: var(--paper);

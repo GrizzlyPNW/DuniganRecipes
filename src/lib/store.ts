@@ -23,6 +23,8 @@ export type Family = ReturnType<typeof useFamily>;
 export function useFamily(userId: string | null, sessionPending: boolean) {
   const [mode, setMode] = useState<api.Mode | null>(null);
   const [access, setAccess] = useState<Access>('loading');
+  const [admin, setAdmin] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   const [stories, setStories] = useState<Story[]>([]);
   const [edits, setEdits] = useState<Recipe[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -58,6 +60,8 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       return;
     }
     if (!userId) {
+      setAdmin(false);
+      setBlocked(false);
       setAccess('signed-out');
       setStories([]);
       setEdits([]);
@@ -67,10 +71,12 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     let cancelled = false;
     (async () => {
       try {
-        const { member } = await api.me();
+        const status = await api.me();
         if (cancelled) return;
-        if (member) return refresh('shared');
-        const code = api.pendingInvite();
+        setAdmin(status.admin);
+        setBlocked(status.blocked);
+        if (status.member) return refresh('shared');
+        const code = status.blocked ? null : api.pendingInvite();
         if (code && (await api.join(code))) return refresh('shared');
         if (!cancelled) setAccess('not-member');
       } catch (e) {
@@ -115,6 +121,9 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
   return {
     mode,
     access,
+    /** The family admin (set in Neon Auth). Always true on a single-device copy. */
+    admin: mode === 'local' || admin,
+    blocked,
     ready: !!mode && access !== 'loading',
     error,
     recipes,
@@ -130,6 +139,10 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       const s = await api.addStory(mode!, { recipeId, authorName, text });
       setStories((all) => [...all, s]);
       return s;
+    },
+    deleteStory: async (id: string) => {
+      await api.deleteStory(mode!, id);
+      setStories((all) => all.filter((s) => s.id !== id));
     },
     saveRecipe: async (r: Recipe) => {
       await api.saveRecipe(mode!, r);

@@ -7,7 +7,8 @@ import { MeContext, type Me } from './lib/session';
 import { Home, type Filters } from './components/Home';
 import { Family } from './components/Family';
 import { Book } from './components/Book';
-import { Menu, TabBar } from './components/Chrome';
+import { Menu, TabBar, type Tab } from './components/Chrome';
+import { AdminPage } from './components/Admin';
 import { Header, LoadingScreen, LoginScreen, ProfilePanel } from './components/Account';
 import { RecipePage } from './components/RecipePage';
 import { CookMode } from './components/CookMode';
@@ -61,7 +62,7 @@ export default function App() {
     go('');
   };
 
-  const tab = route.name === 'family' ? 'family' : route.name === 'book' ? 'book' : 'home';
+  const tab: Tab = route.name === 'family' ? 'family' : route.name === 'book' ? 'book' : route.name === 'admin' ? 'admin' : 'home';
   const recipeId = route.name === 'recipe' || route.name === 'cook' || route.name === 'transcribe' ? route.id : null;
   const recipe = recipeId ? fam.recipes.find((r) => r.id === recipeId) : undefined;
   const overlay = !!recipeId || route.name === 'add' || route.name === 'new';
@@ -72,13 +73,16 @@ export default function App() {
         {tab === 'home' && <Home fam={fam} f={filters} setF={setFilters} />}
         {tab === 'family' && <Family fam={fam} pick={pickWho} />}
         {tab === 'book' && <Book fam={fam} toast={toast} />}
+        {tab === 'admin' && <AdminPage fam={fam} toast={toast} />}
         {!overlay && (
           <>
             <TabBar tab={tab} />
             <Header onMenu={() => setPanel('menu')} onProfile={() => setPanel('profile')} />
           </>
         )}
-        {panel === 'menu' && <Menu tab={tab} count={fam.recipes.length} mode={fam.mode} close={() => setPanel(null)} />}
+        {panel === 'menu' && (
+          <Menu tab={tab} count={fam.recipes.length} mode={fam.mode} admin={fam.admin} close={() => setPanel(null)} />
+        )}
         {panel === 'profile' && <ProfilePanel fam={fam} close={() => setPanel(null)} toast={toast} />}
 
         {recipe && <RecipePage fam={fam} recipe={recipe} toast={toast} pickWho={pickWho} scrollTop={storiesNonce} />}

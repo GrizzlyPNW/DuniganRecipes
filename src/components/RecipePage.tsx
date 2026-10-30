@@ -211,6 +211,16 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
     if (me?.name) setName((n) => n || me.name);
   }, [me?.name]);
 
+  async function removeStory(id: string) {
+    if (!confirm('Delete this story? This can’t be undone.')) return;
+    try {
+      await fam.deleteStory(id);
+      toast('Story deleted');
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t delete the story.');
+    }
+  }
+
   async function submit() {
     if (!name.trim()) return toast('Add your name first');
     if (!text.trim()) return toast('Write a few words first');
@@ -247,6 +257,11 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
                   <div className="ini">{initials(s.authorName)}</div>
                   <span>{s.authorName}</span>
                   <span className="when">· {ago(s.createdAt)}</span>
+                  {(fam.admin || (me && s.authorId === me.id)) && (
+                    <button className="story-del" onClick={() => removeStory(s.id)} aria-label="Delete this story">
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

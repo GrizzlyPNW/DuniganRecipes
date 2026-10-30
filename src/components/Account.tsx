@@ -3,6 +3,7 @@ import type { Family } from '../lib/store';
 import { signInWithGoogle, signOut } from '../lib/auth';
 import { useMe, type Me } from '../lib/session';
 import { initials } from '../lib/util';
+import { go } from '../lib/router';
 
 /* ---------- Header ---------- */
 
@@ -78,6 +79,18 @@ export function ProfilePanel({ fam, close, toast }: { fam: Family; close: () => 
               </div>
             </div>
             {fam.access === 'member' && <div className="pf-status">✓ You’re in the family box. Stories you add are shared with everyone.</div>}
+            {fam.access === 'member' && fam.admin && (
+              <button
+                className="btn btn-dark btn-block"
+                style={{ marginTop: 12 }}
+                onClick={() => {
+                  close();
+                  go('admin');
+                }}
+              >
+                Manage family (admin)
+              </button>
+            )}
             {fam.access === 'not-member' && <CodeBox fam={fam} toast={toast} />}
             <button
               className="btn btn-outline btn-block"
@@ -207,7 +220,16 @@ export function LoginScreen({ fam, toast }: { fam: Family; toast: (t: string) =>
                 Hi, {me!.name.split(' ')[0]}! <button className="link-btn" onClick={() => signOut()}>Not you?</button>
               </span>
             </div>
-            <CodeBox fam={fam} toast={toast} />
+            {fam.blocked ? (
+              <div className="join-box">
+                <div className="t">Your access was removed</div>
+                <p className="field-help" style={{ margin: '4px 0 0' }}>
+                  If you think that’s a mistake, ask Luke (the family admin) to restore you.
+                </p>
+              </div>
+            ) : (
+              <CodeBox fam={fam} toast={toast} />
+            )}
           </>
         ) : (
           <div className="login-actions">

@@ -12,6 +12,8 @@ interface User {
   name: string;
   email: string;
   image: string | null;
+  /** Set with `neon neon-auth user set-role <id> --roles admin`; it rides in the signed token. */
+  admin: boolean;
 }
 
 const AUTH_BASE =
@@ -54,6 +56,8 @@ function ensureSchema(sql: Sql) {
       image text,
       joined_at timestamptz not null default now()
     )`;
+    // Removed members stay listed as blocked, so the family code can't let them back in.
+    await sql`alter table members add column if not exists blocked boolean not null default false`;
   })().catch((e) => {
     schemaReady = null;
     throw e;
@@ -78,20 +82,35 @@ async function currentUser(req: Request): Promise<User | null> {
     const p = payload as Record<string, unknown>;
     const id = String(p.sub || p.id || '');
     if (!id) return null;
+    const roles = String(p.role || '').split(',').map((r) => r.trim());
     return {
       id,
       name: String(p.name || p.email || 'Family member'),
       email: String(p.email || ''),
       image: typeof p.image === 'string' ? p.image : null,
+      admin: roles.includes('admin'),
     };
   } catch {
     return null;
   }
 }
 
-async function isMember(sql: Sql, userId: string) {
-  const rows = (await sql`select 1 from members where user_id = ${userId}`) as unknown[];
-  return rows.length > 0;
+async function addMember(sql: Sql, user: User) {
+  await sql`insert into members (user_id, email, name, image) values (${user.id}, ${user.email}, ${user.name}, ${user.image})
+    on conflict (user_id) do update set email = excluded.email, name = excluded.name,
+      image = coalesce(excluded.image, members.image)`;
+}
+
+/** 'member', 'blocked' or 'none'. Admins are always members. */
+async function memberState(sql: Sql, user: User): Promise<'member' | 'blocked' | 'none'> {
+  if (user.admin) {
+    await addMember(sql, user);
+    await sql`update members set blocked = false where user_id = ${user.id}`;
+    return 'member';
+  }
+  const rows = (await sql`select blocked from members where user_id = ${user.id}`) as { blocked: boolean }[];
+  if (!rows.length) return 'none';
+  return rows[0].blocked ? 'blocked' : 'member';
 }
 
 const clip = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -101,8 +120,16 @@ async function requireMember(req: Request, sql: Sql): Promise<User | Response> {
   const user = await currentUser(req);
   if (!user) return json({ error: 'Please sign in first' }, 401);
   await ensureSchema(sql);
-  if (!(await isMember(sql, user.id))) return json({ error: 'Join the family with the invite link or family code' }, 403);
+  const state = await memberState(sql, user);
+  if (state === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
+  if (state === 'none') return json({ error: 'Join the family with the invite link or family code' }, 403);
   return user;
+}
+
+async function requireAdmin(req: Request, sql: Sql): Promise<User | Response> {
+  const user = await requireMember(req, sql);
+  if (user instanceof Response) return user;
+  return user.admin ? user : json({ error: 'Only the family admin can do that' }, 403);
 }
 
 export async function GET(req: Request) {
@@ -118,7 +145,34 @@ export async function GET(req: Request) {
     const user = await currentUser(req);
     if (!user) return json({ error: 'Please sign in first' }, 401);
     await ensureSchema(sql);
-    return json({ user, member: await isMember(sql, user.id) });
+    const state = await memberState(sql, user);
+    return json({ user, member: state === 'member', blocked: state === 'blocked', admin: user.admin });
+  }
+
+  if (op === 'members') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const rows = (await sql`select m.user_id, m.name, m.email, m.image, m.joined_at, m.blocked,
+        (select count(*)::int from stories s where s.author_id = m.user_id) as stories
+      from members m order by m.blocked, m.joined_at`) as any[];
+    return json({
+      members: rows.map((m) => ({
+        id: m.user_id,
+        name: m.name,
+        email: m.email,
+        image: m.image,
+        joinedAt: new Date(m.joined_at).getTime(),
+        blocked: m.blocked,
+        stories: m.stories,
+        isYou: m.user_id === who.id,
+      })),
+    });
+  }
+
+  if (op === 'invite') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    return json({ code: (process.env.FAMILY_CODE || '').trim() });
   }
 
   if (op === 'data') {
@@ -152,8 +206,18 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => ({}));
     if (!codeOk(body.code)) return json({ error: 'That code didn’t match' }, 403);
     await ensureSchema(sql);
-    await sql`insert into members (user_id, email, name, image) values (${user.id}, ${user.email}, ${user.name}, ${user.image})
-      on conflict (user_id) do update set email = excluded.email, name = excluded.name, image = excluded.image`;
+    if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
+    await addMember(sql, user);
+    return json({ ok: true });
+  }
+
+  if (op === 'remove-member' || op === 'restore-member') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const body = await req.json().catch(() => ({}));
+    const id = clip(body.userId, 100);
+    if (!id || id === who.id) return json({ error: 'You can’t remove yourself' }, 400);
+    await sql`update members set blocked = ${op === 'remove-member'} where user_id = ${id}`;
     return json({ ok: true });
   }
 
@@ -179,6 +243,15 @@ export async function POST(req: Request) {
     const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text)
       values (${recipeId}, ${authorName}, ${who.id}, ${text}) returning id, created_at`) as any[];
     return json({ id: row.id, recipeId, authorName, authorId: who.id, text, createdAt: new Date(row.created_at).getTime() });
+  }
+
+  if (op === 'delete-story') {
+    const id = clip(body.id, 64);
+    const [row] = (await sql`select author_id from stories where id::text = ${id}`) as { author_id: string | null }[];
+    if (!row) return json({ ok: true });
+    if (row.author_id !== who.id && !who.admin) return json({ error: 'You can only delete your own stories' }, 403);
+    await sql`delete from stories where id::text = ${id}`;
+    return json({ ok: true });
   }
 
   if (op === 'recipe') {

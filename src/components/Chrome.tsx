@@ -1,7 +1,7 @@
 import { go } from '../lib/router';
 import type { Mode } from '../lib/api';
 
-type Tab = 'home' | 'family' | 'book';
+export type Tab = 'home' | 'family' | 'book' | 'admin';
 
 export function TabBar({ tab }: { tab: Tab }) {
   return (
@@ -23,13 +23,26 @@ export function TabBar({ tab }: { tab: Tab }) {
   );
 }
 
-export function Menu({ tab, count, mode, close }: { tab: Tab; count: number; mode: Mode | null; close: () => void }) {
+export function Menu({
+  tab,
+  count,
+  mode,
+  admin,
+  close,
+}: {
+  tab: Tab;
+  count: number;
+  mode: Mode | null;
+  admin: boolean;
+  close: () => void;
+}) {
   const items: [string, Tab | 'add', string, string][] = [
     ['', 'home', 'Recipes', count + ' cards in the box'],
     ['family', 'family', 'Family', 'Whose kitchen it came from'],
     ['book', 'book', 'Book', "Mom's note · print a copy"],
     ['add', 'add', 'Add Recipe', 'Photograph or type a card'],
   ];
+  if (admin && mode === 'shared') items.push(['admin', 'admin', 'Manage family', 'Invite link · who’s in the box']);
   return (
     <>
       <div className="scrim" onClick={close} />
