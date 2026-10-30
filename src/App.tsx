@@ -8,7 +8,7 @@ import { Home, type Filters } from './components/Home';
 import { Family } from './components/Family';
 import { Book } from './components/Book';
 import { Menu, TabBar } from './components/Chrome';
-import { Header, LoadingScreen, ProfilePanel } from './components/Account';
+import { Header, LoadingScreen, LoginScreen, ProfilePanel } from './components/Account';
 import { RecipePage } from './components/RecipePage';
 import { CookMode } from './components/CookMode';
 import { AddChooser, RecipeForm } from './components/AddRecipe';
@@ -41,10 +41,7 @@ export default function App() {
     if (route.name !== 'join') return;
     setPendingInvite(route.code);
     replace('');
-    if (!me) {
-      toast('Welcome! Sign in with Google to join the family box.');
-      setPanel('profile');
-    }
+    if (!me) toast('Welcome! Sign in with Google to join the family box.');
   }, [route, me, toast]);
 
   // Celebrate the moment someone becomes a member.
@@ -112,6 +109,7 @@ export default function App() {
         {route.name === 'new' && <RecipeForm key={route.kind} fam={fam} kind={route.kind} toast={toast} />}
 
         {fam.error && !toastText && <Toast text={fam.error} />}
+        {fam.mode === 'shared' && fam.ready && fam.access !== 'member' && <LoginScreen fam={fam} toast={toast} />}
         <Toast text={toastText} />
         <LoadingScreen done={fam.ready && !session.isPending} />
       </div>

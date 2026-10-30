@@ -85,6 +85,19 @@ a { color: var(--accent); }
 .google-btn { background: #fff; color: #1f1f1f; border: 1px solid #dadce0; height: 50px; font-weight: 600; }
 .google-btn:active { background: #f1f3f4; }
 
+/* Login screen */
+.login-screen {
+  position: absolute; inset: 0; z-index: 60; overflow-y: auto; background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(var(--top) + 24px) 24px calc(var(--bottom) + 24px);
+}
+.login-inner { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
+.login-logo { width: min(80vw, 340px); height: auto; display: block; animation: ls-rise 0.6s ease-out both; }
+.login-quote { margin: 18px 0 30px; text-align: center; font: italic 400 18px/1.45 var(--serif); color: var(--muted2); text-wrap: balance; }
+.login-actions { width: 100%; }
+.login-hello { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; font: 500 16px var(--sans); align-self: stretch; }
+.login-screen .join-box { width: 100%; }
+
 /* Loading screen */
 .loading-screen {
   position: fixed; inset: 0; z-index: 100; background: var(--paper);

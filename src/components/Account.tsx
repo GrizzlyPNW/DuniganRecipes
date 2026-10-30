@@ -184,6 +184,45 @@ export function AccessGate({ fam, toast, what }: { fam: Family; toast: (t: strin
   );
 }
 
+/* ---------- Login screen ---------- */
+
+/** The front door: shown until someone is signed in and part of the family. */
+export function LoginScreen({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
+  const me = useMe();
+  const joining = fam.access === 'not-member' && !!me;
+  return (
+    <div className="login-screen">
+      <div className="login-inner">
+        <picture>
+          <source srcSet="/logo.webp" type="image/webp" />
+          <img className="login-logo" src="/logo.png" alt="The Dunigan Kitchen" />
+        </picture>
+        <p className="login-quote">“From my kitchen to yours, these recipes hold so much more than ingredients.”</p>
+
+        {joining ? (
+          <>
+            <div className="login-hello">
+              <ProfileIcon me={me} size={40} />
+              <span>
+                Hi, {me!.name.split(' ')[0]}! <button className="link-btn" onClick={() => signOut()}>Not you?</button>
+              </span>
+            </div>
+            <CodeBox fam={fam} toast={toast} />
+          </>
+        ) : (
+          <div className="login-actions">
+            <GoogleButton label="Continue with Google" />
+            <p className="field-help" style={{ textAlign: 'center', marginTop: 12 }}>
+              The family recipe box is just for the family. Sign in with your Google account, then use the invite link or
+              family code the first time.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Loading screen ---------- */
 
 export function LoadingScreen({ done }: { done: boolean }) {
