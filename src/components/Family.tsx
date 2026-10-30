@@ -4,7 +4,10 @@ import { Avatar } from './bits';
 
 export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void }) {
   const { recipes, contributors: P } = fam;
-  const used = [...new Set(recipes.map((r) => r.contributor))].filter((k) => k !== 'none' && P[k]);
+  // Everyone on the list, including cooks who joined or were added before they have recipes.
+  const used = [...new Set([...recipes.map((r) => r.contributor), ...Object.keys(P)])]
+    .filter((k) => k !== 'none' && P[k])
+    .sort((a, b) => P[a].name.localeCompare(P[b].name));
   const unsigned = recipes.filter((r) => r.contributor === 'none').length;
   const rows = unsigned ? [...used, 'none'] : used;
 
@@ -18,9 +21,14 @@ export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void })
       {rows.map((k) => {
         const p = P[k];
         const n = recipes.filter((r) => r.contributor === k).length;
+        const link = fam.linkByContributor[k];
         return (
           <button key={k} className="fam-row" onClick={() => pick(k)}>
-            <Avatar c={p} size={48} font={16} />
+            {link?.image ? (
+              <img className="pf-img" src={link.image} alt="" width={48} height={48} referrerPolicy="no-referrer" />
+            ) : (
+              <Avatar c={p} size={48} font={16} />
+            )}
             <div style={{ flex: 1 }}>
               <div className="t">
                 {p.name}
@@ -28,6 +36,7 @@ export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void })
               </div>
               <div className="meta" style={{ marginTop: 2 }}>
                 {plural(n, 'recipe')}
+                {link ? ' · on the app' : ''}
               </div>
             </div>
             <span className="chev">›</span>
@@ -40,8 +49,7 @@ export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void })
             {unsigned === 1 ? '1 card isn’t signed' : `${unsigned} cards aren’t signed`}
           </div>
           <div className="s">
-            If you know whose handwriting it is, open the recipe, tap “I’ll type it up” or edit it, and pick the cook so the
-            credit stays in the family.
+            Know whose handwriting it is? Open the recipe and tap “know who wrote it?” so the credit stays in the family.
           </div>
         </div>
       )}

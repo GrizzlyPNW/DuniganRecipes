@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
 import { back, go } from '../lib/router';
 import { useMe } from '../lib/session';
-import { AccessGate } from './Account';
+import { AccessGate, Header } from './Account';
+import { AppPortal, Layer } from './Stack';
 import { isTyped, type Recipe } from '../types';
-import { ago, initials, plural } from '../lib/util';
+import { ago, initials, makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
 
 const cardLabel = (r: Recipe, i: number) =>
@@ -28,6 +29,8 @@ export function RecipePage({
   const cardRef = useRef<HTMLDivElement>(null);
   const [checked, setChecked] = useState<Record<number, boolean>>({});
   const [lb, setLb] = useState<number | null>(null);
+  const [pop, setPop] = useState(false);
+  const [assigning, setAssigning] = useState(false);
 
   // A new recipe (or "Add a story about today") starts at the top with nothing checked.
   useEffect(() => {
@@ -42,20 +45,83 @@ export function RecipePage({
 
   const jump = (el: HTMLElement | null) => {
     if (!el || !box.current) return;
-    const top = el.getBoundingClientRect().top - box.current.getBoundingClientRect().top + box.current.scrollTop - 80;
+    const top = el.getBoundingClientRect().top - box.current.getBoundingClientRect().top + box.current.scrollTop - 96;
     box.current.scrollTo({ top, behavior: 'smooth' });
   };
 
+  const linked = fam.linkByContributor[r.contributor];
+  const fav = fam.isFavorite(r.id);
+  const favCount = fam.favoriteCount(r.id);
+
+  async function toggleFav() {
+    if (fam.access !== 'member') return toast('Sign in to save favorites');
+    setPop(true);
+    setTimeout(() => setPop(false), 420);
+    try {
+      await fam.toggleFavorite(r.id);
+    } catch {
+      toast('Couldn’t save that. Try again.');
+    }
+  }
+
+  function onFrom() {
+    if (r.contributor === 'none') {
+      if (fam.admin && fam.access === 'member') setAssigning(true);
+      else toast('Know who wrote it? Let Luke know and he’ll add their name.');
+      return;
+    }
+    pickWho(r.contributor);
+  }
+
   return (
     <div className="detail">
+      <Header onBack={() => back('')} backLabel="Recipes" />
       <div className="screen" ref={box}>
         <div className="pad">
           <div className="eyebrow">{r.category}</div>
-          <h1>{r.title}</h1>
-          <button className="from-btn" onClick={() => r.contributor !== 'none' && pickWho(r.contributor)}>
-            <Avatar c={p} size={30} font={12} />
-            <span>{r.contributor === 'none' ? 'Not signed · know who wrote it?' : 'From the kitchen of ' + p.name}</span>
-          </button>
+          <div className="title-row">
+            <h1>{r.title}</h1>
+            <button
+              className={'fav-btn' + (fav ? ' on' : '') + (pop ? ' pop' : '')}
+              onClick={toggleFav}
+              aria-pressed={fav}
+              aria-label={(fav ? 'Remove from favorites' : 'Add to favorites') + ` (${plural(favCount, 'favorite')})`}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path
+                  d="M12 20.5s-7.5-4.4-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.9c0 5.8-7.5 10.2-7.5 10.2Z"
+                  fill={fav ? 'currentColor' : 'none'}
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {favCount}
+            </button>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <button className="from-btn" onClick={onFrom}>
+              {linked?.image ? (
+                <img className="pf-img" src={linked.image} alt="" width={30} height={30} referrerPolicy="no-referrer" />
+              ) : (
+                <Avatar c={p} size={30} font={12} />
+              )}
+              <span>
+                {r.contributor === 'none' ? (
+                  <>
+                    Not signed · <u>know who wrote it?</u>
+                  </>
+                ) : (
+                  'From the kitchen of ' + p.name
+                )}
+              </span>
+            </button>
+            {fam.admin && fam.access === 'member' && r.contributor !== 'none' && (
+              <button className="link-btn" onClick={() => setAssigning(true)}>
+                Change
+              </button>
+            )}
+          </div>
           <div className="two-btns">
             <button className="btn btn-accent" onClick={() => jump(recipeRef.current)}>
               {typed ? 'Go to recipe ↓' : 'Help type it ↓'}
@@ -157,12 +223,95 @@ export function RecipePage({
         )}
         {r.cardImages.length === 0 && <div ref={cardRef} />}
       </div>
-      <div className="top-fade" />
-      <button className="back-pill" onClick={() => back('')}>
-        ‹ Recipes
-      </button>
       {lb !== null && <Lightbox recipe={r} i={lb} setI={setLb} />}
+      <AppPortal>
+        <Layer show={assigning} kind="fade" z={45}>
+          <AssignSheet fam={fam} recipe={r} close={() => setAssigning(false)} toast={toast} />
+        </Layer>
+      </AppPortal>
     </div>
+  );
+}
+
+/** Admin: choose whose kitchen a recipe came from. */
+function AssignSheet({ fam, recipe: r, close, toast }: { fam: Family; recipe: Recipe; close: () => void; toast: (t: string) => void }) {
+  const [newName, setNewName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const cooks = Object.values(fam.contributors)
+    .filter((c) => c.id !== 'none')
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  async function assign(id: string, name: string) {
+    setBusy(true);
+    try {
+      await fam.saveRecipe({ ...r, contributor: id, newContributor: fam.isBase(id) ? null : fam.contributors[id] || null });
+      toast(id === 'none' ? 'Marked as not signed' : `Now from the kitchen of ${name}`);
+      close();
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t save that.');
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function addNew() {
+    if (!newName.trim()) return toast('Type their name first');
+    setBusy(true);
+    try {
+      const c = await fam.addContributor(makeContributor(newName, fam.contributors), false);
+      await assign(c.id, c.name);
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t add them.');
+      setBusy(false);
+    }
+  }
+
+  return (
+    <>
+      <div className="scrim" onClick={close} />
+      <div className="sheet" role="dialog" aria-label="Whose recipe is this?">
+        <div className="sheet-grab" />
+        <div className="row-between" style={{ alignItems: 'center', marginBottom: 6 }}>
+          <h2 className="h2" style={{ fontSize: 22 }}>
+            Whose recipe is this?
+          </h2>
+          <button className="link-btn" onClick={close}>
+            Cancel
+          </button>
+        </div>
+        <p className="field-help" style={{ margin: '0 0 8px' }}>
+          {r.title}
+        </p>
+        <div className="assign-list">
+          {cooks.map((c) => (
+            <button key={c.id} className={'assign-row' + (r.contributor === c.id ? ' on' : '')} disabled={busy} onClick={() => assign(c.id, c.name)}>
+              <Avatar c={c} size={36} font={13} />
+              <span>
+                {c.name}
+                {c.rel ? ' · ' + c.rel : ''}
+              </span>
+              {r.contributor === c.id && <span className="ck">✓</span>}
+            </button>
+          ))}
+          {r.contributor !== 'none' && (
+            <button className="assign-row" disabled={busy} onClick={() => assign('none', '')}>
+              <Avatar c={fam.contributors.none} size={36} font={13} />
+              <span>Not signed / not sure</span>
+            </button>
+          )}
+        </div>
+        <div className="form-group" style={{ marginTop: 16 }}>
+          <label className="field-label" htmlFor="assign-new">
+            Someone not on the list
+          </label>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input id="assign-new" className="field" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="e.g. Aunt Carol" />
+            <button className="btn btn-accent" disabled={busy} onClick={addNew}>
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

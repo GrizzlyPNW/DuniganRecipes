@@ -1,19 +1,31 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useFamily } from './lib/store';
-import { back, go, replace, useRoute } from './lib/router';
+import { back, go, replace, useRoute, type Route } from './lib/router';
 import { authClient } from './lib/auth';
-import { setPendingInvite } from './lib/api';
+import { setPendingInvite, setPendingToken } from './lib/api';
 import { MeContext, type Me } from './lib/session';
 import { Home, type Filters } from './components/Home';
 import { Family } from './components/Family';
 import { Book } from './components/Book';
 import { Menu, TabBar, type Tab } from './components/Chrome';
 import { AdminPage } from './components/Admin';
+import { InvitePage } from './components/Invite';
 import { Header, LoadingScreen, LoginScreen, ProfilePanel } from './components/Account';
 import { RecipePage } from './components/RecipePage';
 import { CookMode } from './components/CookMode';
 import { AddChooser, RecipeForm } from './components/AddRecipe';
+import { Layer, NavContext } from './components/Stack';
 import { Toast } from './components/bits';
+
+/** Root pages (menu button, tab bar). Everything else is pushed on top of them. */
+const ROOTS: Partial<Record<Route['name'], Tab>> = {
+  home: 'home',
+  favorites: 'favorites',
+  family: 'family',
+  book: 'book',
+  admin: 'admin',
+  'invite-family': 'invite',
+};
 
 export default function App() {
   const session = authClient.useSession();
@@ -36,13 +48,16 @@ export default function App() {
     toastTimer.current = window.setTimeout(() => setToastText(null), 2600);
   }, []);
 
-  // Invite links look like https://site/#/join/<code>. Keep the code until the person
-  // has signed in with Google; the family hook then uses it to join.
+  // Invite links: #/join/<family code> or a personal #/i/<token>. Keep them until the
+  // person has signed in with Google; the family hook then uses them.
   useEffect(() => {
-    if (route.name !== 'join') return;
-    setPendingInvite(route.code);
+    if (route.name === 'join') setPendingInvite(route.code);
+    else if (route.name === 'claim') setPendingToken(route.token);
+    else return;
     replace('');
     if (!me) toast('Welcome! Sign in with Google to join the family box.');
+    else fam.refreshAccess();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route, me, toast]);
 
   // Celebrate the moment someone becomes a member.
@@ -57,63 +72,107 @@ export default function App() {
 
   useEffect(() => setPanel(null), [route]);
 
+  // The root page stays put underneath pushed pages, like an iOS navigation stack.
+  const routeTab = ROOTS[route.name];
+  const [rootTab, setRootTab] = useState<Tab>(routeTab || 'home');
+  useEffect(() => {
+    if (routeTab) setRootTab(routeTab);
+  }, [routeTab]);
+  const tab = routeTab || rootTab;
+
   const pickWho = (who: string) => {
     setFilters({ query: '', cat: null, who });
     go('');
   };
 
-  const tab: Tab = route.name === 'family' ? 'family' : route.name === 'book' ? 'book' : route.name === 'admin' ? 'admin' : 'home';
   const recipeId = route.name === 'recipe' || route.name === 'cook' || route.name === 'transcribe' ? route.id : null;
   const recipe = recipeId ? fam.recipes.find((r) => r.id === recipeId) : undefined;
-  const overlay = !!recipeId || route.name === 'add' || route.name === 'new';
+
+  // Layer 1: a recipe, or the Add Recipe chooser. Layer 2: a form pushed on top. Modal: cook mode.
+  const addFlow = route.name === 'add' || route.name === 'new';
+  const layer1Key = recipeId ? 'recipe:' + recipeId : addFlow ? 'add' : null;
+  const layer2: ReactNode =
+    route.name === 'transcribe' && recipe ? (
+      <RecipeForm key={'t' + recipe.id} fam={fam} kind="transcribe" existing={recipe} toast={toast} />
+    ) : route.name === 'new' ? (
+      <RecipeForm key={route.kind} fam={fam} kind={route.kind} toast={toast} />
+    ) : null;
+  const cooking = route.name === 'cook' && !!recipe;
+
+  const rootPage =
+    tab === 'family' ? (
+      <Family fam={fam} pick={pickWho} />
+    ) : tab === 'book' ? (
+      <Book fam={fam} toast={toast} />
+    ) : tab === 'admin' ? (
+      <AdminPage fam={fam} toast={toast} />
+    ) : tab === 'invite' ? (
+      <InvitePage fam={fam} toast={toast} />
+    ) : (
+      <Home fam={fam} f={filters} setF={setFilters} favorites={tab === 'favorites'} />
+    );
+
+  const nav = useMemo(() => ({ openMenu: () => setPanel('menu'), openProfile: () => setPanel('profile') }), []);
 
   return (
     <MeContext.Provider value={me}>
-      <div className="app">
-        {tab === 'home' && <Home fam={fam} f={filters} setF={setFilters} />}
-        {tab === 'family' && <Family fam={fam} pick={pickWho} />}
-        {tab === 'book' && <Book fam={fam} toast={toast} />}
-        {tab === 'admin' && <AdminPage fam={fam} toast={toast} />}
-        {!overlay && <TabBar tab={tab} />}
-        {/* The header sits on every page except full-screen cook mode. */}
-        {route.name !== 'cook' && <Header onMenu={() => setPanel('menu')} onProfile={() => setPanel('profile')} />}
-        {panel === 'menu' && (
-          <Menu tab={tab} count={fam.recipes.length} mode={fam.mode} admin={fam.admin} close={() => setPanel(null)} />
-        )}
-        {panel === 'profile' && <ProfilePanel fam={fam} close={() => setPanel(null)} toast={toast} />}
-
-        {recipe && <RecipePage fam={fam} recipe={recipe} toast={toast} pickWho={pickWho} scrollTop={storiesNonce} />}
-        {recipeId && !recipe && fam.ready && (
-          <div className="overlay-page">
-            <div className="screen pad">
-              <div className="italic-empty">That recipe isn’t in the box.</div>
-              <button className="btn btn-accent" onClick={() => replace('')}>
-                Back to recipes
-              </button>
+      <NavContext.Provider value={nav}>
+        <div className="app">
+          <div className={'base' + (layer1Key ? ' covered' : '')} aria-hidden={!!layer1Key}>
+            <div key={tab} className="root-fade">
+              {rootPage}
             </div>
+            <TabBar tab={tab} />
+            <Header />
           </div>
-        )}
-        {route.name === 'cook' && recipe && (
-          <CookMode
-            recipe={recipe}
-            from={fam.contributors[recipe.contributor] || fam.contributors.none}
-            close={() => back('recipe/' + recipe.id)}
-            toStories={() => {
-              setStoriesNonce((n) => n + 1);
-              back('recipe/' + recipe.id);
-            }}
-            toast={toast}
-          />
-        )}
-        {route.name === 'transcribe' && recipe && <RecipeForm key={recipe.id} fam={fam} kind="transcribe" existing={recipe} toast={toast} />}
-        {route.name === 'add' && <AddChooser fam={fam} toast={toast} />}
-        {route.name === 'new' && <RecipeForm key={route.kind} fam={fam} kind={route.kind} toast={toast} />}
 
-        {fam.error && !toastText && <Toast text={fam.error} />}
-        {fam.mode === 'shared' && fam.ready && fam.access !== 'member' && <LoginScreen fam={fam} toast={toast} />}
-        <Toast text={toastText} />
-        <LoadingScreen done={fam.ready && !session.isPending} />
-      </div>
+          <Layer show={!!layer1Key} covered={!!layer2 || cooking} z={20} onBack={() => back('')}>
+            {recipe ? (
+              <RecipePage key={recipe.id} fam={fam} recipe={recipe} toast={toast} pickWho={pickWho} scrollTop={storiesNonce} />
+            ) : addFlow ? (
+              <AddChooser fam={fam} toast={toast} />
+            ) : recipeId && fam.ready ? (
+              <div className="overlay-page">
+                <Header onBack={() => back('')} backLabel="Recipes" />
+                <div className="screen pad">
+                  <div className="italic-empty">That recipe isn’t in the box.</div>
+                </div>
+              </div>
+            ) : null}
+          </Layer>
+
+          <Layer show={!!layer2} z={22} onBack={() => back(recipe ? 'recipe/' + recipe.id : 'add')}>
+            {layer2}
+          </Layer>
+
+          <Layer show={cooking} kind="modal" z={30}>
+            {recipe && (
+              <CookMode
+                recipe={recipe}
+                from={fam.contributors[recipe.contributor] || fam.contributors.none}
+                close={() => back('recipe/' + recipe.id)}
+                toStories={() => {
+                  setStoriesNonce((n) => n + 1);
+                  back('recipe/' + recipe.id);
+                }}
+                toast={toast}
+              />
+            )}
+          </Layer>
+
+          <Layer show={panel === 'menu'} kind="fade" z={40}>
+            <Menu tab={tab} count={fam.recipes.length} mode={fam.mode} admin={fam.admin} close={() => setPanel(null)} />
+          </Layer>
+          <Layer show={panel === 'profile'} kind="fade" z={40}>
+            <ProfilePanel fam={fam} close={() => setPanel(null)} toast={toast} />
+          </Layer>
+
+          {fam.error && !toastText && <Toast text={fam.error} />}
+          {fam.mode === 'shared' && fam.ready && fam.access !== 'member' && <LoginScreen fam={fam} toast={toast} />}
+          <Toast text={toastText} />
+          <LoadingScreen done={fam.ready && !session.isPending} />
+        </div>
+      </NavContext.Provider>
     </MeContext.Provider>
   );
 }

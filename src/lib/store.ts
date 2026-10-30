@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import base from '../data/recipes.json';
 import type { Contributor, Recipe, Story } from '../types';
+export type { Contributor };
 import * as api from './api';
 
 const baseContributors: Record<string, Contributor> = Object.fromEntries(
@@ -27,7 +28,15 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
   const [blocked, setBlocked] = useState(false);
   const [stories, setStories] = useState<Story[]>([]);
   const [edits, setEdits] = useState<Recipe[]>([]);
+  const [people, setPeople] = useState<Contributor[]>([]);
+  const [links, setLinks] = useState<api.Link[]>([]);
+  const [myContributor, setMyContributor] = useState<string | null>(null);
+  const [inviteError, setInviteError] = useState<string | null>(null);
+  const [favCounts, setFavCounts] = useState<Record<string, number>>({});
+  const [myFavs, setMyFavs] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string | null>(null);
+  // Bumped to re-run the sign-in check (e.g. after opening an invite link while signed in).
+  const [checkNonce, setCheckNonce] = useState(0);
 
   useEffect(() => {
     api.detectMode().then(({ mode: m }) => setMode(m));
@@ -42,6 +51,11 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       if (g !== gen.current) return;
       setStories(data.stories);
       setEdits(data.recipes);
+      setPeople(data.contributors || []);
+      setLinks(data.links || []);
+      setFavCounts(data.favoriteCounts || {});
+      setMyFavs(new Set(data.myFavorites || []));
+      if (data.contributorId !== undefined) setMyContributor(data.contributorId);
       if (typeof data.admin === 'boolean') setAdmin(data.admin);
       setAccess('member');
       setError(null);
@@ -72,6 +86,9 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       setAccess('signed-out');
       setStories([]);
       setEdits([]);
+      setPeople([]);
+      setLinks([]);
+      setMyContributor(null);
       // Recipe edits by the family are only visible to members, so show the original box.
       return;
     }
@@ -87,6 +104,15 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
         if (cancelled) return;
         setAdmin(status.admin);
         setBlocked(status.blocked);
+        setMyContributor(status.contributorId);
+        // A personal invite link (#/invite/<token>) joins and ties this account to its cook.
+        const token = status.blocked ? null : api.pendingToken();
+        if (token) {
+          const res = await api.claimInvite(token);
+          if (cancelled) return;
+          if (res.ok) return refresh('shared', g);
+          setInviteError(res.error || null);
+        }
         if (status.member) return refresh('shared', g);
         const code = status.blocked ? null : api.pendingInvite();
         if (code && (await api.join(code))) return refresh('shared', g);
@@ -102,7 +128,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     return () => {
       cancelled = true;
     };
-  }, [mode, userId, sessionPending, refresh]);
+  }, [mode, userId, sessionPending, refresh, checkNonce]);
 
   // Pick up new stories from the rest of the family when the app comes back into view.
   useEffect(() => {
@@ -120,9 +146,13 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     const byId = new Map(baseRecipes.map((r) => [r.id, r]));
     for (const e of edits) byId.set(e.id, e);
     const contributors = { ...baseContributors };
+    for (const p of people) if (!contributors[p.id]) contributors[p.id] = p;
     for (const r of byId.values()) if (r.newContributor && !contributors[r.contributor]) contributors[r.contributor] = r.newContributor;
     return { recipes: [...byId.values()], contributors };
-  }, [edits]);
+  }, [edits, people]);
+
+  /** contributorId → the family account that belongs to that cook. */
+  const linkByContributor = useMemo(() => Object.fromEntries(links.map((l) => [l.contributorId, l])), [links]);
 
   const storiesByRecipe = useMemo(() => {
     const m: Record<string, Story[]> = {};
@@ -135,12 +165,53 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     access,
     /** The family admin (set in Neon Auth). Always true on a single-device copy. */
     admin: mode === 'local' || admin,
+    isBase: isBaseContributor,
     blocked,
     ready: !!mode && access !== 'loading',
     error,
     recipes,
     contributors,
     storiesByRecipe,
+    linkByContributor,
+    /** The cook this account belongs to, if any. */
+    myContributor,
+    inviteError,
+    /** Adds a cook to the family list; `isMe` also ties it to this account. */
+    addContributor: async (c: Contributor, isMe: boolean) => {
+      const res = await api.addContributor(mode!, c, isMe);
+      setPeople((all) => [...all.filter((p) => p.id !== res.contributor.id), res.contributor]);
+      if (res.contributorId) setMyContributor(res.contributorId);
+      return res.contributor;
+    },
+    refresh: () => mode && refresh(mode),
+    refreshAccess: () => setCheckNonce((n) => n + 1),
+    favoriteCount: (recipeId: string) => favCounts[recipeId] || 0,
+    isFavorite: (recipeId: string) => myFavs.has(recipeId),
+    /** Flips the heart right away, then confirms the count with the server. */
+    toggleFavorite: async (recipeId: string) => {
+      const on = !myFavs.has(recipeId);
+      const before = favCounts[recipeId] || 0;
+      setMyFavs((s) => {
+        const n = new Set(s);
+        if (on) n.add(recipeId);
+        else n.delete(recipeId);
+        return n;
+      });
+      setFavCounts((c) => ({ ...c, [recipeId]: Math.max(0, before + (on ? 1 : -1)) }));
+      try {
+        const count = await api.setFavorite(mode!, recipeId, on);
+        setFavCounts((c) => ({ ...c, [recipeId]: count }));
+      } catch (e) {
+        setMyFavs((s) => {
+          const n = new Set(s);
+          if (on) n.delete(recipeId);
+          else n.add(recipeId);
+          return n;
+        });
+        setFavCounts((c) => ({ ...c, [recipeId]: before }));
+        throw e;
+      }
+    },
     /** Join with a typed family code (already signed in). */
     join: async (code: string) => {
       const ok = await api.join(code);

@@ -1,4 +1,4 @@
-import type { Recipe, Story } from '../types';
+import type { Contributor, Recipe, Story } from '../types';
 import { blobToDataUrl } from './image';
 import { getToken } from './auth';
 
@@ -77,7 +77,48 @@ async function call<T>(method: 'GET' | 'POST', op: string, body?: BodyInit, type
   return data as T;
 }
 
-export const me = () => call<{ member: boolean; admin: boolean; blocked: boolean }>('GET', 'me');
+export const me = () =>
+  call<{ member: boolean; admin: boolean; blocked: boolean; contributorId: string | null }>('GET', 'me');
+
+/* ---------- Personal invites (one per cook) ---------- */
+
+const TOKEN_KEY = 'dunigan-invite-token';
+export const pendingToken = () => {
+  try {
+    return localStorage.getItem(TOKEN_KEY);
+  } catch {
+    return null;
+  }
+};
+export const setPendingToken = (t: string | null) => {
+  try {
+    if (t) localStorage.setItem(TOKEN_KEY, t);
+    else localStorage.removeItem(TOKEN_KEY);
+  } catch {
+    /* ignore */
+  }
+};
+export async function claimInvite(token: string): Promise<{ ok: boolean; error?: string }> {
+  try {
+    await call('POST', 'claim-invite', JSON.stringify({ token }));
+    setPendingToken(null);
+    return { ok: true };
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 403) setPendingToken(null);
+    return { ok: false, error: (e as Error).message };
+  }
+}
+export const createInvite = (contributorId: string) =>
+  call<{ token: string }>('POST', 'create-invite', JSON.stringify({ contributorId })).then((r) => r.token);
+export const listInvites = () =>
+  call<{ invites: { token: string; contributorId: string }[] }>('GET', 'invites').then((r) => r.invites);
+
+export interface Link {
+  contributorId: string;
+  userId: string;
+  name: string | null;
+  image: string | null;
+}
 
 export interface Member {
   id: string;
@@ -113,8 +154,55 @@ export async function join(code: string): Promise<boolean> {
   }
 }
 
-export async function loadAll(mode: Mode): Promise<{ stories: Story[]; recipes: Recipe[]; admin?: boolean }> {
-  if (mode === 'local') return { stories: read(LOCAL_STORIES, []), recipes: read(LOCAL_RECIPES, []) };
+const LOCAL_PEOPLE = 'dunigan-people-v1';
+
+export async function addContributor(mode: Mode, contributor: Contributor, isMe: boolean) {
+  if (mode === 'local') {
+    write(LOCAL_PEOPLE, [...read<Contributor[]>(LOCAL_PEOPLE, []).filter((c) => c.id !== contributor.id), contributor]);
+    return { contributor, contributorId: isMe ? contributor.id : null };
+  }
+  return call<{ contributor: Contributor; contributorId: string | null }>(
+    'POST',
+    'add-contributor',
+    JSON.stringify({ contributor, me: isMe }),
+  );
+}
+
+const LOCAL_FAVS = 'dunigan-favorites-v1';
+export async function setFavorite(mode: Mode, recipeId: string, on: boolean): Promise<number> {
+  if (mode === 'local') {
+    const s = new Set(read<string[]>(LOCAL_FAVS, []));
+    if (on) s.add(recipeId);
+    else s.delete(recipeId);
+    write(LOCAL_FAVS, [...s]);
+    return on ? 1 : 0;
+  }
+  const r = await call<{ count: number }>('POST', 'favorite', JSON.stringify({ recipeId, on }));
+  return r.count;
+}
+
+export interface FamilyData {
+  favoriteCounts?: Record<string, number>;
+  myFavorites?: string[];
+  stories: Story[];
+  recipes: Recipe[];
+  admin?: boolean;
+  contributorId?: string | null;
+  contributors?: Contributor[];
+  links?: Link[];
+}
+
+export async function loadAll(mode: Mode): Promise<FamilyData> {
+  if (mode === 'local') {
+    const favs = read<string[]>(LOCAL_FAVS, []);
+    return {
+      stories: read(LOCAL_STORIES, []),
+      recipes: read(LOCAL_RECIPES, []),
+      contributors: read(LOCAL_PEOPLE, []),
+      myFavorites: favs,
+      favoriteCounts: Object.fromEntries(favs.map((id) => [id, 1])),
+    };
+  }
   return call('GET', 'data');
 }
 

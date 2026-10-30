@@ -58,6 +58,34 @@ function ensureSchema(sql: Sql) {
     )`;
     // Removed members stay listed as blocked, so the family code can't let them back in.
     await sql`alter table members add column if not exists blocked boolean not null default false`;
+    // Cooks added in the app (the original list ships with the app).
+    await sql`create table if not exists contributors (
+      id text primary key,
+      data jsonb not null,
+      created_by text,
+      created_at timestamptz not null default now()
+    )`;
+    // Which account belongs to which cook, so their recipes live under their name.
+    await sql`create table if not exists contributor_links (
+      contributor_id text primary key,
+      user_id text not null unique,
+      linked_at timestamptz not null default now()
+    )`;
+    await sql`create table if not exists favorites (
+      user_id text not null,
+      recipe_id text not null,
+      created_at timestamptz not null default now(),
+      primary key (user_id, recipe_id)
+    )`;
+    // Personal invite links, one per cook.
+    await sql`create table if not exists invites (
+      token text primary key,
+      contributor_id text not null,
+      created_by text,
+      created_at timestamptz not null default now(),
+      claimed_by text,
+      claimed_at timestamptz
+    )`;
   })().catch((e) => {
     schemaReady = null;
     throw e;
@@ -131,6 +159,32 @@ async function memberState(sql: Sql, user: User): Promise<'member' | 'blocked' |
 
 const clip = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 
+async function linkedContributor(sql: Sql, userId: string): Promise<string | null> {
+  const rows = (await sql`select contributor_id from contributor_links where user_id = ${userId}`) as { contributor_id: string }[];
+  return rows[0]?.contributor_id ?? null;
+}
+
+/** Ties an account to a cook, unless either side is already taken. */
+async function linkContributor(sql: Sql, contributorId: string, userId: string) {
+  await sql`insert into contributor_links (contributor_id, user_id) values (${contributorId}, ${userId}) on conflict do nothing`;
+}
+
+/** Keeps only the fields a cook needs, so nobody can stuff odd data into the list. */
+function cleanContributor(c: any) {
+  if (!c || typeof c.id !== 'string') return null;
+  const id = clip(c.id, 60).toLowerCase().replace(/[^a-z0-9-]/g, '');
+  const name = clip(c.name, 80);
+  if (!id || !name || id === 'none') return null;
+  return {
+    id,
+    name,
+    short: clip(c.short, 40) || name.split(' ')[0],
+    ini: clip(c.ini, 3) || name.slice(0, 2).toUpperCase(),
+    hue: Number.isFinite(c.hue) ? Math.round(c.hue) % 360 : 330,
+    ...(clip(c.rel, 40) ? { rel: clip(c.rel, 40) } : {}),
+  };
+}
+
 /** Signed in + family member, or an error response. */
 async function requireMember(req: Request, sql: Sql): Promise<User | Response> {
   const user = await currentUser(req);
@@ -164,7 +218,20 @@ export async function GET(req: Request) {
     await ensureSchema(sql);
     await loadRole(sql, user);
     const state = await memberState(sql, user);
-    return json({ user, member: state === 'member', blocked: state === 'blocked', admin: user.admin });
+    return json({
+      user,
+      member: state === 'member',
+      blocked: state === 'blocked',
+      admin: user.admin,
+      contributorId: await linkedContributor(sql, user.id),
+    });
+  }
+
+  if (op === 'invites') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const rows = (await sql`select token, contributor_id, claimed_by from invites where claimed_by is null`) as any[];
+    return json({ invites: rows.map((r) => ({ token: r.token, contributorId: r.contributor_id })) });
   }
 
   if (op === 'members') {
@@ -198,8 +265,18 @@ export async function GET(req: Request) {
     if (who instanceof Response) return who;
     const stories = (await sql`select id, recipe_id, author_name, author_id, text, created_at from stories order by created_at asc`) as any[];
     const edits = (await sql`select data from recipe_edits order by updated_at asc`) as any[];
+    const contributors = (await sql`select data from contributors order by created_at asc`) as any[];
+    const links = (await sql`select l.contributor_id, l.user_id, m.name, m.image
+      from contributor_links l left join members m on m.user_id = l.user_id`) as any[];
+    const favCounts = (await sql`select recipe_id, count(*)::int as n from favorites group by recipe_id`) as any[];
+    const mine = (await sql`select recipe_id from favorites where user_id = ${who.id}`) as any[];
     return json({
       admin: who.admin,
+      favoriteCounts: Object.fromEntries(favCounts.map((f) => [f.recipe_id, f.n])),
+      myFavorites: mine.map((f) => f.recipe_id),
+      contributorId: await linkedContributor(sql, who.id),
+      contributors: contributors.map((c) => c.data),
+      links: links.map((l) => ({ contributorId: l.contributor_id, userId: l.user_id, name: l.name, image: l.image })),
       stories: stories.map((s) => ({
         id: s.id,
         recipeId: s.recipe_id,
@@ -229,6 +306,37 @@ export async function POST(req: Request) {
     if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
     await addMember(sql, user);
     return json({ ok: true });
+  }
+
+  // A personal invite link: joins the family and ties this account to the cook it was made for.
+  if (op === 'claim-invite') {
+    const user = await currentUser(req);
+    if (!user) return json({ error: 'Please sign in first' }, 401);
+    const body = await req.json().catch(() => ({}));
+    const token = clip(body.token, 64);
+    await ensureSchema(sql);
+    const [inv] = (await sql`select contributor_id, claimed_by from invites where token = ${token}`) as any[];
+    if (!inv) return json({ error: 'That invite link isn’t valid. Ask Luke for a new one.' }, 403);
+    if (inv.claimed_by && inv.claimed_by !== user.id) return json({ error: 'That invite link was already used. Ask Luke for a new one.' }, 403);
+    await loadRole(sql, user);
+    if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
+    await addMember(sql, user);
+    if (!(await linkedContributor(sql, user.id))) await linkContributor(sql, inv.contributor_id, user.id);
+    await sql`update invites set claimed_by = ${user.id}, claimed_at = now() where token = ${token}`;
+    return json({ ok: true, contributorId: await linkedContributor(sql, user.id) });
+  }
+
+  if (op === 'create-invite') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const body = await req.json().catch(() => ({}));
+    const contributorId = clip(body.contributorId, 60);
+    if (!contributorId || contributorId === 'none') return json({ error: 'Pick a person to invite' }, 400);
+    const [existing] = (await sql`select token from invites where contributor_id = ${contributorId} and claimed_by is null`) as any[];
+    if (existing) return json({ token: existing.token });
+    const token = randomUUID().replace(/-/g, '').slice(0, 16);
+    await sql`insert into invites (token, contributor_id, created_by) values (${token}, ${contributorId}, ${who.id})`;
+    return json({ token });
   }
 
   if (op === 'remove-member' || op === 'restore-member') {
@@ -263,6 +371,25 @@ export async function POST(req: Request) {
     const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text)
       values (${recipeId}, ${authorName}, ${who.id}, ${text}) returning id, created_at`) as any[];
     return json({ id: row.id, recipeId, authorName, authorId: who.id, text, createdAt: new Date(row.created_at).getTime() });
+  }
+
+  if (op === 'favorite') {
+    const recipeId = clip(body.recipeId, 80);
+    if (!recipeId) return json({ error: 'Bad request' }, 400);
+    if (body.on) await sql`insert into favorites (user_id, recipe_id) values (${who.id}, ${recipeId}) on conflict do nothing`;
+    else await sql`delete from favorites where user_id = ${who.id} and recipe_id = ${recipeId}`;
+    const [row] = (await sql`select count(*)::int as n from favorites where recipe_id = ${recipeId}`) as any[];
+    return json({ count: row.n, on: !!body.on });
+  }
+
+  if (op === 'add-contributor') {
+    const c = cleanContributor(body.contributor);
+    if (!c) return json({ error: 'That person needs a name' }, 400);
+    await sql`insert into contributors (id, data, created_by) values (${c.id}, ${JSON.stringify(c)}::jsonb, ${who.id})
+      on conflict (id) do nothing`;
+    // "This is me": tie the new cook to the person who added themselves.
+    if (body.me === true && !(await linkedContributor(sql, who.id))) await linkContributor(sql, c.id, who.id);
+    return json({ ok: true, contributor: c, contributorId: await linkedContributor(sql, who.id) });
   }
 
   if (op === 'delete-story') {

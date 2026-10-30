@@ -6,6 +6,9 @@ export type Route =
   | { name: 'family' }
   | { name: 'book' }
   | { name: 'admin' }
+  | { name: 'invite-family' }
+  | { name: 'favorites' }
+  | { name: 'claim'; token: string }
   | { name: 'add' }
   | { name: 'new'; kind: 'photo' | 'type' }
   | { name: 'recipe'; id: string }
@@ -22,6 +25,12 @@ export function parse(hash: string): Route {
       return { name: 'book' };
     case 'admin':
       return { name: 'admin' };
+    case 'favorites':
+      return { name: 'favorites' };
+    case 'invite-family':
+      return { name: 'invite-family' };
+    case 'i':
+      return { name: 'claim', token: p[1] || '' };
     case 'add':
       return { name: 'add' };
     case 'new':

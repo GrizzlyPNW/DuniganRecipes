@@ -1,15 +1,17 @@
 import { useMemo, useState } from 'react';
 import type { Family } from '../lib/store';
 import { CATEGORIES, isBaseContributor } from '../lib/store';
-import { back, replace } from '../lib/router';
+import { back, go, replace } from '../lib/router';
 import { compressImage } from '../lib/image';
 import { lines, makeContributor, newId } from '../lib/util';
 import type { Recipe } from '../types';
-import { AccessGate } from './Account';
+import { useMe } from '../lib/session';
+import { AccessGate, Header } from './Account';
 
 export function AddChooser({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
   return (
     <div className="overlay-page">
+      <Header onBack={() => back('')} backLabel="Recipes" />
       <div className="screen pad">
         <h1 className="h1" style={{ fontSize: 30 }}>
           Add a card to the box
@@ -20,9 +22,6 @@ export function AddChooser({ fam, toast }: { fam: Family; toast: (t: string) => 
           <AddOptions />
         )}
       </div>
-      <button className="cancel" onClick={() => back('')}>
-        Cancel
-      </button>
     </div>
   );
 }
@@ -30,11 +29,11 @@ export function AddChooser({ fam, toast }: { fam: Family; toast: (t: string) => 
 function AddOptions() {
   return (
     <>
-        <button className="big-option dark" onClick={() => replace('new/photo')}>
+        <button className="big-option dark" onClick={() => go('new/photo')}>
           <div className="t">Photograph a card</div>
           <div className="s">Shoot the front, then the back. The photos go on the recipe page, and the family can type it up later.</div>
         </button>
-        <button className="big-option light" onClick={() => replace('new/type')}>
+        <button className="big-option light" onClick={() => go('new/type')}>
           <div className="t">Type it in</div>
           <div className="s">For recipes you know by heart.</div>
         </button>
@@ -47,11 +46,19 @@ type Kind = 'photo' | 'type' | 'transcribe';
 /** One form for: photographing a new card, typing a new recipe, or typing up an existing card. */
 export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: Kind; existing?: Recipe; toast: (t: string) => void }) {
   const P = fam.contributors;
+  const me = useMe();
   const cooks = useMemo(() => Object.values(P).filter((c) => c.id !== 'none').sort((a, b) => a.name.localeCompare(b.name)), [P]);
+  // New recipes live under the person adding them: their linked cook, or "Me" (creates one).
+  const canBeMe = !!me && !fam.myContributor && fam.mode === 'shared';
+  const defaultWho = existing
+    ? existing.contributor === 'none'
+      ? ''
+      : existing.contributor
+    : fam.myContributor || (canBeMe ? '__me' : '');
 
   const [title, setTitle] = useState(existing?.title || '');
   const [category, setCategory] = useState(existing?.category || '');
-  const [who, setWho] = useState(existing?.contributor || '');
+  const [who, setWho] = useState(defaultWho);
   const [newCook, setNewCook] = useState('');
   const [photos, setPhotos] = useState<(File | null)[]>([null, null]);
   const [temp, setTemp] = useState(existing?.temp || '');
@@ -86,7 +93,10 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
       // Cooks added by the family (not in the original list) travel with each recipe that names them.
       let newContributor = P[contributor] && !isBaseContributor(contributor) ? P[contributor] : null;
       if (who === '__new') {
-        newContributor = makeContributor(newCook, P);
+        newContributor = await fam.addContributor(makeContributor(newCook, P), false);
+        contributor = newContributor.id;
+      } else if (who === '__me' && me) {
+        newContributor = await fam.addContributor(makeContributor(me.name, P), true);
         contributor = newContributor.id;
       }
 
@@ -126,21 +136,20 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
   if (fam.access !== 'member') {
     return (
       <div className="overlay-page">
+        <Header onBack={() => back(existing ? 'recipe/' + existing.id : '')} backLabel="Back" />
         <div className="screen pad">
           <h1 className="h1" style={{ fontSize: 30 }}>
             {heading}
           </h1>
           <AccessGate fam={fam} toast={toast} what="add and edit recipes" />
         </div>
-        <button className="cancel" onClick={() => back(existing ? 'recipe/' + existing.id : '')}>
-          Cancel
-        </button>
       </div>
     );
   }
 
   return (
     <div className="overlay-page">
+      <Header onBack={() => back(existing ? 'recipe/' + existing.id : 'add')} backLabel={existing ? 'Recipe' : 'Add'} />
       <div className="screen pad" style={{ paddingBottom: 0 }}>
         <div className="eyebrow">{existing ? existing.title : 'Add Recipe'}</div>
         <h1 className="h1" style={{ fontSize: 30 }}>
@@ -215,13 +224,15 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
             Whose kitchen is it from?
           </label>
           <select id="f-who" className="field" value={who} onChange={(e) => setWho(e.target.value)}>
-            <option value="">Not sure / not signed</option>
+            {canBeMe && <option value="__me">Me ({me!.name})</option>}
             {cooks.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
                 {c.rel ? ' · ' + c.rel : ''}
+                {c.id === fam.myContributor ? ' (me)' : ''}
               </option>
             ))}
+            <option value="">Not sure / not signed</option>
             <option value="__new">Someone else…</option>
           </select>
           {who === '__new' && (
@@ -279,15 +290,15 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
           </>
         )}
 
-        <div className="sticky-save">
-          <button className="btn btn-accent btn-block btn-big" onClick={save} disabled={busy}>
+        <div className="form-bar">
+          <button className="btn btn-outline" onClick={() => back(existing ? 'recipe/' + existing.id : 'add')} disabled={busy}>
+            Cancel
+          </button>
+          <button className="btn btn-accent" onClick={save} disabled={busy}>
             {busy ? 'Saving…' : existing ? 'Save recipe' : 'Add to the box'}
           </button>
         </div>
       </div>
-      <button className="cancel" onClick={() => back(existing ? 'recipe/' + existing.id : '')}>
-        Cancel
-      </button>
       {lightbox && (
         <div className="lightbox" onClick={() => setLightbox(null)}>
           <div style={{ textAlign: 'right', font: '600 14px var(--sans)', padding: '0 8px' }}>Close ✕</div>

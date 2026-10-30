@@ -4,25 +4,40 @@ import { signInWithGoogle, signOut } from '../lib/auth';
 import { useMe, type Me } from '../lib/session';
 import { initials } from '../lib/util';
 import { go } from '../lib/router';
+import { useNav } from './Stack';
 
 /* ---------- Header ---------- */
 
-export function Header({ onMenu, onProfile }: { onMenu: () => void; onProfile: () => void }) {
+/**
+ * The top bar on every page. Root pages show the menu button on the left;
+ * pushed pages show an iOS back chevron in the same spot.
+ */
+export function Header({ onBack, backLabel }: { onBack?: () => void; backLabel?: string }) {
   const me = useMe();
+  const nav = useNav();
   return (
     <header className="app-header">
-      <button className="hdr-btn" onClick={onMenu} aria-label="Menu">
-        <span className="burger">
-          <i />
-          <i />
-          <i />
-        </span>
-      </button>
+      {onBack ? (
+        <button className="hdr-back" onClick={onBack} aria-label={'Back to ' + (backLabel || 'previous page')}>
+          <svg width="12" height="20" viewBox="0 0 12 20" aria-hidden>
+            <path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {backLabel && <span>{backLabel}</span>}
+        </button>
+      ) : (
+        <button className="hdr-btn" onClick={nav.openMenu} aria-label="Menu">
+          <span className="burger">
+            <i />
+            <i />
+            <i />
+          </span>
+        </button>
+      )}
       <picture className="hdr-logo">
         <source srcSet="/logo-header.webp" type="image/webp" />
         <img src="/logo-header.png" alt="The Dunigan Kitchen" />
       </picture>
-      <button className="hdr-btn" onClick={onProfile} aria-label={me ? 'Your profile' : 'Sign in'}>
+      <button className="hdr-btn hdr-right" onClick={nav.openProfile} aria-label={me ? 'Your profile' : 'Sign in'}>
         <ProfileIcon me={me} size={36} />
       </button>
     </header>
@@ -89,6 +104,18 @@ export function ProfilePanel({ fam, close, toast }: { fam: Family; close: () => 
                 }}
               >
                 Manage family (admin)
+              </button>
+            )}
+            {fam.access === 'member' && fam.admin && (
+              <button
+                className="btn btn-outline btn-block"
+                style={{ marginTop: 8 }}
+                onClick={() => {
+                  close();
+                  go('invite-family');
+                }}
+              >
+                Invite family
               </button>
             )}
             {fam.access === 'not-member' && <CodeBox fam={fam} toast={toast} />}
@@ -212,6 +239,7 @@ export function LoginScreen({ fam, toast }: { fam: Family; toast: (t: string) =>
         </picture>
         <p className="login-quote">“From my kitchen to yours, these recipes hold so much more than ingredients.”</p>
 
+        {fam.inviteError && <div className="pf-status" style={{ marginBottom: 14, width: '100%' }}>{fam.inviteError}</div>}
         {joining ? (
           <>
             <div className="login-hello">

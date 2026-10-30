@@ -1,24 +1,75 @@
 import { go } from '../lib/router';
 import type { Mode } from '../lib/api';
 
-export type Tab = 'home' | 'family' | 'book' | 'admin';
+export type Tab = 'home' | 'favorites' | 'family' | 'book' | 'admin' | 'invite';
+
+const icons = {
+  home: (on: boolean) => (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path
+        d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"
+        fill={on ? 'currentColor' : 'none'}
+        fillOpacity={on ? 0.15 : 0}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5ZM9 7.5h7M9 11h5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  ),
+  favorites: (on: boolean) => (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path
+        d="M12 20.5s-7.5-4.4-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.9c0 5.8-7.5 10.2-7.5 10.2Z"
+        fill={on ? 'currentColor' : 'none'}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  family: (on: boolean) => (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <circle cx="9" cy="8.5" r="3.3" fill={on ? 'currentColor' : 'none'} fillOpacity={on ? 0.15 : 0} stroke="currentColor" strokeWidth="1.8" />
+      <path d="M2.8 19.5c.9-3.4 3.3-5.3 6.2-5.3s5.3 1.9 6.2 5.3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M15.5 5.6a3.1 3.1 0 0 1 0 6M17.6 14.4c1.8.6 3.1 2.3 3.6 5.1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  ),
+  book: (on: boolean) => (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path
+        d="M12 6.5C10 5 7 4.5 3.5 5v13.5c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5Z"
+        fill={on ? 'currentColor' : 'none'}
+        fillOpacity={on ? 0.15 : 0}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M12 6.5V20" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  ),
+};
 
 export function TabBar({ tab }: { tab: Tab }) {
+  const item = (k: 'home' | 'favorites' | 'family' | 'book', label: string, path: string) => (
+    <button className={'tab' + (tab === k ? ' on' : '')} onClick={() => tab !== k && go(path)} aria-current={tab === k ? 'page' : undefined}>
+      {icons[k](tab === k)}
+      <span>{label}</span>
+    </button>
+  );
   return (
-    <nav className="tabbar">
-      <button className={'tab' + (tab === 'home' ? ' on' : '')} onClick={() => go('')}>
-        Recipes
-        <span className="dot" />
-      </button>
-      <button className="tab" onClick={() => go('add')} aria-label="Add recipe">
-        <span className="tab-add">
-          <b>+</b>Add Recipe
-        </span>
-      </button>
-      <button className={'tab' + (tab === 'family' ? ' on' : '')} onClick={() => go('family')}>
-        Family
-        <span className="dot" />
-      </button>
+    <nav className="tabbar" aria-label="Main">
+      {item('home', 'Recipes', '')}
+      {item('favorites', 'Favorites', 'favorites')}
+      <div className="tab-add-wrap">
+        <button className="tab-add" onClick={() => go('add')} aria-label="Add a recipe">
+          <svg viewBox="0 0 24 24" aria-hidden>
+            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+      {item('family', 'Family', 'family')}
+      {item('book', 'Book', 'book')}
     </nav>
   );
 }
@@ -42,7 +93,11 @@ export function Menu({
     ['book', 'book', 'Book', "Mom's note · print a copy"],
     ['add', 'add', 'Add Recipe', 'Photograph or type a card'],
   ];
-  if (admin && mode === 'shared') items.push(['admin', 'admin', 'Manage family', 'Invite link · who’s in the box']);
+  items.splice(1, 0, ['favorites', 'favorites', 'Favorites', 'Recipes you’ve hearted']);
+  if (admin && mode === 'shared') {
+    items.push(['invite-family', 'invite', 'Invite family', 'Text each cook their own link']);
+    items.push(['admin', 'admin', 'Manage family', 'Who’s in the box']);
+  }
   return (
     <>
       <div className="scrim" onClick={close} />
