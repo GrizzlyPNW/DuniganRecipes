@@ -199,6 +199,7 @@ export async function GET(req: Request) {
     const stories = (await sql`select id, recipe_id, author_name, author_id, text, created_at from stories order by created_at asc`) as any[];
     const edits = (await sql`select data from recipe_edits order by updated_at asc`) as any[];
     return json({
+      admin: who.admin,
       stories: stories.map((s) => ({
         id: s.id,
         recipeId: s.recipe_id,

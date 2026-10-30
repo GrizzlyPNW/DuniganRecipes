@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import base from '../data/recipes.json';
 import type { Contributor, Recipe, Story } from '../types';
 import * as api from './api';
@@ -33,14 +33,20 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     api.detectMode().then(({ mode: m }) => setMode(m));
   }, []);
 
-  const refresh = useCallback(async (m: api.Mode) => {
+  // Each sign-in check bumps this; results from an older check are ignored.
+  const gen = useRef(0);
+
+  const refresh = useCallback(async (m: api.Mode, g = gen.current) => {
     try {
       const data = await api.loadAll(m);
+      if (g !== gen.current) return;
       setStories(data.stories);
       setEdits(data.recipes);
+      if (typeof data.admin === 'boolean') setAdmin(data.admin);
       setAccess('member');
       setError(null);
     } catch (e) {
+      if (g !== gen.current) return;
       const status = e instanceof api.ApiError ? e.status : 0;
       if (status === 403) setAccess('not-member');
       else if (status === 401) setAccess('signed-out');
@@ -55,8 +61,9 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
   // Work out what this person can see whenever the server mode or the signed-in user changes.
   useEffect(() => {
     if (!mode || sessionPending) return;
+    const g = ++gen.current;
     if (mode === 'local') {
-      refresh('local');
+      refresh('local', g);
       return;
     }
     if (!userId) {
@@ -71,13 +78,18 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     let cancelled = false;
     (async () => {
       try {
-        const status = await api.me();
+        // The session can be mid-refresh right after sign-in; give the check one retry.
+        const status = await api.me().catch(async (e) => {
+          if (!(e instanceof api.ApiError) || e.status !== 401) throw e;
+          await new Promise((r) => setTimeout(r, 1200));
+          return api.me();
+        });
         if (cancelled) return;
         setAdmin(status.admin);
         setBlocked(status.blocked);
-        if (status.member) return refresh('shared');
+        if (status.member) return refresh('shared', g);
         const code = status.blocked ? null : api.pendingInvite();
-        if (code && (await api.join(code))) return refresh('shared');
+        if (code && (await api.join(code))) return refresh('shared', g);
         if (!cancelled) setAccess('not-member');
       } catch (e) {
         if (cancelled) return;

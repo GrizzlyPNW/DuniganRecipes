@@ -113,7 +113,7 @@ export async function join(code: string): Promise<boolean> {
   }
 }
 
-export async function loadAll(mode: Mode): Promise<{ stories: Story[]; recipes: Recipe[] }> {
+export async function loadAll(mode: Mode): Promise<{ stories: Story[]; recipes: Recipe[]; admin?: boolean }> {
   if (mode === 'local') return { stories: read(LOCAL_STORIES, []), recipes: read(LOCAL_RECIPES, []) };
   return call('GET', 'data');
 }
