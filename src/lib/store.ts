@@ -40,9 +40,13 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       setError(null);
     } catch (e) {
       const status = e instanceof api.ApiError ? e.status : 0;
-      if (status === 401) setAccess('signed-out');
-      else if (status === 403) setAccess('not-member');
-      else setError('Couldn’t reach the family box. Check your connection.');
+      if (status === 403) setAccess('not-member');
+      else if (status === 401) setAccess('signed-out');
+      else {
+        // A network blip: keep what we had, but never stay stuck on "loading".
+        setAccess((a) => (a === 'loading' ? 'signed-out' : a));
+        setError('Couldn’t reach the family box. Check your connection.');
+      }
     }
   }, []);
 
@@ -69,8 +73,12 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
         const code = api.pendingInvite();
         if (code && (await api.join(code))) return refresh('shared');
         if (!cancelled) setAccess('not-member');
-      } catch {
-        if (!cancelled) setError('Couldn’t reach the family box. Check your connection.');
+      } catch (e) {
+        if (cancelled) return;
+        // Never leave the app waiting: fall back to the signed-out view.
+        const status = e instanceof api.ApiError ? e.status : 0;
+        setAccess(status === 403 ? 'not-member' : 'signed-out');
+        if (status !== 401) setError('Couldn’t reach the family box. Check your connection.');
       }
     })();
     return () => {

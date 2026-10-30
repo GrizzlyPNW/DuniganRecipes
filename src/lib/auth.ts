@@ -11,17 +11,39 @@ export function signInWithGoogle() {
   return authClient.signIn.social({ provider: 'google', callbackURL: location.origin + '/' + location.hash });
 }
 
-// Tokens last 15 minutes; reuse one for up to 10.
-let cached: { token: string; at: number } | null = null;
-export async function getToken(): Promise<string | null> {
-  if (cached && Date.now() - cached.at < 10 * 60_000) return cached.token;
+const isJwt = (t: unknown): t is string => typeof t === 'string' && t.split('.').length === 3;
+
+/** Seconds-since-epoch expiry from a JWT, or 0. */
+function expiry(jwt: string) {
   try {
-    const { data } = await authClient.token();
-    cached = data?.token ? { token: data.token, at: Date.now() } : null;
+    return JSON.parse(atob(jwt.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp || 0;
   } catch {
-    cached = null;
+    return 0;
   }
-  return cached?.token ?? null;
+}
+
+// Tokens last 15 minutes; reuse one until a minute before it runs out.
+let cached: string | null = null;
+export async function getToken(): Promise<string | null> {
+  if (cached && expiry(cached) * 1000 - Date.now() > 60_000) return cached;
+  cached = null;
+  try {
+    // Neon's client puts the signed JWT on the session it returns.
+    const { data } = await authClient.getSession();
+    const t = (data?.session as { token?: string } | undefined)?.token;
+    if (isJwt(t)) cached = t;
+  } catch {
+    /* fall through */
+  }
+  if (!cached) {
+    try {
+      const { data } = await authClient.token();
+      if (isJwt(data?.token)) cached = data!.token;
+    } catch {
+      /* not signed in */
+    }
+  }
+  return cached;
 }
 
 export async function signOut() {

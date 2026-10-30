@@ -189,12 +189,18 @@ export function AccessGate({ fam, toast, what }: { fam: Family; toast: (t: strin
 export function LoadingScreen({ done }: { done: boolean }) {
   // Keep the screen up for a moment so it reads as a welcome, then fade it out.
   const [minTime, setMinTime] = useState(false);
+  const [maxTime, setMaxTime] = useState(false);
   const [gone, setGone] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setMinTime(true), 1200);
-    return () => clearTimeout(t);
+    const a = setTimeout(() => setMinTime(true), 1200);
+    // Safety net: never hold the app behind the logo for more than 8 seconds.
+    const b = setTimeout(() => setMaxTime(true), 8000);
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
   }, []);
-  const leaving = done && minTime;
+  const leaving = (done && minTime) || maxTime;
   useEffect(() => {
     if (!leaving) return;
     const t = setTimeout(() => setGone(true), 450);
