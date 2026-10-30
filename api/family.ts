@@ -12,7 +12,7 @@ interface User {
   name: string;
   email: string;
   image: string | null;
-  /** Set with `neon neon-auth user set-role <id> --roles admin`; it rides in the signed token. */
+  /** Set with `neon neon-auth user set-role <id> --roles admin`; read from neon_auth.user. */
   admin: boolean;
 }
 
@@ -82,17 +82,33 @@ async function currentUser(req: Request): Promise<User | null> {
     const p = payload as Record<string, unknown>;
     const id = String(p.sub || p.id || '');
     if (!id) return null;
-    const roles = String(p.role || '').split(',').map((r) => r.trim());
     return {
       id,
       name: String(p.name || p.email || 'Family member'),
       email: String(p.email || ''),
       image: typeof p.image === 'string' ? p.image : null,
-      admin: roles.includes('admin'),
+      admin: false, // filled in from the database by loadRole()
     };
   } catch {
     return null;
   }
+}
+
+/**
+ * The token's `role` claim is the Postgres role ("authenticated"), not the app role,
+ * so read the Neon Auth user role from the database (set with `neon neon-auth user set-role`).
+ */
+async function loadRole(sql: Sql, user: User) {
+  try {
+    const rows = (await sql`select role from neon_auth."user" where id::text = ${user.id}`) as { role: string | null }[];
+    user.admin = String(rows[0]?.role || '')
+      .split(',')
+      .map((r) => r.trim())
+      .includes('admin');
+  } catch {
+    user.admin = false;
+  }
+  return user;
 }
 
 async function addMember(sql: Sql, user: User) {
@@ -120,6 +136,7 @@ async function requireMember(req: Request, sql: Sql): Promise<User | Response> {
   const user = await currentUser(req);
   if (!user) return json({ error: 'Please sign in first' }, 401);
   await ensureSchema(sql);
+  await loadRole(sql, user);
   const state = await memberState(sql, user);
   if (state === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
   if (state === 'none') return json({ error: 'Join the family with the invite link or family code' }, 403);
@@ -145,6 +162,7 @@ export async function GET(req: Request) {
     const user = await currentUser(req);
     if (!user) return json({ error: 'Please sign in first' }, 401);
     await ensureSchema(sql);
+    await loadRole(sql, user);
     const state = await memberState(sql, user);
     return json({ user, member: state === 'member', blocked: state === 'blocked', admin: user.admin });
   }
@@ -206,6 +224,7 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => ({}));
     if (!codeOk(body.code)) return json({ error: 'That code didn’t match' }, 403);
     await ensureSchema(sql);
+    await loadRole(sql, user);
     if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
     await addMember(sql, user);
     return json({ ok: true });
