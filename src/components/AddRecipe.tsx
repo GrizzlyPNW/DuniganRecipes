@@ -5,14 +5,31 @@ import { back, replace } from '../lib/router';
 import { compressImage } from '../lib/image';
 import { lines, makeContributor, newId } from '../lib/util';
 import type { Recipe } from '../types';
+import { AccessGate } from './Account';
 
-export function AddChooser() {
+export function AddChooser({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
   return (
     <div className="overlay-page">
       <div className="screen pad">
         <h1 className="h1" style={{ fontSize: 30 }}>
           Add a card to the box
         </h1>
+        {fam.access !== 'member' ? (
+          <AccessGate fam={fam} toast={toast} what="add recipes" />
+        ) : (
+          <AddOptions />
+        )}
+      </div>
+      <button className="cancel" onClick={() => back('')}>
+        Cancel
+      </button>
+    </div>
+  );
+}
+
+function AddOptions() {
+  return (
+    <>
         <button className="big-option dark" onClick={() => replace('new/photo')}>
           <div className="t">Photograph a card</div>
           <div className="s">Shoot the front, then the back. The photos go on the recipe page, and the family can type it up later.</div>
@@ -21,11 +38,7 @@ export function AddChooser() {
           <div className="t">Type it in</div>
           <div className="s">For recipes you know by heart.</div>
         </button>
-      </div>
-      <button className="cancel" onClick={() => back('')}>
-        Cancel
-      </button>
-    </div>
+    </>
   );
 }
 
@@ -109,6 +122,22 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
   }
 
   const setPhoto = (i: number, f: File | null) => setPhotos((p) => p.map((x, j) => (j === i ? f : x)));
+
+  if (fam.access !== 'member') {
+    return (
+      <div className="overlay-page">
+        <div className="screen pad">
+          <h1 className="h1" style={{ fontSize: 30 }}>
+            {heading}
+          </h1>
+          <AccessGate fam={fam} toast={toast} what="add and edit recipes" />
+        </div>
+        <button className="cancel" onClick={() => back(existing ? 'recipe/' + existing.id : '')}>
+          Cancel
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="overlay-page">

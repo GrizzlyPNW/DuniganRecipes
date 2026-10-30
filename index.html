@@ -16,7 +16,13 @@
     <title>The Dunigan Kitchen</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Shown until the app starts; the app's own loading screen takes over seamlessly. -->
+      <div style="position:fixed;inset:0;background:#f7f2e8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px">
+        <img src="/logo.webp" alt="The Dunigan Kitchen" style="width:min(74vw,340px);height:auto" />
+        <div style="font:italic 400 17px Georgia,serif;color:#6f645a">Gathering the recipe cards…</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

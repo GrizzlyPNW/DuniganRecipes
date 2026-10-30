@@ -1,0 +1,218 @@
+import { useEffect, useState } from 'react';
+import type { Family } from '../lib/store';
+import { signInWithGoogle, signOut } from '../lib/auth';
+import { useMe, type Me } from '../lib/session';
+import { initials } from '../lib/util';
+
+/* ---------- Header ---------- */
+
+export function Header({ onMenu, onProfile }: { onMenu: () => void; onProfile: () => void }) {
+  const me = useMe();
+  return (
+    <header className="app-header">
+      <button className="hdr-btn" onClick={onMenu} aria-label="Menu">
+        <span className="burger">
+          <i />
+          <i />
+          <i />
+        </span>
+      </button>
+      <picture className="hdr-logo">
+        <source srcSet="/logo-header.webp" type="image/webp" />
+        <img src="/logo-header.png" alt="The Dunigan Kitchen" />
+      </picture>
+      <button className="hdr-btn" onClick={onProfile} aria-label={me ? 'Your profile' : 'Sign in'}>
+        <ProfileIcon me={me} size={36} />
+      </button>
+    </header>
+  );
+}
+
+export function ProfileIcon({ me, size }: { me: Me | null; size: number }) {
+  const [broken, setBroken] = useState(false);
+  if (me?.image && !broken) {
+    return <img className="pf-img" src={me.image} alt="" width={size} height={size} referrerPolicy="no-referrer" onError={() => setBroken(true)} />;
+  }
+  if (me) {
+    return (
+      <span className="pf-ini" style={{ width: size, height: size, fontSize: size * 0.38 }}>
+        {initials(me.name || me.email)}
+      </span>
+    );
+  }
+  return (
+    <svg className="pf-anon" width={size} height={size} viewBox="0 0 36 36" aria-hidden>
+      <circle cx="18" cy="18" r="17.25" fill="#fffdf8" stroke="rgba(43,37,33,.18)" strokeWidth="1.5" />
+      <circle cx="18" cy="14.5" r="5.5" fill="none" stroke="#2b2521" strokeWidth="1.8" />
+      <path d="M8.5 28.5c1.8-4.6 5.3-6.9 9.5-6.9s7.7 2.3 9.5 6.9" fill="none" stroke="#2b2521" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ---------- Profile panel ---------- */
+
+export function ProfilePanel({ fam, close, toast }: { fam: Family; close: () => void; toast: (t: string) => void }) {
+  const me = useMe();
+  return (
+    <>
+      <div className="scrim" onClick={close} />
+      <div className="drawer drawer-right" role="dialog" aria-label="Profile">
+        <div className="row-between" style={{ alignItems: 'center' }}>
+          <span className="eyebrow">{me ? 'Your profile' : 'Sign in'}</span>
+          <button className="x" onClick={close} aria-label="Close profile">
+            ✕
+          </button>
+        </div>
+
+        {fam.mode === 'local' ? (
+          <p className="lead" style={{ marginTop: 18 }}>
+            The family database isn’t connected here, so everything is saved on this device only.
+          </p>
+        ) : me ? (
+          <>
+            <div className="pf-card">
+              <ProfileIcon me={me} size={64} />
+              <div style={{ minWidth: 0 }}>
+                <div className="pf-name">{me.name}</div>
+                <div className="pf-email">{me.email}</div>
+              </div>
+            </div>
+            {fam.access === 'member' && <div className="pf-status">✓ You’re in the family box. Stories you add are shared with everyone.</div>}
+            {fam.access === 'not-member' && <CodeBox fam={fam} toast={toast} />}
+            <button
+              className="btn btn-outline btn-block"
+              style={{ marginTop: 'auto' }}
+              onClick={async () => {
+                await signOut();
+                close();
+                toast('Signed out');
+              }}
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="lead" style={{ marginTop: 18 }}>
+              Sign in to read and share family stories, add recipe cards, and type up recipes.
+            </p>
+            <GoogleButton />
+            <p className="field-help" style={{ marginTop: 14 }}>
+              Recipes and card photos are open to everyone with the link. Stories are just for the family.
+            </p>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ---------- Sign-in pieces ---------- */
+
+export function GoogleButton({ label = 'Sign in with Google' }: { label?: string }) {
+  const [busy, setBusy] = useState(false);
+  return (
+    <button
+      className="btn btn-block google-btn"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        try {
+          await signInWithGoogle();
+        } finally {
+          setBusy(false);
+        }
+      }}
+    >
+      <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden>
+        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+        <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+        <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+      </svg>
+      {busy ? 'Opening Google…' : label}
+    </button>
+  );
+}
+
+function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
+  const [code, setCode] = useState('');
+  const [busy, setBusy] = useState(false);
+  async function submit() {
+    if (!code.trim()) return toast('Type the family code first');
+    setBusy(true);
+    const ok = await fam.join(code).catch(() => false);
+    setBusy(false);
+    toast(ok ? 'Welcome to the family box' : 'That code didn’t match');
+  }
+  return (
+    <div className="join-box">
+      <div className="t">One more step</div>
+      <p className="field-help" style={{ margin: '4px 0 12px' }}>
+        Open the invite link someone in the family sent you, or type the family code here. You only do this once.
+      </p>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <input
+          className="field"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && submit()}
+          placeholder="Family code"
+          aria-label="Family code"
+          autoCapitalize="off"
+          autoCorrect="off"
+        />
+        <button className="btn btn-accent" onClick={submit} disabled={busy}>
+          {busy ? '…' : 'Join'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Shown where stories or editing would be, for people who can't use them yet. */
+export function AccessGate({ fam, toast, what }: { fam: Family; toast: (t: string) => void; what: string }) {
+  if (fam.access === 'not-member') return <CodeBox fam={fam} toast={toast} />;
+  return (
+    <div className="join-box">
+      <div className="t">Sign in to {what}</div>
+      <p className="field-help" style={{ margin: '4px 0 12px' }}>
+        Family stories and editing are just for the family. Sign in with your Google account to join in.
+      </p>
+      <GoogleButton />
+    </div>
+  );
+}
+
+/* ---------- Loading screen ---------- */
+
+export function LoadingScreen({ done }: { done: boolean }) {
+  // Keep the screen up for a moment so it reads as a welcome, then fade it out.
+  const [minTime, setMinTime] = useState(false);
+  const [gone, setGone] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setMinTime(true), 1200);
+    return () => clearTimeout(t);
+  }, []);
+  const leaving = done && minTime;
+  useEffect(() => {
+    if (!leaving) return;
+    const t = setTimeout(() => setGone(true), 450);
+    return () => clearTimeout(t);
+  }, [leaving]);
+  if (gone) return null;
+  return (
+    <div className={'loading-screen' + (leaving ? ' leaving' : '')} role="status" aria-label="Loading">
+      <picture>
+        <source srcSet="/logo.webp" type="image/webp" />
+        <img className="ls-logo" src="/logo.png" alt="The Dunigan Kitchen" />
+      </picture>
+      <div className="ls-dots" aria-hidden>
+        <i />
+        <i />
+        <i />
+      </div>
+      <div className="ls-text">Gathering the recipe cards…</div>
+    </div>
+  );
+}

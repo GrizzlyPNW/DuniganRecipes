@@ -28,8 +28,9 @@ export function Home({ fam, f, setF }: { fam: Family; f: Filters; setF: (f: Filt
   return (
     <div className="screen with-tabs">
       <div className="pad">
-        <div className="eyebrow">The Dunigan Kitchen</div>
-        <h1 className="h1">What are we cooking today?</h1>
+        <h1 className="h1" style={{ marginTop: 0 }}>
+          What are we cooking today?
+        </h1>
         <label className="search">
           <span className="lens" />
           <input

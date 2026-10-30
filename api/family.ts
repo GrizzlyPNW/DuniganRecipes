@@ -1,10 +1,22 @@
 // One Vercel function for everything shared: stories, recipe edits and card photo uploads.
-// Every read and write needs the family code (FAMILY_CODE env var), sent as the x-family-code header.
+// People sign in with Google (Neon Auth). A signed-in person becomes a family member once,
+// by opening the invite link or typing the family code (FAMILY_CODE env var).
 import { neon } from '@neondatabase/serverless';
 import { put } from '@vercel/blob';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { timingSafeEqual, randomUUID } from 'node:crypto';
 
 type Sql = ReturnType<typeof neon>;
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+}
+
+const AUTH_BASE =
+  process.env.NEON_AUTH_BASE_URL || 'https://ep-rapid-unit-aru1y562.neonauth.c-4.us-west-2.aws.neon.tech/neondb/auth';
+const JWKS = createRemoteJWKSet(new URL(process.env.NEON_AUTH_JWKS_URL || AUTH_BASE + '/.well-known/jwks.json'));
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -27,12 +39,20 @@ function ensureSchema(sql: Sql) {
       text text not null,
       created_at timestamptz not null default now()
     )`;
+    await sql`alter table stories add column if not exists author_id text`;
     await sql`create index if not exists stories_recipe_idx on stories (recipe_id)`;
     await sql`create table if not exists recipe_edits (
       id text primary key,
       data jsonb not null,
       updated_by text,
       updated_at timestamptz not null default now()
+    )`;
+    await sql`create table if not exists members (
+      user_id text primary key,
+      email text,
+      name text,
+      image text,
+      joined_at timestamptz not null default now()
     )`;
   })().catch((e) => {
     schemaReady = null;
@@ -41,15 +61,49 @@ function ensureSchema(sql: Sql) {
   return schemaReady;
 }
 
-function codeOk(given: string | null) {
+function codeOk(given: unknown) {
   const want = process.env.FAMILY_CODE;
-  if (!want || !given) return false;
+  if (!want || typeof given !== 'string' || !given) return false;
   const a = Buffer.from(given.trim());
-  const b = Buffer.from(want);
+  const b = Buffer.from(want.trim());
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+/** The signed-in Google user, from the Neon Auth token in the Authorization header. */
+async function currentUser(req: Request): Promise<User | null> {
+  const h = req.headers.get('authorization') || '';
+  if (!h.startsWith('Bearer ')) return null;
+  try {
+    const { payload } = await jwtVerify(h.slice(7), JWKS);
+    const p = payload as Record<string, unknown>;
+    const id = String(p.sub || p.id || '');
+    if (!id) return null;
+    return {
+      id,
+      name: String(p.name || p.email || 'Family member'),
+      email: String(p.email || ''),
+      image: typeof p.image === 'string' ? p.image : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function isMember(sql: Sql, userId: string) {
+  const rows = (await sql`select 1 from members where user_id = ${userId}`) as unknown[];
+  return rows.length > 0;
+}
+
 const clip = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+
+/** Signed in + family member, or an error response. */
+async function requireMember(req: Request, sql: Sql): Promise<User | Response> {
+  const user = await currentUser(req);
+  if (!user) return json({ error: 'Please sign in first' }, 401);
+  await ensureSchema(sql);
+  if (!(await isMember(sql, user.id))) return json({ error: 'Join the family with the invite link or family code' }, 403);
+  return user;
+}
 
 export async function GET(req: Request) {
   const op = new URL(req.url).searchParams.get('op');
@@ -59,17 +113,25 @@ export async function GET(req: Request) {
     return json({ shared: !!sql && !!process.env.FAMILY_CODE, photos: !!process.env.BLOB_READ_WRITE_TOKEN });
   }
   if (!sql) return json({ error: 'No database connected' }, 503);
-  if (!codeOk(req.headers.get('x-family-code'))) return json({ error: 'Family code needed' }, 401);
+
+  if (op === 'me') {
+    const user = await currentUser(req);
+    if (!user) return json({ error: 'Please sign in first' }, 401);
+    await ensureSchema(sql);
+    return json({ user, member: await isMember(sql, user.id) });
+  }
 
   if (op === 'data') {
-    await ensureSchema(sql);
-    const stories = (await sql`select id, recipe_id, author_name, text, created_at from stories order by created_at asc`) as any[];
+    const who = await requireMember(req, sql);
+    if (who instanceof Response) return who;
+    const stories = (await sql`select id, recipe_id, author_name, author_id, text, created_at from stories order by created_at asc`) as any[];
     const edits = (await sql`select data from recipe_edits order by updated_at asc`) as any[];
     return json({
       stories: stories.map((s) => ({
         id: s.id,
         recipeId: s.recipe_id,
         authorName: s.author_name,
+        authorId: s.author_id,
         text: s.text,
         createdAt: new Date(s.created_at).getTime(),
       })),
@@ -81,14 +143,22 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const op = new URL(req.url).searchParams.get('op');
+  const sql = db();
+  if (!sql) return json({ error: 'No database connected' }, 503);
 
   if (op === 'join') {
+    const user = await currentUser(req);
+    if (!user) return json({ error: 'Please sign in first' }, 401);
     const body = await req.json().catch(() => ({}));
-    return codeOk(body.code) ? json({ ok: true }) : json({ error: 'That code didn’t match' }, 401);
+    if (!codeOk(body.code)) return json({ error: 'That code didn’t match' }, 403);
+    await ensureSchema(sql);
+    await sql`insert into members (user_id, email, name, image) values (${user.id}, ${user.email}, ${user.name}, ${user.image})
+      on conflict (user_id) do update set email = excluded.email, name = excluded.name, image = excluded.image`;
+    return json({ ok: true });
   }
 
-  const sql = db();
-  if (!codeOk(req.headers.get('x-family-code'))) return json({ error: 'Family code needed' }, 401);
+  const who = await requireMember(req, sql);
+  if (who instanceof Response) return who;
 
   if (op === 'upload') {
     if (!process.env.BLOB_READ_WRITE_TOKEN) return json({ error: 'Photo storage is not connected' }, 503);
@@ -98,19 +168,17 @@ export async function POST(req: Request) {
     return json({ url: blob.url });
   }
 
-  if (!sql) return json({ error: 'No database connected' }, 503);
-  await ensureSchema(sql);
   const body = await req.json().catch(() => null);
   if (!body) return json({ error: 'Bad request' }, 400);
 
   if (op === 'story') {
     const recipeId = clip(body.recipeId, 80);
-    const authorName = clip(body.authorName, 80);
+    const authorName = clip(body.authorName, 80) || who.name;
     const text = clip(body.text, 5000);
-    if (!recipeId || !authorName || !text) return json({ error: 'Name and story are both needed' }, 400);
-    const [row] = (await sql`insert into stories (recipe_id, author_name, text)
-      values (${recipeId}, ${authorName}, ${text}) returning id, created_at`) as any[];
-    return json({ id: row.id, recipeId, authorName, text, createdAt: new Date(row.created_at).getTime() });
+    if (!recipeId || !text) return json({ error: 'Write a few words first' }, 400);
+    const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text)
+      values (${recipeId}, ${authorName}, ${who.id}, ${text}) returning id, created_at`) as any[];
+    return json({ id: row.id, recipeId, authorName, authorId: who.id, text, createdAt: new Date(row.created_at).getTime() });
   }
 
   if (op === 'recipe') {
@@ -119,8 +187,7 @@ export async function POST(req: Request) {
     if (!r || typeof r.id !== 'string' || !clip(r.title, 200) || raw.length > 60_000) {
       return json({ error: 'Recipe is missing a title' }, 400);
     }
-    const by = clip(body.by, 80) || null;
-    await sql`insert into recipe_edits (id, data, updated_by) values (${r.id}, ${raw}::jsonb, ${by})
+    await sql`insert into recipe_edits (id, data, updated_by) values (${r.id}, ${raw}::jsonb, ${who.name})
       on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
     return json({ ok: true });
   }

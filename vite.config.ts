@@ -24,7 +24,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
+        // Sign-in and API requests must always go to the network.
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
             // Card photos: cache as they are viewed so the box works offline.

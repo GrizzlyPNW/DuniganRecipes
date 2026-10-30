@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
-import { savedName } from '../lib/store';
 import { back, go } from '../lib/router';
+import { useMe } from '../lib/session';
+import { AccessGate } from './Account';
 import { isTyped, type Recipe } from '../types';
 import { ago, initials, plural } from '../lib/util';
 import { Avatar } from './bits';
@@ -198,13 +199,17 @@ function Lightbox({ recipe: r, i, setI }: { recipe: Recipe; i: number; setI: (i:
 }
 
 function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast: (t: string) => void }) {
-  const [name, setName] = useState(savedName);
+  const me = useMe();
+  const [name, setName] = useState(me?.name || '');
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
   const list = [...(fam.storiesByRecipe[r.id] || [])].reverse();
   const ready = name.trim() && text.trim();
 
   useEffect(() => setText(''), [r.id]);
+  useEffect(() => {
+    if (me?.name) setName((n) => n || me.name);
+  }, [me?.name]);
 
   async function submit() {
     if (!name.trim()) return toast('Add your name first');
@@ -230,8 +235,8 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
       <p className="lead" style={{ fontSize: 14 }}>
         Who made it, when, and what you remember. Anyone in the family can add one.
       </p>
-      {!fam.joined && fam.mode === 'shared' ? (
-        <JoinBox fam={fam} toast={toast} />
+      {fam.access !== 'member' ? (
+        <AccessGate fam={fam} toast={toast} what="see and share stories" />
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -268,31 +273,5 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
         </>
       )}
     </>
-  );
-}
-
-export function JoinBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
-  const [code, setCode] = useState('');
-  const [busy, setBusy] = useState(false);
-  async function submit() {
-    if (!code.trim()) return toast('Type the family code first');
-    setBusy(true);
-    const ok = await fam.join(code).catch(() => false);
-    setBusy(false);
-    toast(ok ? 'Welcome to the family box' : 'That code didn’t match');
-  }
-  return (
-    <div className="join-box">
-      <div className="t">Join the family to see stories</div>
-      <p className="field-help" style={{ margin: '4px 0 12px' }}>
-        Open the invite link someone in the family sent you, or type the family code here.
-      </p>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <input className="field" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Family code" aria-label="Family code" autoCapitalize="off" />
-        <button className="btn btn-accent" onClick={submit} disabled={busy}>
-          {busy ? '…' : 'Join'}
-        </button>
-      </div>
-    </div>
   );
 }

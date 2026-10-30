@@ -23,16 +23,6 @@ export function TabBar({ tab }: { tab: Tab }) {
   );
 }
 
-export function MenuButton({ onOpen }: { onOpen: () => void }) {
-  return (
-    <button className="round-btn" onClick={onOpen} aria-label="Menu">
-      <i />
-      <i />
-      <i />
-    </button>
-  );
-}
-
 export function Menu({ tab, count, mode, close }: { tab: Tab; count: number; mode: Mode | null; close: () => void }) {
   const items: [string, Tab | 'add', string, string][] = [
     ['', 'home', 'Recipes', count + ' cards in the box'],

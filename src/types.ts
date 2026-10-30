@@ -27,6 +27,7 @@ export interface Story {
   id: string;
   recipeId: string;
   authorName: string;
+  authorId?: string | null;
   text: string;
   createdAt: number;
 }
