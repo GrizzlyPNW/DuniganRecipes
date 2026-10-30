@@ -273,6 +273,7 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
                 Ingredients
               </label>
               <textarea id="f-ing" className="field" rows={7} value={ings} onChange={(e) => setIngs(e.target.value)} placeholder={'One per line\n1 c sugar\n2 eggs'} />
+              <p className="field-help">For a section like a topping, start a line with ## (for example: ## Topping).</p>
             </div>
             <div className="form-group">
               <label className="field-label" htmlFor="f-steps">

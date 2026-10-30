@@ -4,7 +4,7 @@ import { back, go } from '../lib/router';
 import { useMe } from '../lib/session';
 import { AccessGate, Header } from './Account';
 import { AppPortal, Layer } from './Stack';
-import { isTyped, type Recipe } from '../types';
+import { groupName, isGroup, isTyped, type Recipe } from '../types';
 import { ago, initials, makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
 
@@ -122,13 +122,15 @@ export function RecipePage({
               </button>
             )}
           </div>
-          <div className="two-btns">
+          <div className="two-btns" style={r.cardImages.length ? undefined : { gridTemplateColumns: '1fr' }}>
             <button className="btn btn-accent" onClick={() => jump(recipeRef.current)}>
               {typed ? 'Go to recipe ↓' : 'Help type it ↓'}
             </button>
-            <button className="btn btn-outline" onClick={() => jump(cardRef.current)}>
-              See the card ↓
-            </button>
+            {r.cardImages.length > 0 && (
+              <button className="btn btn-outline" onClick={() => jump(cardRef.current)}>
+                See the card ↓
+              </button>
+            )}
           </div>
 
           <Stories fam={fam} recipe={r} toast={toast} />
@@ -154,14 +156,19 @@ export function RecipePage({
                   ))}
                 </div>
               )}
-              {r.note && <div className="card-note">Note on the card: “{r.note}”</div>}
+              {r.note && <div className="card-note">{r.cardImages.length ? `Note on the card: “${r.note}”` : r.note}</div>}
               <div className="row-between" style={{ margin: '24px 0 4px' }}>
                 <h3 className="h3">Ingredients</h3>
                 <span className="meta">
-                  {nChecked} of {r.ingredients!.length} gathered
+                  {nChecked} of {r.ingredients!.filter((t) => !isGroup(t)).length} gathered
                 </span>
               </div>
-              {r.ingredients!.map((t, i) => (
+              {r.ingredients!.map((t, i) =>
+                isGroup(t) ? (
+                  <div key={i} className="ing-group">
+                    {groupName(t)}
+                  </div>
+                ) : (
                 <button
                   key={i}
                   className={'ing' + (checked[i] ? ' on' : '')}
@@ -172,7 +179,8 @@ export function RecipePage({
                   <div className="box">{checked[i] ? '✓' : ''}</div>
                   <span>{t}</span>
                 </button>
-              ))}
+                ),
+              )}
               {r.steps && r.steps.length > 0 && (
                 <>
                   <h3 className="h3" style={{ margin: '28px 0 10px' }}>

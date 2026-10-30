@@ -49,6 +49,96 @@
       "ini": "DO",
       "hue": 160
     },
+    "olyne-unruh": {
+      "name": "Olyne Unruh",
+      "short": "Olyne",
+      "ini": "OU",
+      "hue": 340
+    },
+    "jeff-ashley": {
+      "name": "Jeff Ashley",
+      "short": "Jeff",
+      "ini": "JA",
+      "hue": 100
+    },
+    "amanda-ingraham": {
+      "name": "Amanda Ingraham",
+      "short": "Amanda",
+      "ini": "AI",
+      "hue": 230
+    },
+    "sunny-b": {
+      "name": "Sunny B.",
+      "short": "Sunny",
+      "ini": "SB",
+      "hue": 280
+    },
+    "sharon-m": {
+      "name": "Sharon M.",
+      "short": "Sharon",
+      "ini": "SM",
+      "hue": 180
+    },
+    "elaine-hartly": {
+      "name": "Elaine Hartly",
+      "short": "Elaine",
+      "ini": "EH",
+      "hue": 10
+    },
+    "martel-goins": {
+      "name": "Martel Goins",
+      "short": "Martel",
+      "ini": "MG",
+      "hue": 140
+    },
+    "dornie-goins": {
+      "name": "Dornie Goins",
+      "short": "Dornie",
+      "ini": "DG",
+      "hue": 320
+    },
+    "n-zackette": {
+      "name": "N. Zackette",
+      "short": "N.",
+      "ini": "NZ",
+      "hue": 270
+    },
+    "sharon-champagne": {
+      "name": "Sharon Champagne",
+      "short": "Sharon",
+      "ini": "SC",
+      "hue": 55
+    },
+    "tiffany-jefferson": {
+      "name": "Tiffany Jefferson",
+      "short": "Tiffany",
+      "ini": "TJ",
+      "hue": 210
+    },
+    "deira-goins": {
+      "name": "Deira Goins",
+      "short": "Deira",
+      "ini": "DG",
+      "hue": 300
+    },
+    "emily-d": {
+      "name": "Emily D.",
+      "short": "Emily",
+      "ini": "ED",
+      "hue": 120
+    },
+    "emily-nash": {
+      "name": "Emily Nash",
+      "short": "Emily",
+      "ini": "EN",
+      "hue": 30
+    },
+    "sharon": {
+      "name": "Sharon",
+      "short": "Sharon",
+      "ini": "S",
+      "hue": 260
+    },
     "none": {
       "name": "Not signed yet",
       "short": "Unsigned",
@@ -57,15 +147,20 @@
     }
   },
   "categories": [
+    "Breakfast",
     "Breads & Muffins",
     "Soups & Stews",
     "Main Dishes",
     "Side Dishes",
+    "Salads & Fruit",
+    "Dips & Spreads",
     "Cakes",
     "Pies & Pastries",
     "Cookies & Bars",
     "Candy",
-    "Desserts"
+    "Desserts",
+    "Drinks",
+    "Remedies & More"
   ],
   "recipes": [
     {
@@ -534,12 +629,32 @@
         "/cards/spell-binders-front.jpg",
         "/cards/spell-binders-back.jpg"
       ],
-      "temp": null,
+      "temp": "300°",
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "3 cups all-purpose flour",
+        "3 tsp baking powder",
+        "1 tsp baking soda",
+        "2 cups firmly packed brown sugar",
+        "1 cup butter, softened",
+        "2 eggs",
+        "2 cups quick-cooking rolled oats",
+        "2 cups flaked coconut",
+        "2 cups salted Spanish peanuts",
+        "1 cup plus 2 Tbs finely crushed corn flakes",
+        "## Glaze",
+        "½ Tbs butter",
+        "1 cup powdered sugar",
+        "1 Tbs hot water",
+        "1 tsp vanilla extract"
+      ],
+      "steps": [
+        "Oven 300°. In large mixing bowl combine all ingredients except rolled oats, coconut, peanuts, and corn flakes. Blend well with mixer.",
+        "Stir in rolled oats, coconut, peanuts, and 1 cup corn flake crumbs. Drop by rounded teaspoon onto ungreased cookie sheets.",
+        "Flatten slightly with bottom of glass dipped in remaining 2 Tbs corn flakes. Bake 13 to 15 min. Drizzle with glaze."
+      ]
     },
     {
       "id": "r16",
@@ -549,12 +664,33 @@
       "cardImages": [
         "/cards/applesauce-bars-front.jpg"
       ],
-      "temp": null,
+      "temp": "400°",
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "⅔ cup flour",
+        "1 tsp soda",
+        "¼ tsp salt",
+        "1 tsp cinnamon",
+        "Scant ¼ tsp cloves",
+        "½ tsp nutmeg",
+        "1½ cups sugar",
+        "1 cup shortening",
+        "2 tsp baking soda",
+        "1 cup applesauce",
+        "1 cup raisins",
+        "1 cup coconut",
+        "## Topping",
+        "¼ cup sifted powdered sugar",
+        "¾ tsp vanilla",
+        "¼ tsp salt",
+        "1⅛ Tbsp hot water"
+      ],
+      "steps": [
+        "Sift dry ingredients together. Cream sugar, shortening, and baking soda. Add applesauce. Mix well and then add flour mixture.",
+        "Then add raisins and coconut mixed with 1 Tbsp flour. Bake at 400° for 15–20 min. Put on white hot topping."
+      ]
     },
     {
       "id": "r17",
@@ -568,8 +704,31 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "## Pie Crust",
+        "3 cups flour",
+        "1½ cups shortening",
+        "¾ tsp salt",
+        "3 egg yolks",
+        "1 Tbsp lemon juice",
+        "10 Tbsp water",
+        "## Filling",
+        "Apple slices — enough to cover a large cookie sheet",
+        "1½ cups sugar",
+        "¾ tsp nutmeg",
+        "¾ tsp cinnamon",
+        "¼ tsp salt",
+        "## Glaze",
+        "1½ cups powdered sugar",
+        "1 tsp vanilla",
+        "2 Tbsp butter",
+        "Milk to right consistency"
+      ],
+      "steps": [
+        "Mix together flour, shortening, and salt. Add egg yolks, lemon juice, and water; mix together. Roll ½ of dough into a bottom crust to fit a large cookie sheet.",
+        "Cover crust with a single layer of apple slices. Sprinkle with sugar, nutmeg, cinnamon, and salt. Cover with remaining crust. Bake 30–35 min.",
+        "While warm, drizzle with powdered sugar glaze."
+      ]
     },
     {
       "id": "r18",
@@ -579,12 +738,28 @@
       "cardImages": [
         "/cards/cinnamon-cake.jpg"
       ],
-      "temp": null,
+      "temp": "350°",
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "2 cups cake flour",
+        "1 tsp baking soda",
+        "½ tsp salt",
+        "2 tsp cinnamon",
+        "½ cup shortening",
+        "1¼ cup brown sugar",
+        "2 eggs",
+        "1 cup thick buttermilk"
+      ],
+      "steps": [
+        "Sift flour, measure, and re-sift 3 times with soda, salt, and cinnamon. Combine shortening and cream thoroughly. Gradually blend in the sugar, then add eggs.",
+        "Beat vigorously until mixture is smooth and fluffy.",
+        "Add flour mixture and buttermilk alternately in 3 or 4 portions, beginning and ending with flour, beating well after each addition.",
+        "Turn batter into two 8-inch layer cake pans, buttered on all sides and lined with wax paper on the bottom.",
+        "Bake in a moderate oven at 350° for about 25 minutes or until springy when lightly pressed with fingertips. Turn out on cake rack and cool.",
+        "Sprinkle with powdered sugar or frost."
+      ]
     },
     {
       "id": "r19",
@@ -595,12 +770,29 @@
         "/cards/chocolate-lush-front.jpg",
         "/cards/chocolate-lush-back.jpg"
       ],
-      "temp": null,
+      "temp": "350°",
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "## Mix Together",
+        "1 cup flour",
+        "2 Tbs baking powder",
+        "½ tsp salt",
+        "¾ cup sugar",
+        "2 Tbs cocoa",
+        "## Combine and Add",
+        "2 Tbs oil",
+        "½ cup milk",
+        "1 tsp vanilla",
+        "## Topping",
+        "¾ cup brown sugar, packed",
+        "4 Tbs cocoa",
+        "1¾ cup boiling hot water"
+      ],
+      "steps": [
+        "Mix dry ingredients. Combine oil, milk, and vanilla; mix into dry ingredients. Spread in pan. Pour topping mixture over batter in pan. Bake 45 min at 350°."
+      ]
     },
     {
       "id": "r20",
@@ -615,8 +807,23 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 baked pie crust or 1 graham cracker crust",
+        "1½ sticks butter, melted",
+        "3 cups sugar",
+        "3 lbs cream cheese",
+        "1 Tbsp vanilla",
+        "3 cups peanut butter",
+        "2–3 cups whipping cream",
+        "## Ganache",
+        "14 oz chocolate chips",
+        "1 cup whipping cream"
+      ],
+      "steps": [
+        "Whip butter, sugar, cream cheese, vanilla, and peanut butter together. In a separate bowl, whip 2–3 cups of whipping cream. Fold into whipped mixture. Put into the crust.",
+        "Firm up overnight.",
+        "Ganache: Bring 1 cup whipping cream to almost boil. Pour over chocolate chips. Cover with plastic wrap for 10 min. Whip together. Pour over peanut butter pie."
+      ]
     },
     {
       "id": "r21",
@@ -629,10 +836,23 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "3 dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 cup granulated sugar",
+        "½ cup brown sugar",
+        "½ cup light corn syrup",
+        "1½ cups light cream",
+        "4 Tbsp butter or margarine",
+        "1 tsp vanilla",
+        "½ cup chopped toasted almonds"
+      ],
+      "steps": [
+        "Spread bottom and sides of 9x5x3-inch loaf pan with butter or margarine.",
+        "In 2-quart saucepan, combine granulated sugar, brown sugar, corn syrup, light cream, and the 4 Tbsp butter or margarine.",
+        "Cook and stir over medium heat till sugars dissolve. Continue cooking, stirring occasionally, to firm ball stage (248°). Remove from heat; stir in vanilla and almonds.",
+        "Turn into prepared pan; cool. Cut in squares; wrap each."
+      ]
     },
     {
       "id": "r22",
@@ -645,10 +865,23 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "1¾ pounds candy",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "2 cups sugar",
+        "1 cup canned or dairy eggnog",
+        "1 Tbsp light corn syrup",
+        "2 Tbsp butter or margarine",
+        "1 tsp vanilla",
+        "½ cup chopped candied cherries",
+        "½ cup flaked coconut"
+      ],
+      "steps": [
+        "Butter sides of heavy 3-quart saucepan. In prepared pan combine sugar, eggnog, and corn syrup.",
+        "Cook over medium heat, stirring constantly, till the mixture comes to boiling. Cook to soft ball stage (238°) without stirring.",
+        "Immediately remove from heat; cool to lukewarm (110°) without stirring. Add butter and vanilla.",
+        "Beat vigorously till very thick and candy just starts to lose its gloss, about 8 minutes. Quickly stir in cherries and coconut; pour into buttered 8x4x2-inch loaf pan."
+      ]
     },
     {
       "id": "r23",
@@ -661,10 +894,21 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "4 dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 (12 oz) package butterscotch pieces",
+        "1 (14 oz) can sweetened condensed milk",
+        "1½ cups tiny marshmallows",
+        "⅔ cup chunk-style peanut butter",
+        "1 tsp vanilla",
+        "Dash salt",
+        "1 cup chopped peanuts"
+      ],
+      "steps": [
+        "In saucepan combine butterscotch pieces, milk, and marshmallows. Stir over medium heat till marshmallows melt.",
+        "Remove from heat; beat in peanut butter, vanilla, and dash salt. Stir in nuts. Pour into buttered 9x9x2-inch pan. Chill. Cut in squares. Store in refrigerator."
+      ]
     },
     {
       "id": "r24",
@@ -677,10 +921,22 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "about a dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 cup peanut butter",
+        "½ cup powdered sugar",
+        "¼ cup shredded or flaked coconut",
+        "⅛ cup light corn syrup",
+        "2 cups Cheerios cereal",
+        "1 pkg (5.75 oz) milk chocolate chips",
+        "8 Tbs water"
+      ],
+      "steps": [
+        "Mix peanut butter, powdered sugar, coconut, and corn syrup in medium bowl. Stir in cereal. Shape mixture into 1⅛-inch balls. Flatten slightly.",
+        "Heat chocolate chips and water in saucepan over medium heat, stirring constantly, until melted. Cool. Dip tops of balls into chocolate.",
+        "Place on wax paper-lined cookie sheet. Refrigerate until firm, about 30 minutes. Store in refrigerator."
+      ]
     },
     {
       "id": "r25",
@@ -695,8 +951,18 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "5 envelopes unflavored gelatin",
+        "½ cup sugar",
+        "2 cups desired fruit juice, nectar, or drink (cranberry, grape, orange, or apricot)",
+        "2 Tbsp lemon juice"
+      ],
+      "steps": [
+        "In 1½-quart saucepan combine gelatin and sugar. Add fruit juice; wait 5 minutes. Bring to boiling; reduce heat. Cook and stir till gelatin dissolves. Add lemon juice.",
+        "Pour into shallow pans or paper bake cups. Cool; chill till firm. If desired, loosen sides. Carefully turn out of pans using a wide spatula. Cut with cookie cutters.",
+        "Place on wire rack to dry. Cover pans or store cutouts in single layers between waxed paper in airtight containers up to 5 days. Makes about 24 pieces.",
+        "Cocktail Jelly Candy: Substitute bottled pina colada cocktail mix, daiquiri mix, or mai tai mix for the fruit juice."
+      ]
     },
     {
       "id": "r26",
@@ -709,10 +975,19 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "24 squares, 2x2 inches",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "¼ cup margarine or butter",
+        "1 pkg (10 oz, about 40) regular marshmallows OR 4 cups miniature marshmallows",
+        "6 cups Rice Krispies cereal"
+      ],
+      "steps": [
+        "Melt margarine in large saucepan over low heat. Add marshmallows and stir until completely melted. Remove from heat.",
+        "Add Rice Krispies cereal. Stir until well coated.",
+        "Using buttered spatula or waxed paper, press mixture evenly into buttered 13x9x2-inch pan. Cut into squares when cool.",
+        "Use fresh marshmallows for best results. For thicker squares: Press warm mixture into buttered 9x9x2-inch pan."
+      ]
     },
     {
       "id": "r27",
@@ -723,12 +998,28 @@
         "/cards/chicken-rolls-front.jpg",
         "/cards/chicken-rolls-back.jpg"
       ],
-      "temp": null,
+      "temp": "400°",
       "time": null,
-      "makes": null,
+      "makes": "4 servings",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "2 Tbsp margarine, cut into pieces",
+        "1 cup hot water",
+        "2 cups chicken flavor stuffing mix",
+        "1 sm red pepper, chopped",
+        "1 egg, beaten",
+        "4 boneless skinless chicken breast halves, pounded ¼\" thick",
+        "2 Tbsp melted margarine",
+        "Pepper",
+        "1 can (10¾ oz) condensed cream of mushroom soup",
+        "½ cup water",
+        "½ tsp dill weed"
+      ],
+      "steps": [
+        "Heat oven to 400°F. Stir cut margarine into hot water in bowl until melted. Add stuffing crumbs, red pepper, and egg; stir until moistened.",
+        "Spoon stuffing evenly on chicken; roll tightly. Secure with toothpicks. Place in greased 9\" square baking dish. Brush with melted margarine. Sprinkle with pepper.",
+        "Bake 30–35 min or until cooked through. Heat soup, water, and dill in saucepan. Serve over chicken."
+      ]
     },
     {
       "id": "r28",
@@ -739,12 +1030,30 @@
         "/cards/creamy-ham-and-macaroni-bake-front.jpg",
         "/cards/creamy-ham-and-macaroni-bake-back.jpg"
       ],
-      "temp": null,
+      "temp": "350°",
       "time": null,
-      "makes": null,
+      "makes": "4–6 servings",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 (7 oz) pkg elbow macaroni (2 cups uncooked)",
+        "2 Tbsp margarine or butter",
+        "2 Tbsp flour",
+        "1 tsp salt",
+        "1 tsp parsley flakes",
+        "¾ tsp dry mustard",
+        "¼ tsp pepper",
+        "2 cups milk",
+        "2½ cups shredded cheese",
+        "2 cups diced cooked ham",
+        "1 (6 oz) jar sliced mushrooms, drained",
+        "1 (10 oz) pkg asparagus cuts, thawed and drained",
+        "3 Tbsp dry bread crumbs"
+      ],
+      "steps": [
+        "Prepare macaroni according to pkg directions. Drain. Set aside. Heat oven 350°F. In large saucepan, melt margarine.",
+        "Stir in flour, salt, parsley flakes, dry mustard, and pepper. Blend in milk. Cook, stirring constantly, until thickened and bubbly. Add cheese; stir until melted.",
+        "Add cooked macaroni, ham, and mushrooms; mix well. Pour into buttered 2-qt pan. Sprinkle with bread crumbs. Bake 350°F for 30 min or until bubbly. Refrigerate leftovers."
+      ]
     },
     {
       "id": "r29",
@@ -754,12 +1063,27 @@
       "cardImages": [
         "/cards/oregon-hazelnut-broccoli-front.jpg"
       ],
-      "temp": null,
+      "temp": "400°",
       "time": null,
-      "makes": null,
+      "makes": "6 servings",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "2 (10 oz) pkgs frozen chopped broccoli (or 1½ lbs fresh)",
+        "¼ cup flour",
+        "3 Tbsp margarine",
+        "1 Tbsp powdered chicken stock base",
+        "1½ cups milk",
+        "¼ cup water",
+        "¼ cup butter",
+        "1 cup herb stuffing mix",
+        "1 cup coarsely chopped roasted hazelnuts"
+      ],
+      "steps": [
+        "Cook broccoli until tender; drain thoroughly; put into a buttered 1½-quart casserole.",
+        "In a saucepan, melt ¼ cup butter; blend in flour and chicken stock base to make a smooth paste. Gradually add milk and cook, stirring frequently, until thick and smooth.",
+        "Mix into broccoli. Heat water and remaining ¼ cup butter until butter melts; pour over stuffing mix and hazelnuts and toss. Top broccoli with hazelnut mixture.",
+        "Bake uncovered at 400° for 20 minutes."
+      ]
     },
     {
       "id": "r30",
@@ -770,12 +1094,27 @@
         "/cards/famous-pumpkin-pie-front.jpg",
         "/cards/famous-pumpkin-pie-back.jpg"
       ],
-      "temp": null,
+      "temp": "425°",
       "time": null,
-      "makes": null,
+      "makes": "16 servings · 2 pies",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "2 unbaked 9-inch deep-dish pie shells",
+        "3½ cups granulated sugar",
+        "1 tsp salt",
+        "2 tsp ground cinnamon",
+        "1 tsp ground ginger",
+        "½ tsp ground cloves",
+        "4 eggs",
+        "3½ cups (29 oz can) LIBBY'S Solid Pack Pumpkin",
+        "3 cups (two 12-oz cans) CARNATION Evaporated Milk"
+      ],
+      "steps": [
+        "Combine sugar, salt, cinnamon, ginger, and cloves in medium bowl. Beat eggs lightly in large bowl. Stir in pumpkin and sugar-spice mixture.",
+        "Gradually stir in evaporated milk. Pour into pie shells.",
+        "Bake in preheated 425°F oven for 15 minutes. Reduce temperature to 350°F; bake for 40 to 50 minutes or until knife inserted near center comes out clean.",
+        "Cool on wire rack for 2 hours. Serve immediately or chill (do not freeze)."
+      ]
     },
     {
       "id": "r31",
@@ -790,8 +1129,20 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 pkg (8 oz) semi-sweet chocolate",
+        "½ cup water",
+        "1 pkg (8 oz) cream cheese, softened",
+        "¼ cup sugar",
+        "1 tub (12 oz) Cool Whip",
+        "1 (6 oz) Ready Graham Cracker Crust",
+        "1 cup finely chopped cookies, nuts, mini marshmallows, chocolate chips, or peanut butter chips (or ½ cup jam)"
+      ],
+      "steps": [
+        "Stir chocolate with water over low heat until melted. Cool. Beat cream cheese and sugar until smooth; add chocolate. Fold in 3½ cups whipped topping.",
+        "Spoon half the mixture into crust. Sprinkle with filling, pressing down gently. Spread remaining chocolate mixture carefully over filling. Chill 3 hrs.",
+        "Garnish with remaining whipped topping."
+      ]
     },
     {
       "id": "r32",
@@ -801,12 +1152,27 @@
       "cardImages": [
         "/cards/chocolate-chip-pudding-cookies-front.jpg"
       ],
-      "temp": null,
+      "temp": "375°",
       "time": null,
-      "makes": null,
+      "makes": "about 10 dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "3½ cups unsifted all-purpose flour",
+        "1½ tsp baking soda",
+        "1½ cups butter or margarine, softened",
+        "1 cup firmly packed light brown sugar",
+        "½ cup granulated sugar",
+        "1 package (6-serving size) JELL-O Instant Pudding — Butter Pecan, Chocolate, or Vanilla flavor",
+        "1½ tsp vanilla",
+        "3 eggs",
+        "3 cups chocolate chips",
+        "1½ cups chopped nuts (optional)"
+      ],
+      "steps": [
+        "Mix flour with baking soda. Combine butter, the sugars, pudding mix, and vanilla in a large mixer bowl; beat until smooth and creamy.",
+        "Gradually add flour mixture; then stir in chips and nuts. Drop by rounded measuring teaspoonfuls onto ungreased cookie sheets, about 2 inches apart.",
+        "Bake at 375° for 8 to 10 minutes."
+      ]
     },
     {
       "id": "r33",
@@ -819,10 +1185,20 @@
       ],
       "temp": null,
       "time": null,
-      "makes": null,
+      "makes": "12 sandwiches",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "½ cup corn syrup",
+        "½ cup peanut butter",
+        "4 cups Kellogg's Rice Krispies",
+        "1 pint ice cream, cut into 6 slices"
+      ],
+      "steps": [
+        "In medium-size mixing bowl, stir together corn syrup and peanut butter. Add Rice Krispies cereal; stir until well coated.",
+        "Press mixture evenly in buttered 13x9x2-inch pan. Place in freezer or coldest part of refrigerator until firm.",
+        "Cut cereal mixture into twelve 3-inch squares. Sandwich each slice of ice cream between 2 squares. Freeze until firm.",
+        "Cut each large sandwich in half and wrap individually in foil. Store in freezer until needed."
+      ]
     },
     {
       "id": "r34",
@@ -833,12 +1209,29 @@
         "/cards/mini-kisses-thumbprint-cookies-front.jpg",
         "/cards/mini-kisses-thumbprint-cookies-back.jpg"
       ],
-      "temp": null,
+      "temp": "350°",
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "1 cup (2 sticks) butter or margarine, softened",
+        "⅓ cup sugar",
+        "2 egg yolks",
+        "¼ cup milk",
+        "2 tsp vanilla",
+        "2 cups flour",
+        "⅔ cup cocoa",
+        "½ tsp salt",
+        "1 can (16 oz) Vanilla Frosting, divided into white, red, and green with food coloring",
+        "Hershey Mini Kisses"
+      ],
+      "steps": [
+        "Beat butter, sugar, egg yolks, milk, and vanilla till fluffy. Combine flour, cocoa, and salt; gradually add to butter mixture, beating until well blended.",
+        "Refrigerate dough about 2 hrs.",
+        "Heat oven 350°F. Lightly grease cookie sheet. Shape dough into 1⅛\" balls. Roll in granulated sugar. Place on cookie sheet. Press thumb in center of each cookie.",
+        "Bake 10–12 min. Cool on rack 10 min.",
+        "Frosting: Divide into 3 bowls — white, red, and green. Frost cooled cookies. Place a Mini Kiss on each."
+      ]
     },
     {
       "id": "r35",
@@ -848,12 +1241,29 @@
       "cardImages": [
         "/cards/oregon-hazelnut-raisin-cookies-front.jpg"
       ],
-      "temp": null,
+      "temp": "375°",
       "time": null,
-      "makes": null,
+      "makes": "3 to 4 dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "½ cup shortening",
+        "½ cup sugar",
+        "½ cup brown sugar",
+        "1 egg",
+        "1 tsp baking soda dissolved in 1 Tbsp water",
+        "1 cup raisins",
+        "1 tsp vanilla",
+        "½ cup chopped hazelnuts",
+        "½ tsp salt",
+        "1 cup flour",
+        "½ tsp baking soda",
+        "1 cup oatmeal"
+      ],
+      "steps": [
+        "Cream shortening; add sugars and vanilla, egg, and water. Sift flour, salt, and soda together; add to creamed mixture. Stir in oatmeal, raisins, and hazelnuts.",
+        "Drop by teaspoonfuls onto greased cookie sheet, about 2\" apart. Bake at 375° for 10–12 minutes.",
+        "Toast hazelnuts for full flavor!"
+      ]
     },
     {
       "id": "r36",
@@ -864,12 +1274,29 @@
         "/cards/peanut-butter-fruit-drops-front.jpg",
         "/cards/peanut-butter-fruit-drops-back.jpg"
       ],
-      "temp": null,
+      "temp": "350°",
       "time": null,
-      "makes": null,
+      "makes": "4 dozen",
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "½ cup creamy peanut butter",
+        "¼ cup butter or margarine, softened",
+        "2 eggs",
+        "½ cup honey",
+        "½ cup milk",
+        "2 cups (12 oz) diced mixed candied fruits and peels",
+        "2 cups all-purpose flour",
+        "½ tsp baking powder",
+        "½ tsp baking soda",
+        "½ tsp ground cinnamon",
+        "½ tsp ground nutmeg"
+      ],
+      "steps": [
+        "In bowl beat together peanut butter and butter or margarine. Stir in eggs, honey, and milk till well blended. Stir in candied fruits and peels.",
+        "Stir together flour, baking powder, baking soda, cinnamon, and nutmeg; gradually blend into candied fruit mixture.",
+        "Drop dough by teaspoonfuls 2 inches apart on greased cookie sheet. Bake in a 350° oven for 10 to 12 minutes or till golden brown. Remove to wire rack; cool.",
+        "If desired, top each cookie with additional candied fruit."
+      ]
     },
     {
       "id": "r37",
@@ -884,8 +1311,20 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "4 oz cream cheese, softened",
+        "1 Tbsp milk or half-and-half",
+        "1 Tbsp sugar",
+        "1 tub (8 oz) Cool Whip, thawed",
+        "1 Graham Cracker Crust (6 oz)",
+        "1½ cups cold milk or half-and-half",
+        "2 pkgs (3.4 oz each) Chocolate Instant Pudding"
+      ],
+      "steps": [
+        "Mix cream cheese, 1 Tbsp milk, and sugar in large bowl with wire whisk until smooth. Gently stir in 1½ cups of the whipped topping. Spread on bottom of crust.",
+        "Pour 1½ cups milk into bowl. Add pudding mixes. Beat with wire whisk 1 min. (Mixture will be thick.) Stir in remaining whipped topping. Spread over cream cheese layer.",
+        "Refrigerate 4 hrs or until set. Garnish with remaining whipped topping. Store leftover pie in refrigerator."
+      ]
     },
     {
       "id": "r38",
@@ -900,8 +1339,24 @@
       "time": null,
       "makes": null,
       "note": null,
-      "ingredients": null,
-      "steps": null
+      "ingredients": [
+        "4 oz cream cheese, softened",
+        "1 Tbsp milk or half-and-half",
+        "1 Tbsp sugar",
+        "1½ cups thawed Cool Whip",
+        "1 ready Graham Cracker Crust (6 oz)",
+        "1 cup cold milk or half-and-half",
+        "2 pkgs (4 oz each) instant vanilla pudding",
+        "1 can pumpkin (16 oz)",
+        "1 tsp cinnamon",
+        "½ tsp ginger",
+        "¼ tsp cloves"
+      ],
+      "steps": [
+        "Mix cream cheese, 1 Tbsp milk, and sugar in large bowl with wire whisk until smooth. Gently stir in whipped topping. Spread on bottom of crust. Pour 1 cup milk into bowl.",
+        "Add pudding mixes. Beat with wire whisk 1 min. (Mixture will be thick.) Stir in pumpkin and spices with wire whisk until well mixed. Spread over cream cheese layer.",
+        "Refrigerate 4 hours or until set. Garnish with additional whipped topping if desired. Store leftover pie in refrigerator."
+      ]
     },
     {
       "id": "r39",
@@ -929,6 +1384,3646 @@
         "After 20 min, mix in the other cup of milk.",
         "Stir at least 6–7 times within the first 1½ hours, then cook the remaining hours.",
         "Serve with ice cream or Cool Whip."
+      ]
+    },
+    {
+      "id": "r40",
+      "title": "Breakfast or Anytime Drink",
+      "category": "Breakfast",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "1 serving",
+      "note": null,
+      "ingredients": [
+        "8 oz milk",
+        "1 egg",
+        "¼ tsp vanilla",
+        "2 Tbsp concentrated orange juice"
+      ],
+      "steps": [
+        "Mix together in blender and serve."
+      ]
+    },
+    {
+      "id": "r41",
+      "title": "Belgian Waffles",
+      "category": "Breakfast",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg dry yeast",
+        "2 cups lukewarm water",
+        "4 egg yolks, beaten",
+        "4 egg whites",
+        "1 tsp vanilla",
+        "2 Tbsp sugar",
+        "2½ cups flour",
+        "½ tsp salt",
+        "½ cup melted butter"
+      ],
+      "steps": [
+        "Dissolve yeast in lukewarm water in a mixing bowl. Add beaten egg yolks, vanilla, and mix thoroughly. Stir in flour, sugar, and salt until smooth.",
+        "Add melted butter and mix again. Beat egg whites until they form stiff peaks and fold into batter. Let batter set for ½ hr before baking."
+      ]
+    },
+    {
+      "id": "r42",
+      "title": "Ham and Swiss Quiche",
+      "category": "Breakfast",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 unbaked 9 in deep-dish pie shell",
+        "1 cup (4 oz) shredded Swiss cheese, divided",
+        "1 cup finely chopped, cooked ham",
+        "2 green onions, sliced",
+        "1 can (12 oz) evaporated milk",
+        "3 large eggs",
+        "¼ cup flour",
+        "¼ tsp salt",
+        "⅛ tsp black pepper"
+      ],
+      "steps": [
+        "Sprinkle ½ cup cheese, ham, and green onions into pie crust. Whisk together evaporated milk, eggs, flour, salt, and pepper in large bowl.",
+        "Pour mixture into pie shell; sprinkle with remaining cheese.",
+        "Bake at 350° for 45–50 min. Cool 10 min before serving."
+      ]
+    },
+    {
+      "id": "r43",
+      "title": "Hash Brown Breakfast Casserole",
+      "category": "Breakfast",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb mild ground pork sausage",
+        "1 lb hot ground pork sausage",
+        "1 (30 oz) package frozen hash browns",
+        "1½ tsp salt, divided",
+        "½ tsp pepper",
+        "1 cup shredded Cheddar cheese",
+        "6 large eggs",
+        "2 cups milk"
+      ],
+      "steps": [
+        "Cook sausages in a large skillet over medium-high heat, stirring until crumbled and no longer pink. Drain well.",
+        "Prepare hash browns according to package directions, using ½ tsp salt and pepper.",
+        "Stir together hash browns, sausage, and cheese. Pour into a lightly greased 13x9 inch baking dish.",
+        "Whisk together eggs, milk, and remaining 1 tsp salt. Pour evenly over potato mixture.",
+        "Bake at 350° for 35–40 minutes."
+      ]
+    },
+    {
+      "id": "r44",
+      "title": "Huevos Rancheros Pizza",
+      "category": "Breakfast",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "450°",
+      "time": null,
+      "makes": "4–6 servings",
+      "note": null,
+      "ingredients": [
+        "1 cup pizza sauce",
+        "1 can (4 oz) chopped green chilies, drained",
+        "½ cup chopped scallions",
+        "1 Tbsp finely chopped cilantro or fresh parsley",
+        "2 Tbsp milk",
+        "6 Tbsp butter",
+        "1 Boboli crust (1 large 12\" or 4 small 6\")",
+        "4 eggs, beaten",
+        "1 cup shredded Mozzarella cheese"
+      ],
+      "steps": [
+        "Preheat oven to 450°F. In large bowl combine eggs, chilies, scallions, cilantro, and milk.",
+        "In large skillet melt butter and cook egg mixture until eggs are set, stirring frequently. Place Boboli on baking sheet. Evenly spread pizza sauce over crust.",
+        "Spoon eggs over sauce. Sprinkle with cheese. Bake 10 minutes or until cheese melts."
+      ]
+    },
+    {
+      "id": "r45",
+      "title": "Yorkshire Pudding",
+      "category": "Breakfast",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "425°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 cup flour",
+        "1 cup whole milk or cream",
+        "2 eggs",
+        "½ tsp salt",
+        "3 Tbsp beef or bacon drippings"
+      ],
+      "steps": [
+        "Preheat oven to 425°. Coat a 9x13 pan with drippings. Mix flour, milk, eggs, and salt for 5 min. Cover. Chill for 1 hour. Heat drippings until hot and sizzling.",
+        "Spoon chilled mix (after a quick beating right out of the fridge) onto drippings. Bake 20 min at 425°, lower to 375° and bake another 15 min.",
+        "DO NOT OPEN OVEN until done — no peeking!"
+      ]
+    },
+    {
+      "id": "r46",
+      "title": "Basic Muffins",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": "10–12 muffins",
+      "note": null,
+      "ingredients": [
+        "1¾ cups flour",
+        "¼ cup sugar",
+        "2 tsp baking powder",
+        "½ tsp salt",
+        "1 egg, beaten",
+        "¾ cup milk",
+        "⅓ cup oil"
+      ],
+      "steps": [
+        "Mix dry ingredients. Make well in center. Combine egg, milk, and oil. Add all at once to flour. Stir till moistened. Fill muffin tins ⅔ full. Bake 400° for 20 to 25 min."
+      ]
+    },
+    {
+      "id": "r47",
+      "title": "Candy Cane Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "425°",
+      "time": null,
+      "makes": "10",
+      "note": null,
+      "ingredients": [
+        "2 cups all-purpose flour",
+        "¼ cup packed brown sugar",
+        "2 tsp baking powder",
+        "½ tsp salt",
+        "½ cup butter or margarine",
+        "¼ cup chopped peanuts",
+        "1 beaten egg",
+        "½ cup milk",
+        "Pressurized red and green decorator icing (optional)",
+        "Crushed peppermint candies (optional)",
+        "## Powdered Sugar Icing",
+        "2 cups sifted powdered sugar",
+        "Enough milk to make drizzling consistency"
+      ],
+      "steps": [
+        "Stir together flour, brown sugar, baking powder, and salt. Cut in butter till mixture resembles coarse crumbs. Add nuts. Mix egg and milk.",
+        "Stir into dry mixture just till moistened. On a lightly floured surface pat dough to a 10x7-inch rectangle, ½-inch thick. Cut crosswise into 1-inch strips.",
+        "Twist each strip by holding both ends. Bend 1 end to form a candy cane. Place several inches apart on greased baking sheet. Bake at 425° 10 minutes or till light brown.",
+        "Transfer to rack. Cool. Coat each cane with Powdered Sugar Icing. Decorate with decorator icing, cinnamon candies, or peppermint candies as desired."
+      ]
+    },
+    {
+      "id": "r48",
+      "title": "Cheese Straws",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 cup flour (or whole wheat flour)",
+        "½ tsp salt",
+        "½ tsp ginger",
+        "⅓ cup margarine",
+        "1 cup shredded Cheddar cheese",
+        "¼ cup sesame seeds",
+        "½ tsp Worcestershire sauce",
+        "About 4 Tbsp cold water"
+      ],
+      "steps": [
+        "Sift flour, salt, and ginger into a bowl. Cut in margarine as you would for a pie pastry. Lightly stir in cheese and sesame seeds. Add Worcestershire to the cold water.",
+        "Sprinkle over the flour mixture, tossing with a fork.",
+        "(If dough isn't moistened enough to hold together, add more water.) Form into 2 balls, roll each out on lightly floured board to ⅛\" thickness.",
+        "Cut into strips, squares, circles, or whatever! Place on ungreased sheet and bake at 400° for 10–20 min or till golden brown and crisp."
+      ]
+    },
+    {
+      "id": "r49",
+      "title": "Citrus Nut Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "1 loaf",
+      "note": null,
+      "ingredients": [
+        "2 cups all-purpose flour",
+        "¾ cup sugar",
+        "½ tsp salt",
+        "½ tsp baking soda",
+        "1 beaten egg",
+        "1 Tbsp finely shredded orange peel",
+        "¾ cup orange juice",
+        "¼ tsp finely shredded lemon peel",
+        "2 Tbsp lemon juice",
+        "2 Tbsp cooking oil",
+        "½ cup coarsely chopped walnuts"
+      ],
+      "steps": [
+        "In mixing bowl thoroughly stir together flour, sugar, salt, and baking soda. Combine egg, orange peel and juice, lemon peel and juice, and cooking oil.",
+        "Add egg mixture to dry ingredients, stirring just till dry ingredients are moistened. Fold in nuts. Turn batter into greased 8x4x2-inch loaf pan.",
+        "Bake in 350° oven for 50 to 60 minutes or till done. Cool in pan 10 minutes; remove from pan and cool completely on wire rack.",
+        "Wrap in foil and store overnight before slicing."
+      ]
+    },
+    {
+      "id": "r50",
+      "title": "Festive Three C Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "4 small loaves",
+      "note": null,
+      "ingredients": [
+        "2½ cups all-purpose flour",
+        "1 cup sugar",
+        "1 tsp baking powder",
+        "1 tsp baking soda",
+        "1 tsp ground cinnamon",
+        "½ tsp salt",
+        "3 beaten eggs",
+        "½ cup cooking oil",
+        "½ cup milk",
+        "2 cups shredded carrot",
+        "1 (3½ oz) can flaked coconut (1⅓ cups)",
+        "½ cup chopped maraschino cherries",
+        "½ cup raisins",
+        "½ cup chopped pecans"
+      ],
+      "steps": [
+        "Stir together thoroughly all-purpose flour, sugar, baking powder, baking soda, cinnamon, and salt.",
+        "Combine eggs, oil, and milk; add to the flour mixture and stir just till blended. Stir in shredded carrot, coconut, maraschino cherries, raisins, and pecans.",
+        "Turn into 4 well-greased and floured 16-ounce fruit or vegetable cans. Bake at 350° for 45 to 50 minutes. Remove from cans; cool thoroughly on rack.",
+        "Wrap in foil; store in refrigerator."
+      ]
+    },
+    {
+      "id": "r51",
+      "title": "Honey Oatmeal Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups boiling water",
+        "1 cup oatmeal",
+        "2 pkgs yeast dissolved in ⅓ cup water",
+        "2 Tbsp oil",
+        "½ cup honey",
+        "2½ tsp salt",
+        "2 cups all-purpose flour",
+        "2 cups wheat flour",
+        "2 cups white flour"
+      ],
+      "steps": [
+        "Pour boiling water over oatmeal. Let stand ½ hr. Meanwhile dissolve yeast in ⅓ cup water. Add oil, honey, salt, and yeast to oats. Then add 2 cups flour.",
+        "Next add 2 cups wheat flour and 2 cups white flour. Knead. Raise to double. Punch and divide in half. Make loaves and raise to double. Bake 350° for 50 min."
+      ]
+    },
+    {
+      "id": "r52",
+      "title": "Lemon Tea Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "325°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "⅓ cup melted butter",
+        "1 cup sugar",
+        "2 eggs",
+        "¼ tsp almond extract",
+        "1½ cups flour",
+        "1 tsp baking powder",
+        "1 tsp salt",
+        "½ cup milk",
+        "1 Tbsp grated lemon peel",
+        "½ cup chopped walnuts",
+        "## Glaze",
+        "¼ cup lemon juice",
+        "3 Tbsp sugar"
+      ],
+      "steps": [
+        "Cream butter and sugar together. Add eggs and almond extract. Alternate dry ingredients with milk mixture. Fold in lemon peel and walnuts.",
+        "Bake in greased loaf pan at 325° for 70 min.",
+        "Put on lemon glaze while warm. Let stand 10 min before removing from pan."
+      ]
+    },
+    {
+      "id": "r53",
+      "title": "Mom's Sweet Cornbread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1½ cups flour",
+        "⅔ cup sugar",
+        "½ cup cornmeal",
+        "1 Tbsp baking powder",
+        "½ tsp salt",
+        "1¼ cups milk",
+        "2 large eggs, whisked",
+        "⅓ cup oil",
+        "3 Tbsp butter, melted"
+      ],
+      "steps": [
+        "Preheat oven to 350°F.",
+        "Combine flour, sugar, cornmeal, baking powder, and salt. Set aside.",
+        "In a small bowl, combine milk, whisked eggs, oil, and melted butter. Mix until well blended.",
+        "Add all at once to dry ingredients, stirring until moistened.",
+        "Pour into a greased 8x8 pan, or fill muffin pans ⅔ full.",
+        "Bake cornbread 30–35 min, or muffins 18–20 min."
+      ]
+    },
+    {
+      "id": "r54",
+      "title": "Pennsylvania Dutch Christmas Loaves",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": "4 loaves",
+      "note": null,
+      "ingredients": [
+        "4½ to 5 cups all-purpose flour",
+        "1 package active dry yeast",
+        "1¼ cups milk",
+        "½ cup butter or margarine",
+        "¾ cup sugar",
+        "1 tsp salt",
+        "1 egg, beaten",
+        "¾ cup raisins",
+        "½ cup currants",
+        "⅓ cup finely chopped candied citron",
+        "½ cup finely chopped blanched almonds",
+        "## Glaze",
+        "1 cup sifted powdered sugar",
+        "¼ tsp vanilla",
+        "1 to 2 Tbsp milk"
+      ],
+      "steps": [
+        "In large mixer bowl combine 2 cups of the flour and the yeast. In saucepan heat the milk, butter, sugar, and salt just till warm (115° to 120°).",
+        "Stir into flour with the egg. Beat at low speed for ½ minute, scraping sides of bowl. Beat 3 minutes at high speed. Add raisins, currants, and citron; mix well.",
+        "By hand stir in enough remaining flour to make a moderately soft dough. Turn out onto a lightly floured surface; knead 5 to 8 minutes till smooth and elastic.",
+        "Place in a lightly greased bowl; turn once to grease surface. Cover; let rise in a warm place about 1½ hours or till double. Punch down; divide into 4 portions.",
+        "Shape into 6-inch loaves. Place on greased baking sheet 3 inches apart. Cover; let rise again about 1 hour.",
+        "Bake in 375° oven for 20 to 30 minutes or till loaves sound hollow when lightly tapped. Cool; drizzle with Glaze. Sprinkle almonds on top."
+      ]
+    },
+    {
+      "id": "r55",
+      "title": "Pizza Crust",
+      "category": "Breads & Muffins",
+      "contributor": "olyne-unruh",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg dry yeast",
+        "1 cup warm water",
+        "3 cups flour",
+        "1½ tsp salt",
+        "2 Tbsp soft shortening"
+      ],
+      "steps": [
+        "Dissolve yeast in warm water, let stand. Add ½ of flour to yeast and water. Beat till smooth.",
+        "Add salt and shortening with other half of flour, mix together then beat hard.",
+        "Roll dough into ball, let stand covered for 5–10 min. Grease pans. Divide dough and press into pans. Add topping of any kind. Bake 20–30 min at 375°. Makes 2 pizzas."
+      ]
+    },
+    {
+      "id": "r56",
+      "title": "Pumpkin Muffins",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "½ cup butter",
+        "¾ cup brown sugar",
+        "¼ cup honey",
+        "1 egg",
+        "1 cup canned pumpkin",
+        "1½ cups flour",
+        "1 tsp baking soda",
+        "¼ tsp salt",
+        "½ cup chopped nuts"
+      ],
+      "steps": [
+        "Cream butter and sugar. Add honey, egg, and pumpkin. Mix well. Combine dry ingredients and mix into pumpkin mixture. Add nuts. Bake at 400° for 18 min.",
+        "Dough can be stored in airtight bowl in refrigerator and baked as needed."
+      ]
+    },
+    {
+      "id": "r57",
+      "title": "Scones",
+      "category": "Breads & Muffins",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups flour",
+        "6 Tbsp sugar",
+        "3 tsp baking powder",
+        "½ tsp salt",
+        "6 Tbsp cold butter",
+        "1 egg",
+        "1 cup cream or milk",
+        "½ cup goodies of choice (raisins, dried fruit, chocolate chips, etc.)"
+      ],
+      "steps": [
+        "Mix dry ingredients with spoon. Cut in butter till fine. Beat egg with whisk. Add cream and goodies to egg. Add wet to dry — do not overwork.",
+        "Make 2 balls; place on greased cookie sheet and flatten to 1½\". Brush with egg. Bake 375°F for 12–15 min."
+      ]
+    },
+    {
+      "id": "r58",
+      "title": "Sourdough Biscuits",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 pkgs dry yeast, dissolved in 1 cup warm water",
+        "⅔ cup sugar",
+        "¾ cup oil",
+        "4 cups buttermilk",
+        "4 cups flour, or more if needed",
+        "4 Tbsp salt",
+        "5 tsp baking powder",
+        "1 tsp baking soda"
+      ],
+      "steps": [
+        "Stir well together until oil is blended. Add 4 cups flour or more if needed. Add salt, baking powder, and baking soda. Mix well.",
+        "Dough can be stored in airtight bowl in refrigerator to bake later. Pinch off as needed. Bake in 375° oven for 20 min."
+      ]
+    },
+    {
+      "id": "r59",
+      "title": "Whole Wheat Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg active dry yeast",
+        "¼ cup warm water",
+        "½ cup firmly packed brown sugar",
+        "3 Tbsp shortening",
+        "1 Tbsp salt",
+        "1 cup boiling water",
+        "¾ cup cold water",
+        "1 cup whole wheat flour",
+        "5 to 5½ cups all-purpose flour"
+      ],
+      "steps": [
+        "Soften yeast in warm water in large mixing bowl. Combine brown sugar, shortening, salt, and boiling water. Add cold water; cool to lukewarm. Slowly add yeast.",
+        "Add whole wheat flour, then all-purpose flour to make stiff dough. Knead 7 to 10 min. Place in greased bowl; cover; let rise 2 hours.",
+        "Punch down dough; cover; let rise 30 min. Divide. Put into 2 bread pans; cover. Let rise again 1¼ to 1½ hours. Bake at 350° for 50 to 60 min until golden brown.",
+        "Remove; cool."
+      ]
+    },
+    {
+      "id": "r60",
+      "title": "Yeast Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg dry yeast",
+        "¼ cup warm water",
+        "1 cup hot water",
+        "1 cup cold milk",
+        "4 Tbsp shortening",
+        "3 Tbsp sugar",
+        "4 tsp salt",
+        "5 to 6 cups flour"
+      ],
+      "steps": [
+        "Dissolve yeast in warm water; set aside. Put all other ingredients in a large bowl and mix with an electric mixer.",
+        "Add yeast and 1 cup flour; blend with mixer until smooth. Add another cup of flour and still use mixer.",
+        "After about 2 cups of flour you will have to use a spoon or hands to mix. Rise twice in bowl and once in bread pan. Bake 350° for 45 min to 1 hour depending on loaf size.",
+        "Rolls 20–25 min. Brush with butter after you take out of the oven."
+      ]
+    },
+    {
+      "id": "r61",
+      "title": "Zucchini Bread",
+      "category": "Breads & Muffins",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "1 loaf",
+      "note": null,
+      "ingredients": [
+        "½ cup butter",
+        "1 cup sugar",
+        "2 eggs",
+        "1¾ cups flour",
+        "½ tsp salt",
+        "½ tsp baking soda",
+        "½ tsp nutmeg",
+        "1 cup zucchini, grated",
+        "½ cup nuts",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Cream together butter and sugar. Beat in eggs. Combine dry ingredients in separate bowl. Add ½ of the dry ingredients to creamed mixture.",
+        "Add zucchini — mixture will look curdled. Add remaining dry ingredients, nuts, and vanilla. Mix well. Pour into greased loaf pan. Bake 50–60 min."
+      ]
+    },
+    {
+      "id": "r62",
+      "title": "Big Rock Candy Mountain Stew",
+      "category": "Soups & Stews",
+      "contributor": "jeff-ashley",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 potatoes",
+        "1 large onion",
+        "1 can cream of celery soup",
+        "3 carrots",
+        "1 lb stew beef",
+        "1 lb country pork sausage",
+        "2 tsp garlic",
+        "4 cups water",
+        "2 green bell peppers",
+        "1 tomato",
+        "1 Tbsp salt",
+        "Tellicherry pepper to taste"
+      ],
+      "steps": [
+        "Brown sausage and beef; drain. Add potatoes, onion, carrots, garlic, water, peppers, and tomatoes. Cook 50 min.",
+        "Serve with a scoop of sour cream on top of your bowl of stew."
+      ]
+    },
+    {
+      "id": "r63",
+      "title": "Carrot Soup with Orange and Tarragon",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": "From Bon Appétit",
+      "ingredients": [
+        "1 Tbsp butter",
+        "1 (1 pound) bag classic-cut peeled carrots",
+        "¾ cup chopped onion",
+        "3 cups low-salt chicken broth",
+        "½ cup orange juice",
+        "1 Tbsp brandy",
+        "2 tsp chopped fresh tarragon",
+        "Fresh tarragon sprigs for garnish"
+      ],
+      "steps": [
+        "Melt butter in heavy large pot over medium heat. Add carrots and onion; sauté until onion is soft, about 8 minutes. Add broth; cover and bring to boil.",
+        "Reduce heat, uncover, and simmer until carrots are tender, about 10 minutes.",
+        "Working in batches, purée soup in blender until very smooth. Return soup to pot. Stir in orange juice, brandy, and chopped tarragon.",
+        "Simmer 5 minutes for flavors to blend. Season to taste with salt and pepper. Garnish soup with tarragon sprigs and serve."
+      ]
+    },
+    {
+      "id": "r64",
+      "title": "Cauliflower Soup",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb cauliflower in florets",
+        "2 pts (6 cups) water or chicken stock",
+        "3 Tbsp butter",
+        "⅓ cup flour",
+        "Pinch of nutmeg or mace",
+        "2 egg yolks",
+        "¼ cup whipping cream",
+        "½ cup breadcrumbs",
+        "2 tsp fresh parsley",
+        "½ Tbsp soft butter",
+        "1 egg, beaten",
+        "Salt and pepper"
+      ],
+      "steps": [
+        "Cook cauliflower in water or stock for 12 min. Remove cauliflower. Save stock.",
+        "Melt butter, stir in flour, cook 1–2 min. Add 2½ cups of stock, stir to blend. Beat egg yolks and add to flour mixture. Add nutmeg.",
+        "Mix dumpling ingredients together — form into balls. Poach in soup 3–5 min before adding cream. Serve with bread."
+      ]
+    },
+    {
+      "id": "r65",
+      "title": "Onion Soup",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "425°",
+      "time": null,
+      "makes": "6 servings",
+      "note": null,
+      "ingredients": [
+        "3 cups onion rings",
+        "2 Tbsp margarine",
+        "2 cans (10¾ oz) condensed beef broth",
+        "2½ cups water",
+        "Dash pepper",
+        "6 slices French bread, toasted",
+        "2 cups shredded Swiss cheese",
+        "2 Tbsp grated Parmesan cheese"
+      ],
+      "steps": [
+        "Sauté onion in margarine in large skillet. Add broth, water, and pepper. Cover, simmer 15 min. Pour soup into six 8 oz oven safe bowls.",
+        "Top with toast, Swiss cheese, and Parmesan. Place in oven at 425° for 10 min or until cheese is melted. Serve immediately."
+      ]
+    },
+    {
+      "id": "r66",
+      "title": "Simple Turkey Chili",
+      "category": "Soups & Stews",
+      "contributor": "amanda-ingraham",
+      "cardImages": [],
+      "temp": null,
+      "time": "Prep: 15 min · Cook: 45 min · Ready in: 1 hr",
+      "makes": null,
+      "note": "\"This is a very simple and hearty chili with plenty of flavor. It's even better the second day! I serve this with lowfat Cheddar cheese and lowfat sour cream. It's also delicious with crackers.\"",
+      "ingredients": [
+        "1½ tsp olive oil",
+        "1 pound ground turkey",
+        "2 onions, chopped",
+        "1 (16 oz) can crushed tomatoes",
+        "1 (28 oz) can kidney beans — drained and rinsed",
+        "2 cups water",
+        "1 Tbsp garlic, minced",
+        "2 Tbsp chili powder",
+        "½ tsp paprika",
+        "½ tsp dried oregano",
+        "½ tsp ground cumin",
+        "½ tsp ground cayenne pepper",
+        "½ tsp salt",
+        "½ tsp ground black pepper"
+      ],
+      "steps": [
+        "Heat the oil in a large pot over medium heat. Place turkey in the pot and cook until evenly brown. Stir in onion and cook until tender.",
+        "Season with chili powder, paprika, oregano, cumin, salt, cayenne pepper, and garlic.",
+        "Pour water into the pot. Mix in tomatoes and kidney beans. Bring to a boil. Reduce heat to low, cover, and simmer 30 minutes."
+      ]
+    },
+    {
+      "id": "r67",
+      "title": "Turkey Chili",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "6 servings",
+      "note": null,
+      "ingredients": [
+        "1 pound ground turkey",
+        "½ cup chopped onion",
+        "½ cup chopped green pepper",
+        "1 clove garlic, minced",
+        "½ cup dried kidney beans, cooked",
+        "1 cup water",
+        "3 medium tomatoes, peeled and chopped",
+        "1 (6 oz) can no-salt-added tomato paste",
+        "1 tsp chili powder",
+        "½ tsp dried oregano leaves",
+        "½ tsp ground cumin",
+        "⅛ tsp ground red pepper",
+        "30 Fat Free Premium Saltine Crackers for serving"
+      ],
+      "steps": [
+        "In large heavy pot, brown turkey; pour off any excess fat. Add onion, green pepper, and garlic; cook 2 minutes, stirring occasionally.",
+        "Add beans, water, tomatoes, tomato paste, chili powder, oregano, cumin, and red pepper; cover. Simmer for 1½ hours, stirring occasionally. Serve hot with crackers."
+      ]
+    },
+    {
+      "id": "r68",
+      "title": "Vegetable Chowder",
+      "category": "Soups & Stews",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "8 servings",
+      "note": null,
+      "ingredients": [
+        "½ cup chopped onion",
+        "2 tsp margarine",
+        "4 cups low-sodium chicken broth",
+        "2 medium carrots, peeled, sliced and halved (about 1 cup)",
+        "2 medium potatoes, peeled and diced (about 2 cups)",
+        "1 cup cut green beans",
+        "1 Tbsp chopped fresh parsley",
+        "1 tsp dried tarragon leaves",
+        "¼ tsp ground black pepper"
+      ],
+      "steps": [
+        "In large saucepan over medium-high heat, cook onion in margarine until tender. Add chicken broth, carrots, potatoes, green beans, parsley, tarragon, and pepper.",
+        "Heat to a boil; reduce heat. Simmer 20 minutes or until vegetables are tender. Serve hot with crackers."
+      ]
+    },
+    {
+      "id": "r69",
+      "title": "Angel Hair with Smoked Salmon in Tomato-Herb Sauce",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "6 oz thinly sliced smoked salmon",
+        "8 oz angel hair (capellini) pasta",
+        "1 large clove garlic, minced",
+        "3 Tbsp olive oil",
+        "2¾ cups seeded and chopped tomatoes (2 medium), divided",
+        "½ cup dry white wine",
+        "3 Tbsp drained large capers",
+        "1½ tsp dill weed",
+        "1½ tsp sweet basil",
+        "1½ tsp freshly grated Parmesan cheese",
+        "Parsley, optional"
+      ],
+      "steps": [
+        "Cut salmon with the grain into ½-inch wide strips; reserve. Cook pasta as package directs.",
+        "Meanwhile in large skillet, stir and cook garlic in hot oil over medium-high heat until golden.",
+        "Add 2 cups tomatoes, wine, capers, dill weed, and basil; stir and cook until mixture is hot. Drain pasta; place in large serving bowl.",
+        "Toss angel hair with tomato mixture. Add salmon and cheese; toss gently. Garnish with remaining tomatoes and parsley if desired."
+      ]
+    },
+    {
+      "id": "r70",
+      "title": "Antipasto Pizza",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "450°",
+      "time": null,
+      "makes": "4–6 servings",
+      "note": null,
+      "ingredients": [
+        "1 Boboli crust (1 large 12\" or 4 small 6\")",
+        "1 cup pizza sauce",
+        "1 cup shredded Mozzarella cheese, divided",
+        "½ cup marinated mushrooms, chopped",
+        "½ cup roasted chopped red peppers",
+        "6 thin salami slices, cut in strips",
+        "16 oz sliced ripe olives",
+        "½ green pepper, cut in strips"
+      ],
+      "steps": [
+        "Preheat oven to 450°. Place Boboli on baking sheet. Top with ½ cup Mozzarella cheese and pizza sauce. Place mushrooms and roasted red peppers on Boboli.",
+        "Garnish with salami strips and olives. Place green pepper strips along edge of Boboli. Sprinkle with remaining cheese. Bake 10 minutes or until cheese melts."
+      ]
+    },
+    {
+      "id": "r71",
+      "title": "Azteca Casserole",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg (8 oz) frozen tortillas, thawed",
+        "3 Tbs vegetable oil",
+        "2 cans (15 oz each) tomato sauce",
+        "1 can (4 oz) chopped green chilies, drained",
+        "¼ tsp cumin",
+        "3 cups shredded, cooked chicken",
+        "1 cup sour cream",
+        "1½ cups grated sharp cheddar cheese"
+      ],
+      "steps": [
+        "Cut tortillas in half. In skillet, heat oil until hot. Add 2 or 3 pieces of tortilla and fry on both sides until crisp. Remove and drain between paper towels.",
+        "Repeat with remaining tortilla pieces, adding oil if necessary.",
+        "Combine tomato sauce, chilies, and cumin. Arrange ⅓ of the tortilla pieces in an overlapping layer on the bottom of a 3-quart casserole.",
+        "Top with half the chicken, a third of the tomato sauce mixture, and sour cream. Repeat layers and top with remaining tortillas, sauce, sour cream, and cheese.",
+        "Bake in preheated 350° for 35 min or until hot. Makes 8 servings."
+      ]
+    },
+    {
+      "id": "r72",
+      "title": "Chicken Broccoli Divan",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "450°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "4 cups cooked broccoli flowerets",
+        "1½ cups cubed cooked chicken",
+        "1 can cream of broccoli soup",
+        "⅓ cup milk",
+        "½ cup shredded Cheddar cheese",
+        "2 Tbsp buttered bread crumbs"
+      ],
+      "steps": [
+        "In 2-qt oblong baking dish arrange broccoli and chicken. Combine soup and milk. Pour over broccoli and chicken. Top with cheese and bread crumbs.",
+        "Bake at 450°F for 20 min or until hot and bubbling. Serves 4."
+      ]
+    },
+    {
+      "id": "r73",
+      "title": "Chicken Over Rice",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": "From Own creation",
+      "ingredients": [
+        "½ bag frozen broccoli",
+        "2 whole skinless boneless chicken breasts",
+        "2 cans cream of chicken soup",
+        "¼ onion, diced",
+        "½ tsp oregano",
+        "Pinch each: onion salt, garlic salt, salt, pepper",
+        "Less than ¼ cup lemon juice",
+        "¼ cup milk"
+      ],
+      "steps": [
+        "Season chicken before frying. Brown onion and chicken (cut in 4ths.) in oil. Mix soups and broccoli, milk, and lemon juice.",
+        "Pour over chicken in frying pan after chicken is browned. Simmer on low 1 to 1½ hours. Serve over rice."
+      ]
+    },
+    {
+      "id": "r74",
+      "title": "Chicken Pot Pie",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "425°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 recipe homemade pie dough (2 crusts)",
+        "1 lb boneless skinless chicken",
+        "⅓ cup butter",
+        "½ cup celery, sliced",
+        "⅓ cup onion, chopped",
+        "⅓ cup flour",
+        "½ tsp salt",
+        "¼ tsp pepper",
+        "¼ tsp celery seed",
+        "½ tsp garlic powder",
+        "1 sprig each rosemary and thyme",
+        "1 tsp chicken bouillon",
+        "1 cup milk",
+        "8 oz veggies (mix of carrots, peas, green beans, corn)",
+        "1 egg",
+        "1 Tbsp milk"
+      ],
+      "steps": [
+        "Cook chicken: Season chicken with salt and pepper. Add the chicken to a large saucepan and cover it with water.",
+        "Bring to a simmer and cook until it's just barely cooked through, then remove the chicken to a plate.",
+        "Allow it to cool for a few minutes before chopping into bite-size pieces. Reserve about 1¾ cups of the water in a measuring cup, and discard the rest.",
+        "Chicken pot pie filling: Add onions, celery, and butter to the saucepan and cook for a few minutes, until soft and translucent.",
+        "Stir in the flour, salt, pepper, garlic powder, bouillon, and celery seed. Slowly stir in the reserved water and milk. Simmer over medium-low heat until thick.",
+        "Add chopped chicken and vegetables. Taste and season with more salt, pepper, bouillon, or garlic powder if needed.",
+        "Allow mixture to cool (so that it's not hot when poured into the pie crust).",
+        "Preheat oven to 425°F.",
+        "Roll out bottom pie crust: Divide pie dough in half. Take one half of dough and place on a lightly floured counter.",
+        "Use a rolling pin to roll dough into a large circle, about 12 inches in diameter. Place in a 9-inch pie pan.",
+        "Assemble: Add cooled chicken pot pie filling. Roll out second pie crust and place over the top of the filling.",
+        "Seal edges of the two crusts together and crimp them, if desired. Use a sharp knife to make a slit in the top pie crust to allow steam to escape.",
+        "Bake for 40–50 minutes, or until the top crust is golden brown and filling is bubbly.",
+        "Rest and serve: Allow to rest 15 min. Serve!"
+      ]
+    },
+    {
+      "id": "r75",
+      "title": "Chicken and Cheese Enchiladas",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "10 soft tortilla shells",
+        "2 cups cooked shredded chicken",
+        "2 cups shredded cheese",
+        "2 Tbs butter",
+        "3 Tbs flour",
+        "2 cups chicken broth",
+        "1 cup sour cream",
+        "1 (4 oz) can diced chilies"
+      ],
+      "steps": [
+        "Preheat oven to 350°. Grease 9x13 pan. Mix chicken and half the cheese. Roll up in tortillas and place in pan.",
+        "In sauce pan, melt butter, stir in flour and cook 1 min. Add broth and whisk until smooth. Heat over med heat until thick and bubbly. Stir in sour cream and chilies.",
+        "Pour over enchiladas and top with remaining cheese. Bake 22 min covered — remove cover and cook 3 min more."
+      ]
+    },
+    {
+      "id": "r76",
+      "title": "Enchilada Pie",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "¼ cup salad oil",
+        "2 tsp chili powder",
+        "1 onion, chopped",
+        "2 (8 oz) cans tomato sauce",
+        "6 or 8 tortillas",
+        "1 cup beef stock or water",
+        "1 clove garlic, minced",
+        "1 lb hamburger",
+        "2 Tbsp flour",
+        "1 can chopped olives",
+        "1 cup grated cheese"
+      ],
+      "steps": [
+        "Sauté onions and garlic in oil until brown. Add burger and cook until brown. Sprinkle flour over meat and stir until well blended.",
+        "Add tomato sauce, stock or water, olives, chili powder, salt, and pepper to taste. Simmer 20 min.",
+        "Cover bottom of casserole with sauce. Place tortillas on sauce and cover with more sauce and shredded cheese. Repeat until all is used up, ending with cheese.",
+        "Bake in oven at 350° for 45 min. Can also put chopped green onions on when you add cheese."
+      ]
+    },
+    {
+      "id": "r77",
+      "title": "Foolproof Swiss Steak",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "1 Reynolds Oven Bag, large size (14\" x 20\")",
+        "2 Tbsp flour",
+        "2 cans (14½ oz) Italian stewed tomatoes",
+        "2 tsp sugar",
+        "1 tsp prepared mustard",
+        "½ tsp salt",
+        "¼ tsp pepper",
+        "1 to 1½ pounds boneless beef round steak, ½-inch thick"
+      ],
+      "steps": [
+        "Preheat oven to 350°F. Shake flour in Reynolds Oven Bag; place in 13x9x2-inch baking pan. Add tomatoes, sugar, mustard, salt, and pepper to oven bag.",
+        "Squeeze bag to blend in flour. Pound steak to ⅛ to ¼-inch thickness. Cut steak in 4 pieces. Add steak to oven bag. Turn bag to coat steak with sauce.",
+        "Arrange steak in an even layer. Close bag with nylon tie; cut six ½-inch slits in top. Bake 45 to 50 minutes or until steak is tender."
+      ]
+    },
+    {
+      "id": "r78",
+      "title": "Impossible Cheeseburger Pie",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb ground beef",
+        "1 cup chopped onion",
+        "½ tsp salt",
+        "1 cup shredded Cheddar cheese",
+        "1 cup milk",
+        "½ cup Bisquick baking mix",
+        "2 eggs"
+      ],
+      "steps": [
+        "Heat oven to 400°. Cook ground beef and onions; drain. Stir in salt. Spread in greased 9\" pie plate; sprinkle with cheese.",
+        "Stir remaining ingredients with fork until blended. Pour into plate. Bake 25 min or until knife inserted in center comes out clean."
+      ]
+    },
+    {
+      "id": "r79",
+      "title": "Italian Sausage and Mushroom Pizza",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "450°",
+      "time": null,
+      "makes": "4–6 servings",
+      "note": null,
+      "ingredients": [
+        "¾ pound Italian sausage, thinly sliced",
+        "1 small onion, chopped",
+        "1½ cups sliced mushrooms",
+        "1 jar (14 oz) pizza sauce",
+        "1 cup shredded Mozzarella cheese",
+        "1 Boboli crust (1 large 12\" or 4 small 6\")",
+        "Green pepper slices"
+      ],
+      "steps": [
+        "Preheat oven to 450°F. In large skillet, lightly brown sausage. Add onion and mushrooms and cook until vegetables are tender, about 5 min. Drain excess fat.",
+        "Add pizza sauce; simmer 15 minutes. Place Boboli on baking sheet. Evenly spoon sausage, mushrooms, and green pepper slices over Boboli. Sprinkle with Mozzarella cheese.",
+        "Bake 10 minutes or until cheese melts."
+      ]
+    },
+    {
+      "id": "r80",
+      "title": "Make It Easy Chicken",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "1 Reynolds Oven Bag, large size (14\" x 20\")",
+        "2 Tbsp flour",
+        "1 envelope golden onion soup mix",
+        "1 cup water",
+        "3 medium carrots, cut in chunks",
+        "2 medium red potatoes, cut in wedges",
+        "1 medium green bell pepper, cubed",
+        "6 chicken pieces, skin removed",
+        "Seasoned salt and pepper"
+      ],
+      "steps": [
+        "Preheat oven to 350°F. Shake flour in Reynolds Oven Bag; place in 13x9x2-inch baking pan. Add onion soup mix and water to oven bag. Squeeze bag to blend in flour.",
+        "Add carrots, potatoes, and green pepper; turn bag to coat vegetables with sauce. Sprinkle chicken with seasonings; add to oven bag.",
+        "Arrange chicken and vegetables in an even layer. Close bag with nylon tie; cut six ½-inch slits in top. Bake 55 to 60 minutes or until chicken is tender."
+      ]
+    },
+    {
+      "id": "r81",
+      "title": "Meatballs with Rice",
+      "category": "Main Dishes",
+      "contributor": "sunny-b",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 egg, beaten",
+        "1 can tomato soup",
+        "¼ cup uncooked rice",
+        "2 Tbsp onion, chopped",
+        "1 Tbsp parsley, chopped",
+        "1 lb ground beef",
+        "1 tsp Worcestershire sauce",
+        "½ tsp salt",
+        "⅛ tsp pepper"
+      ],
+      "steps": [
+        "In bowl beat egg and add ¼ cup of the tomato soup. Stir in rice, onion, parsley, ground beef, Worcestershire sauce, salt, and pepper. Make into meatballs.",
+        "In small bowl stir together remaining soup and ½ cup water. Pour over meatballs in frying pan. Bring to boil, reduce heat and simmer 35–40 min."
+      ]
+    },
+    {
+      "id": "r82",
+      "title": "Mexican Chicken Casserole",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "Meat from 1 chicken",
+        "12 tortillas",
+        "1 can cream of mushroom soup",
+        "1 can cream of chicken soup",
+        "1 cup milk",
+        "1 jar green chili salsa",
+        "1 onion"
+      ],
+      "steps": [
+        "Mix soups, milk, and salsa together. Layer tortillas — chicken — sauce — tortillas — chicken — sauce — tortillas — chicken — sauce. Top with cheese.",
+        "Bake at 350° for 1 hour."
+      ]
+    },
+    {
+      "id": "r83",
+      "title": "Northwest Hazelnut Turkey Casserole",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "6 servings",
+      "note": null,
+      "ingredients": [
+        "2 Tbsp butter",
+        "1 cup coarsely chopped hazelnuts",
+        "½ green pepper, diced",
+        "1 can (10½ oz) condensed cream of celery soup",
+        "½ cup milk",
+        "2 cups cooked turkey, diced",
+        "1 Tbsp pimiento, chopped",
+        "8 oz egg noodles, cooked",
+        "Parsley for garnish"
+      ],
+      "steps": [
+        "Melt butter in small skillet; add hazelnuts and green pepper; cook until hazelnuts are toasted and pepper is tender.",
+        "Mix together celery soup, milk, turkey, pimiento, salt, and ¾ of the hazelnut-green pepper mixture. Pour into a buttered 1½ qt casserole.",
+        "Top with remaining hazelnut-pepper mixture. Bake at 350° for 15–20 min or microwave covered on full power for 8–10 min. Garnish with parsley; serve over cooked noodles.",
+        "Toast hazelnuts for full flavor!"
+      ]
+    },
+    {
+      "id": "r84",
+      "title": "Pasta with Spinach Pesto",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "2 cups torn packed fresh spinach leaves (about 4 oz)",
+        "½ cup olive oil",
+        "½ cup freshly grated Parmesan cheese",
+        "3 Tbsp sweet basil",
+        "4 tsp garlic powder",
+        "2 large garlic cloves, sliced",
+        "½ cup pine nuts or slivered almonds",
+        "12 oz penne or other tubular pasta",
+        "Salt to taste",
+        "Additional Parmesan cheese, optional"
+      ],
+      "steps": [
+        "In food processor or blender, place spinach, oil, cheese, basil, garlic powder, garlic, and pine nuts. Pulse on-and-off until almost smooth; reserve.",
+        "Prepare pasta as package directs; drain. Toss pesto with hot pasta. Season with salt. To serve, sprinkle with remaining pine nuts and additional cheese if desired."
+      ]
+    },
+    {
+      "id": "r85",
+      "title": "Pizza",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "500°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "## Crust",
+        "1½ cups flour",
+        ".3 oz yeast",
+        "1 Tbs warm water",
+        "1 egg",
+        "1 tsp salt",
+        "1 Tbs oil",
+        "A little more water as needed",
+        "Oregano, garlic, rosemary to taste",
+        "## Topping",
+        "8 oz ground chicken",
+        "1½ cups (12 oz) tomatoes, chopped",
+        "1 pimiento pepper",
+        "Oregano and black pepper to taste",
+        "Thin slices of lowfat Mozzarella cheese",
+        "Fresh parsley"
+      ],
+      "steps": [
+        "Mix crust ingredients thoroughly. Place in bowl and let rise. Punch down. Work into circle. Let rest 10 min. Place in 500° oven for 3–4 min.",
+        "Spread topping onto crust. Add thin slices of lowfat Mozzarella cheese on top. Bake at 500° till done. Garnish with parsley. Brush sides with milk."
+      ]
+    },
+    {
+      "id": "r86",
+      "title": "Sautéed Chicken with Tomato-Saffron Vinaigrette on Frisée",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": "From Bon Appétit",
+      "ingredients": [
+        "3 Tbsp white balsamic vinegar or rice vinegar",
+        "1½ tsp hot paprika, divided",
+        "⅛ tsp crumbled saffron",
+        "4 Tbsp extra-virgin olive oil, divided",
+        "½ cup minced shallots",
+        "2 Tbsp chopped fresh thyme, divided",
+        "1 pint basket cherry tomatoes, halved",
+        "4 skinless boneless chicken breast halves",
+        "1 head of frisée, torn apart"
+      ],
+      "steps": [
+        "Mix vinegar, ½ tsp paprika, and saffron in medium bowl. Mix in 3 Tbsp oil, shallots, and 1 Tbsp thyme. Stir in tomatoes. Season to taste with salt and pepper.",
+        "Heat remaining 1 Tbsp oil in large nonstick skillet over medium-high heat. Sprinkle chicken with remaining 1 tsp paprika, 1 Tbsp thyme, and salt and pepper.",
+        "Add to skillet; sauté until cooked through, turning often, about 12 minutes. Transfer chicken to work surface. Divide frisée among 4 plates.",
+        "Slice chicken; fan atop frisée. Spoon vinaigrette over."
+      ]
+    },
+    {
+      "id": "r87",
+      "title": "Slow Cooker Lasagna",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb Italian sausage",
+        "1 med onion, chopped (½ cup)",
+        "3 cans (15 oz) Italian-style tomato sauce",
+        "2 tsp dried basil leaves",
+        "½ tsp salt",
+        "2 cups shredded Mozzarella cheese (8 oz)",
+        "1 cont. (15 oz) skim ricotta cheese",
+        "1 cup grated Parmesan cheese",
+        "15 uncooked lasagna noodles"
+      ],
+      "steps": [
+        "Cook sausage and onion in skillet 6–8 min, till done. Stir in tomato sauce, basil, and salt. Mix 1 cup Mozzarella, the ricotta, and Parmesan cheese.",
+        "Refrigerate remaining.",
+        "Spoon ¼ sausage mix into slow cooker. Top with 5 noodles, break to fit. Spread ½ cheese mix and ¼ sausage mix.",
+        "Top with 5 noodles, remaining cheese mix, and ¼ sausage mix. Cook on low setting 4–6 hrs, or till tender.",
+        "Sprinkle with remaining Mozzarella cheese, cover, let stand 10 min. Cut and serve."
+      ]
+    },
+    {
+      "id": "r88",
+      "title": "Spring Garden Fettuccine",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": "From Spice Islands",
+      "ingredients": [
+        "6 oz fettuccine",
+        "1 lg red bell pepper, seeded and cut into 2-inch strips",
+        "½ lb fresh asparagus, cut diagonally into 2-inch lengths",
+        "3 oz sliced prosciutto, cut into ½-inch strips",
+        "1 cup dry white wine or canned vegetable broth",
+        "1 jar (6 oz) marinated artichoke hearts, drained",
+        "2 tsp oregano leaves",
+        "2 tsp sweet basil",
+        "½ tsp crushed red pepper",
+        "1½ tsp freshly grated Parmesan cheese"
+      ],
+      "steps": [
+        "Cook fettuccine as package directs.",
+        "Meanwhile in large skillet, stir and cook red bell pepper and asparagus in hot oil over medium-high heat, stirring occasionally, until vegetables are tender-crisp, about 5 minutes.",
+        "Add wine, artichoke hearts, oregano, basil, and crushed red pepper; bring sauce to boil. Stir in prosciutto. Drain fettuccine; place in serving bowl.",
+        "Toss with fettuccine and cheese."
+      ]
+    },
+    {
+      "id": "r89",
+      "title": "Stir-Fried Turkey",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 tsp Chinese sesame oil",
+        "½ cup garlic cloves, minced",
+        "5 oz skinned and boned turkey breast, cut into 2x1-inch strips",
+        "½ cup broccoli florets, blanched",
+        "½ cup diagonally-sliced carrot (¼-inch-thick slices), blanched",
+        "2 tsp soy sauce",
+        "¼ tsp onion flakes",
+        "Dash each salt and pepper"
+      ],
+      "steps": [
+        "In small skillet heat oil over high heat; add garlic, then turkey and stir-fry until turkey is browned.",
+        "Reduce heat; add remaining ingredients, cover, and simmer 5 to 10 minutes. Serve immediately."
+      ]
+    },
+    {
+      "id": "r90",
+      "title": "Sweet and Sour Meatballs",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 Tbsp vegetable oil",
+        "1 (20 oz) can pineapple chunks, drained, reserving juice",
+        "3 Tbsp cornstarch",
+        "1 Tbsp soy sauce",
+        "3 Tbsp vinegar",
+        "6 Tbsp water",
+        "½ cup brown sugar",
+        "1 cont. meatball mix, thawed",
+        "1 lg green pepper, sliced",
+        "About 4 cups cooked rice"
+      ],
+      "steps": [
+        "In large skillet, combine oil and drained pineapple juice, adding water if necessary to make 1 cup.",
+        "In a small bowl combine cornstarch, soy sauce, vinegar, water, and brown sugar. Stir into juice mix. Cook over med-high heat 5–7 min until thick.",
+        "Add meatballs, pineapple, and green pepper. Simmer 20 min. Serve over hot cooked rice."
+      ]
+    },
+    {
+      "id": "r91",
+      "title": "Taco Delight",
+      "category": "Main Dishes",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb ground beef",
+        "1 onion, chopped",
+        "1 jar (12 oz) medium salsa",
+        "1 can (8 oz) tomato sauce",
+        "1 chicken bouillon cube",
+        "1½ cups dry minute rice",
+        "Shredded lettuce, chopped tomatoes, sour cream, grated cheese, avocado, and tortilla chips for serving"
+      ],
+      "steps": [
+        "Brown ground beef and onion in large skillet. Add salsa, tomato sauce, and bouillon. Bring to boil. Stir in rice, cover. Remove from heat, let stand 5 min.",
+        "Fluff with fork. Serve with lettuce, tomatoes, sour cream, cheese, avocado, and tortilla chips. 4 servings."
+      ]
+    },
+    {
+      "id": "r92",
+      "title": "Tater Tot Casserole",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 med bag tater tots",
+        "1 sm roll Hot Jimmy Dean sausage",
+        "16 oz shredded Cheddar cheese",
+        "16 oz Mozzarella cheese, shredded",
+        "2 cans cream of chicken soup",
+        "1 lb hamburger"
+      ],
+      "steps": [
+        "Brown hamburger and sausage. Drain, set aside. Empty cans of soup in bowl, add ½ cup milk. In large pan layer: tater tots, soup, cheese until gone. Bake at 400° for 1 hr.",
+        "Stir approximately every 10–15 min."
+      ]
+    },
+    {
+      "id": "r93",
+      "title": "Tortellini con Melanzane (Eggplant)",
+      "category": "Main Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": "From Spice Islands",
+      "ingredients": [
+        "1 (1½ to 1¾ lb) large eggplant, unpeeled and diced (about 9 cups)",
+        "1 medium onion, cut into thin wedges",
+        "⅙ cup olive oil",
+        "1 can (28 oz) ready-cut chopped tomatoes, undrained",
+        "2 Tbsp minced garlic",
+        "1 Tbsp Italian Herb Seasoning",
+        "1 tsp Sweet Basil",
+        "1 package (9 oz) fresh or frozen tortellini",
+        "¼ cup freshly grated Parmesan cheese"
+      ],
+      "steps": [
+        "In large skillet, stir and cook eggplant and onion in hot oil over medium-high heat for 10 minutes. Add undrained tomatoes, garlic, Italian herb seasoning, and basil.",
+        "Cook covered over medium heat for 15 minutes or until onions are tender. Meanwhile cook tortellini as package directs. Drain. Add to eggplant; toss gently to mix.",
+        "Serve in pasta bowl; sprinkle with cheese."
+      ]
+    },
+    {
+      "id": "r94",
+      "title": "Canning Salsa",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "7 quarts",
+      "note": null,
+      "ingredients": [
+        "7 quarts tomatoes, cut into bite-size pieces",
+        "3 onions, chopped",
+        "2–4 tsp salt",
+        "2 tsp pepper",
+        "¼ cup lemon juice",
+        "⅛ cup cilantro / Italian parsley",
+        "2–3 tsp cayenne pepper",
+        "3 cloves garlic",
+        "2 tsp cumin",
+        "2 tsp basil",
+        "2 green peppers, chopped",
+        "Hot pepper, chopped (amount to taste)"
+      ],
+      "steps": [
+        "Mix well. Put into jars. Seal. Process in water bath 25 min."
+      ]
+    },
+    {
+      "id": "r95",
+      "title": "Canning Tomato Sauce",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "approx. 6–8 quarts",
+      "note": null,
+      "ingredients": [
+        "30–50 tomatoes, cut and peeled",
+        "3 red onions",
+        "3 cloves garlic",
+        "2 green peppers",
+        "Olive oil",
+        "2 tsp pepper",
+        "3 Tbsp parsley",
+        "2 Tbsp basil",
+        "1 Tbsp beef bouillon",
+        "2 tsp salt",
+        "1½ tsp sugar"
+      ],
+      "steps": [
+        "Put tomatoes into saucepan and cook down. Sauté onions, garlic, and green peppers in olive oil until transparent. Add to tomatoes.",
+        "Add pepper, parsley, basil, bouillon, salt, and sugar. Scoop into blender, blend well. Return to saucepan and let thicken. Put into jars, seal.",
+        "Process in water bath as needed."
+      ]
+    },
+    {
+      "id": "r96",
+      "title": "Mama's Cowboy Beans",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 lb ground sausage",
+        "1 lb cooked bacon, crumbled",
+        "4 (16 oz) cans baked beans, or homemade",
+        "2 (4 oz) cans chopped green chilis",
+        "2 small onions, chopped",
+        "1 cup BBQ sauce",
+        "½ cup brown sugar",
+        "1 Tbsp garlic powder",
+        "1 Tbsp chili powder",
+        "3 Tbsp hot pepper sauce (optional)"
+      ],
+      "steps": [
+        "Sauté onion till translucent. Add ground sausage and cook till done. Season to taste with salt and pepper. Drain.",
+        "Combine ground sausage, bacon, baked beans, green chilis, and BBQ sauce. Add brown sugar, garlic, chili powder, and hot pepper sauce.",
+        "Cook on high 2 hours, or 4–5 hours slowly."
+      ]
+    },
+    {
+      "id": "r97",
+      "title": "Salsa",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3–4 lbs tomatoes",
+        "3 onions",
+        "2–4 tsp salt (depends on tomatoes' flavor)",
+        "2 tsp pepper",
+        "1¼ tsp lemon juice",
+        "¼ cup cilantro",
+        "2–3 tsp cayenne",
+        "3 cloves garlic, minced",
+        "2 tsp cumin",
+        "2 tsp basil",
+        "2 green peppers",
+        "Hot peppers to taste"
+      ],
+      "steps": [
+        "Mix all ingredients together. Use fresh or process for canning."
+      ]
+    },
+    {
+      "id": "r98",
+      "title": "Spiced Oranges",
+      "category": "Side Dishes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "3 cups",
+      "note": "Serve chilled with meats, poultry, or fish",
+      "ingredients": [
+        "6 medium oranges",
+        "1 medium grapefruit",
+        "⅛ tsp baking soda",
+        "½ cup sugar",
+        "½ cup honey",
+        "⅓ cup white wine vinegar",
+        "6 inches stick cinnamon",
+        "8 whole cloves",
+        "Dash bottled hot pepper sauce",
+        "½ cup raisins"
+      ],
+      "steps": [
+        "Peel fruit, reserving peel from 2 oranges. Remove white membrane from reserved peel; cut peel into thin strips.",
+        "In a saucepan combine reserved peel, baking soda, and 1 cup water. Simmer covered for 10 minutes; remove. Add grapefruit, oranges, and raisins.",
+        "Bring to boiling; reduce heat. Simmer uncovered for 10 minutes. Cool slightly. Spoon into jars or moisture-vaporproof containers.",
+        "Refrigerate up to 2 weeks or freeze up to 1 year."
+      ]
+    },
+    {
+      "id": "r99",
+      "title": "Sweet Yams",
+      "category": "Side Dishes",
+      "contributor": "sharon-m",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 cups mashed yams",
+        "1 cup sugar",
+        "½ cup milk",
+        "⅓ cup butter",
+        "2 eggs",
+        "1 tsp vanilla",
+        "## Topping",
+        "1 cup pecans",
+        "1 cup brown sugar",
+        "⅓ cup flour",
+        "⅓ cup butter"
+      ],
+      "steps": [
+        "Combine all ingredients and bake 20 min at 375°.",
+        "Crumble topping on top. Cook til just melted."
+      ]
+    },
+    {
+      "id": "r100",
+      "title": "Creamy Cucumber",
+      "category": "Salads & Fruit",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1½ cups peeled, seeded, chopped cucumber",
+        "1 cup real mayonnaise",
+        "1 Tbsp milk",
+        "1 Tbsp lemon juice",
+        "2 Tbsp frozen chopped chives"
+      ],
+      "steps": [
+        "Combine all ingredients. Chill and serve as a dip or dressing."
+      ]
+    },
+    {
+      "id": "r101",
+      "title": "Fruit Salad",
+      "category": "Salads & Fruit",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 container Cool Whip",
+        "1 sm container sour cream",
+        "1 lg pkg instant vanilla pudding",
+        "1–2 lg cans crushed pineapple",
+        "2 sm cans mandarin oranges",
+        "2 cans fruit cocktail",
+        "2 cans diced peaches",
+        "2 apples, chopped",
+        "3 bananas, blended with cream mix",
+        "Fresh grapes (use whatever you like)"
+      ],
+      "steps": [
+        "Mix Cool Whip, sour cream, and pudding together. Fold in all fruit. Chill and serve."
+      ]
+    },
+    {
+      "id": "r102",
+      "title": "Artichoke-Chili Dip",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "about 2⅔ cups",
+      "note": null,
+      "ingredients": [
+        "1 (14 oz) can artichoke hearts, drained and chopped",
+        "1 (4 oz) can green chili peppers, rinsed, seeded, and chopped",
+        "1 cup grated Parmesan cheese",
+        "1 cup mayonnaise or salad dressing",
+        "Tortilla chips and breadsticks for serving"
+      ],
+      "steps": [
+        "Combine the chopped artichoke hearts, chopped chili peppers, cheese, and mayonnaise or salad dressing. Turn mixture into an 8-inch round baking dish.",
+        "Bake in a 350° oven about 20 minutes or till heated through. Serve warm with tortilla chips and breadsticks."
+      ]
+    },
+    {
+      "id": "r103",
+      "title": "Brie en Croûte",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": "Thaw: 40 min · Prep: 15 min · Bake: 20 min · Stand: 1 hr",
+      "makes": "12 servings",
+      "note": null,
+      "ingredients": [
+        "½ of a 17.3 oz package Frozen Puff Pastry Sheets (1 sheet)",
+        "1 egg",
+        "1 Tbsp water",
+        "¼ cup chopped fresh parsley",
+        "¼ cup toasted sliced almonds (optional)",
+        "1 (1 pound) Brie cheese round",
+        "Crackers for serving"
+      ],
+      "steps": [
+        "Thaw the pastry sheet at room temperature for 40 minutes or until easy to handle. Heat oven to 400°F. Lightly grease a baking sheet.",
+        "Stir the egg and water with a fork in a small bowl.",
+        "Unfold the pastry sheet on a lightly floured surface. Roll the sheet into a 14-inch square. Cut off the corners to make a circle.",
+        "Center the almonds if desired, and parsley on the pastry. Top with the cheese. Brush the edge of the pastry with the egg mixture. Fold two opposite sides over the cheese.",
+        "Trim the remaining two sides to 2 inches from the edge of the cheese. Fold those two sides onto the cheese. Press edges to seal.",
+        "Place seam-side down on the prepared baking sheet. Brush with the egg mixture.",
+        "Bake for 20 minutes or until golden. Let stand for 1 hour before serving. Serve with crackers."
+      ]
+    },
+    {
+      "id": "r104",
+      "title": "Cheese Ball",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 cup (8 oz) cheddar cheese, shredded",
+        "1 package (3 oz) cream cheese, softened",
+        "2 Tbsp butter",
+        "1 tsp garlic powder",
+        "1 tsp dried tarragon leaves",
+        "½ cup coarsely chopped walnuts"
+      ],
+      "steps": [
+        "Shred cheddar cheese into the small bowl of an electric mixer. Add cream cheese and butter; beat until blended. Add garlic powder and beat until creamy.",
+        "Cover and chill cheese mixture for about 3 hours or until firm enough to shape into ball. Shape into smooth ball.",
+        "Sprinkle nuts on wax paper and roll the ball in the nuts pressing lightly. Wrap ball in airtight clear plastic film and refrigerate or freeze until needed.",
+        "Allow frozen cheese ball to stand at room temperature, unwrapped, 3 or 4 hours before serving."
+      ]
+    },
+    {
+      "id": "r105",
+      "title": "Cheese and Onion Tart",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "## Pastry",
+        "½ lb self-raising flour",
+        "2 oz lard, 2 oz butter, salt, 2 Tbs water",
+        "## Filling",
+        "1½ lb onions",
+        "1 lb cheese"
+      ],
+      "steps": [
+        "Make pastry. Cook onions in salt water long enough to make tender, about ½ hour. Drain most of water off.",
+        "Layer cheese — onion — cheese in dish. Top with pastry. Bake for ½ to ¾ hr at 400°F."
+      ]
+    },
+    {
+      "id": "r106",
+      "title": "Cheesy Zucchini and Red Onion Flatbread",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": "4 to 6 servings",
+      "note": "From Bon Appétit",
+      "ingredients": [
+        "Nonstick vegetable oil spray",
+        "1 (10 oz) tube refrigerated pizza dough",
+        "¾ cup garlic-and-herb cheese spread (such as Alouette), divided",
+        "¾ cup finely grated Parmesan cheese, divided",
+        "3 Tbsp chopped fresh Italian parsley, divided",
+        "1 small red onion, divided",
+        "1 (7 to 8-inch) zucchini, cut crosswise into ⅛-inch-thick rounds, divided"
+      ],
+      "steps": [
+        "Preheat oven to 400°F. Line baking sheet with parchment paper; spray with nonstick spray. Unroll dough onto parchment.",
+        "Spread half of herb cheese over 1 long half of dough, leaving ½-inch plain border. Sprinkle with half of Parmesan and 2 Tbsp parsley.",
+        "Fold plain half of dough over filled half (do not seal edges). Spread remaining herb cheese over top; sprinkle with remaining Parmesan.",
+        "Cut onion into ⅛-inch-thick rounds. Arrange rows of zucchini and onion on top. Brush vegetables with oil; sprinkle with salt and pepper.",
+        "Bake until puffed and deep brown at edges, about 24 minutes. Sprinkle with 1 Tbsp parsley."
+      ]
+    },
+    {
+      "id": "r107",
+      "title": "Clotted Cream",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": "Total Time: 10 minutes",
+      "makes": "8 servings",
+      "note": null,
+      "ingredients": [
+        "1 cup heavy cream",
+        "⅓ cup sour cream",
+        "1 Tbsp confectioners' sugar"
+      ],
+      "steps": [
+        "Using a whisk attachment on the mixer, whip heavy cream until stiff peaks form.",
+        "Remove from mixer, and hand whisk in the sour cream and confectioners' sugar until just combined. Store in refrigerator."
+      ]
+    },
+    {
+      "id": "r108",
+      "title": "Garden Vegetable Onion Dip",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2½ cups sour cream",
+        "1 package (4 serving size) dry onion soup mix",
+        "¼ tsp garlic powder",
+        "1 tsp dill weed",
+        "¼ cup carrots, grated"
+      ],
+      "steps": [
+        "Stir together sour cream, onion soup mix, garlic powder, and dill weed until well blended. Stir in grated carrots. Chill at least 1 hour before serving."
+      ]
+    },
+    {
+      "id": "r109",
+      "title": "Guacamole Dip",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 avocados",
+        "¼ cup onions, chopped fine",
+        "¼ tsp garlic powder",
+        "½ tsp salt",
+        "4 Tbsp salsa sauce",
+        "2–3 Tbsp sour cream",
+        "Dash pepper",
+        "1 tsp lemon juice"
+      ],
+      "steps": [
+        "Peel and slice avocados. Place in small bowl of electric mixer. Add remaining ingredients.",
+        "Beat on low speed until avocado slices are mashed and all ingredients are well combined. Chill 1 hour. Garnish with chopped tomatoes or green onions if desired."
+      ]
+    },
+    {
+      "id": "r110",
+      "title": "Salmon Spread",
+      "category": "Dips & Spreads",
+      "contributor": "elaine-hartly",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 package (8 oz) cream cheese, softened",
+        "¼ lb smoked salmon, finely chopped",
+        "½ cup chopped green onion",
+        "2 Tbsp dairy sour cream",
+        "1 Tbsp lemon juice",
+        "⅛ tsp freshly cracked black pepper",
+        "Crackers for serving"
+      ],
+      "steps": [
+        "Mix all ingredients together until well combined. Serve with crackers.",
+        "#"
+      ]
+    },
+    {
+      "id": "r111",
+      "title": "Spinach Ricotta Pie (Dip)",
+      "category": "Dips & Spreads",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "12 servings",
+      "note": null,
+      "ingredients": [
+        "1 qt chopped fresh spinach",
+        "½ cup chopped onion",
+        "1 (8 oz) pkg cream cheese, softened",
+        "¾ cup lowfat ricotta cheese",
+        "½ tsp dried basil leaves, crushed",
+        "½ tsp dried oregano leaves, crushed",
+        "¼ tsp salt",
+        "⅛ tsp garlic powder",
+        "⅛ tsp pepper",
+        "¾ cup chopped tomato",
+        "2 Tbsp grated Parmesan cheese"
+      ],
+      "steps": [
+        "Preheat oven to 350°. Place spinach and onions in small saucepan. Cook 5 min or until tender.",
+        "Beat cheeses and seasonings in small mixing bowl at medium speed with electric mixer until well blended. Stir in spinach mixture. Spread into 9-inch pie plate.",
+        "Bake 15–20 min or until thoroughly heated. Top with remaining ingredients. Serve with crisp rye crackers or bagel chips."
+      ]
+    },
+    {
+      "id": "r112",
+      "title": "Banana-Nut Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3¼ cups sifted all-purpose flour",
+        "1¼ cups sugar",
+        "1 tsp baking powder",
+        "1 tsp baking soda",
+        "1 tsp salt",
+        "½ cup shortening",
+        "2 eggs",
+        "1 cup (2 medium-size) mashed, very ripe bananas",
+        "½ cup buttermilk or sour milk",
+        "1 tsp vanilla extract",
+        "½ cup nuts"
+      ],
+      "steps": [
+        "Grease and flour bottoms of two 8-inch layer pans. Sift flour with sugar, baking powder, soda, and salt into large mixing bowl. Add shortening, eggs, and bananas.",
+        "Beat well at lowest speed of mixer for ½ min.",
+        "Add buttermilk and vanilla extract. Continue beating ½ min at low speed. Stir in nuts.",
+        "Pour batter into pans. Bake at 350° for 30–35 minutes, until cake springs back when lightly touched in center.",
+        "When cool, frost with Creamy Butter Frosting or Fluffy White Frosting."
+      ]
+    },
+    {
+      "id": "r113",
+      "title": "Bible Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 cup Judges 5:25 — butter",
+        "2 cups Jeremiah 6:20 — sugar",
+        "6 Jeremiah 17:11 — eggs",
+        "½ cup Judges 4:19 (last clause) — milk",
+        "4½ cups 1 Kings 4:22 — flour",
+        "2 tsp Amos 4:5 — baking powder",
+        "⅛ tsp Leviticus 2:13 — salt",
+        "2 Tbsp 1 Samuel 14:25 — honey",
+        "2 cups Nahum 3:12 — figs",
+        "1 cup Numbers 17:8 — almonds",
+        "2 cups 1 Samuel 30:12 — raisins",
+        "Season with 2 Chronicles 9:9 — spices"
+      ],
+      "steps": [
+        "Cream butter and sugar. Beat in eggs. Add milk. Sift and add flour, baking powder, and salt to creamed mixture. Add honey and stir in. Fold in figs, almonds, raisins, and spices.",
+        "Bake in slow oven."
+      ]
+    },
+    {
+      "id": "r114",
+      "title": "Blueberry Bundt Cake",
+      "category": "Cakes",
+      "contributor": "elaine-hartly",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 Duncan Hines golden butter recipe cake mix",
+        "1 (8 oz) cream cheese, low fat (room temp)",
+        "3 eggs",
+        "½ cup oil",
+        "1 box frozen blueberries"
+      ],
+      "steps": [
+        "Grease and flour pan. Mix and beat 2 min. Fold in blueberries. Bake 1 hr. Cool 25 min."
+      ]
+    },
+    {
+      "id": "r115",
+      "title": "Boose Cake",
+      "category": "Cakes",
+      "contributor": "martel-goins",
+      "cardImages": [],
+      "temp": "300°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups raisins",
+        "¼ cup water — boil and cool 5 minutes, keep in ¼ cup water",
+        "2 eggs, beaten",
+        "2 cups sugar",
+        "½ cup flour",
+        "2 tsp baking soda",
+        "1 tsp cloves",
+        "1 tsp salt",
+        "1 tsp allspice",
+        "1½ tsp cinnamon",
+        "½ cup salad oil — add water and raisins",
+        "½ cup nuts"
+      ],
+      "steps": [
+        "Bake 1 hr or longer at 300°."
+      ]
+    },
+    {
+      "id": "r116",
+      "title": "Dark Fruitcake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "300°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "¾ cup butter or margarine",
+        "3 cups all-purpose flour",
+        "2 tsp baking powder",
+        "2 tsp ground cinnamon",
+        "½ tsp each ground nutmeg, allspice, and cloves",
+        "16 oz diced mixed candied fruits and peels (2½ cups)",
+        "1 (8 oz) package pitted whole dates, snipped (1⅓ cups)",
+        "8 oz whole red or green candied cherries (1½ cups)",
+        "1 (15 oz) package raisins",
+        "1 cup slivered almonds",
+        "1 cup pecan halves",
+        "½ cup chopped candied pineapple",
+        "4 eggs",
+        "1¾ cups packed brown sugar",
+        "1 cup orange juice",
+        "¼ cup light molasses"
+      ],
+      "steps": [
+        "Grease three 8x4x2-inch loaf pans or two 10x3½x2½-inch loaf dessert pans. Line bottom and sides of pans with brown paper to prevent overbrowning; grease paper.",
+        "In saucepan melt butter or margarine; cool. Stir together flour, baking powder, cinnamon, nutmeg, allspice, cloves, and 1 tsp salt.",
+        "Add mixed fruits and peels, dates, cherries, raisins, almonds, pecans, and pineapple; mix till well coated. Beat eggs till foamy.",
+        "Add brown sugar, orange juice, molasses, and butter; beat till blended. Stir into fruit mixture.",
+        "Turn batter into prepared pans, filling each about ¾ full. Bake in a 300° oven about 2 hours or till cakes test done.",
+        "Cover all pans loosely with foil after 1 hour of baking to prevent overbrowning. Place cakes on wire racks; cool thoroughly. Remove from pans.",
+        "Wrap in wine-, brandy-, or fruit juice-moistened cheesecloth. Overwrap with foil. Store in the refrigerator for 3 to 4 weeks before serving.",
+        "Remoisten the cheesecloth once a week."
+      ]
+    },
+    {
+      "id": "r117",
+      "title": "Fresh Apple Cake",
+      "category": "Cakes",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "12 servings",
+      "note": null,
+      "ingredients": [
+        "1½ cups all-purpose flour",
+        "2 tsp baking soda",
+        "½ tsp salt",
+        "1 tsp ground cinnamon",
+        "½ tsp ground nutmeg",
+        "½ cup margarine or butter, softened",
+        "1 cup granulated sugar",
+        "2 eggs",
+        "4 cups finely chopped, pared apples",
+        "1 cup All-Bran cereal",
+        "## Frosting",
+        "1 package (3 oz) cream cheese, softened",
+        "1 Tbsp margarine or butter, softened",
+        "1 tsp vanilla",
+        "1½ cups sifted confectioners' sugar"
+      ],
+      "steps": [
+        "Stir together flour, soda, salt, cinnamon, and nutmeg. Beat the ½ cup margarine and the granulated sugar. Beat in eggs. Stir in apples and flour mixture.",
+        "Spread in greased 9x13x2-inch baking pan. Bake at 350°F about 45 min or until done.",
+        "Frosting: Beat cream cheese, 1 Tbsp margarine, and vanilla. Gradually add confectioners' sugar, beating until smooth. If frosting is too thick, add 1 to 2 tsp milk.",
+        "Spread on cooled cake."
+      ]
+    },
+    {
+      "id": "r118",
+      "title": "Golden Glow Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2¼ cups sifted all-purpose flour",
+        "1¼ cups sugar",
+        "1 Tbsp baking powder",
+        "1 tsp salt",
+        "½ cup shortening",
+        "1 cup milk",
+        "2 eggs",
+        "1 tsp vanilla extract"
+      ],
+      "steps": [
+        "Grease and flour bottoms of two 8 or 9-inch layer pans. Sift flour with sugar, baking powder, and salt into large mixing bowl. Add shortening and milk.",
+        "Blend well at lowest speed of mixer. Beat 1½ min at low speed or 225 strokes with a spoon. Add eggs and vanilla extract; continue beating 1 min. Pour batter into pans.",
+        "Bake at 350° for 30 to 35 minutes, until cake is golden brown and springs back when lightly touched in center."
+      ]
+    },
+    {
+      "id": "r119",
+      "title": "Peaches 'n' Crumb Cake",
+      "category": "Cakes",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1¾ cups sifted flour",
+        "¼ cup sugar",
+        "½ tsp salt",
+        "½ tsp cinnamon",
+        "1 pkg (1¼ tsp) Fleischmann's active dry yeast",
+        "2 Tbs margarine, softened",
+        "⅛ cup very hot tap water (85°F)",
+        "1 can (16 oz) sliced peaches, drained",
+        "¼ cup firmly packed light brown sugar",
+        "Confectioners' sugar for dusting"
+      ],
+      "steps": [
+        "Combine ¾ cup flour, sugar, salt, and dissolved yeast. Add 3 Tbs softened margarine and hot tap water to dry ingredients. Beat 2 min at medium speed.",
+        "Add eggs and ½ cup flour. Beat 2 min. Stir in enough flour to make a stiff batter. Spread in greased 9-in square pan.",
+        "Combine remaining ¼ cup flour, brown sugar, cinnamon, and nutmeg. Cut in 2 Tbs margarine until crumbly. Sprinkle over cake. Arrange peach slices on top.",
+        "Cover, let rise in warm place, free from draft, until double in bulk (about 1 hr).",
+        "Bake at 400°F for 35 min or until done. Cool 10 min, remove and cool on wire rack. Sprinkle with confectioners' sugar."
+      ]
+    },
+    {
+      "id": "r120",
+      "title": "Pumpkin Spice Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "Spice cake mix",
+        "1 cup pumpkin",
+        "3 eggs",
+        "⅓ cup water",
+        "1 tsp baking soda",
+        "## Topping",
+        "½ cup brown sugar",
+        "1½ tsp cinnamon",
+        "½ cup chopped nuts"
+      ],
+      "steps": [
+        "Mix cake ingredients together. Grease and flour pan.",
+        "Add topping. Bake at 350° for 35 min."
+      ]
+    },
+    {
+      "id": "r121",
+      "title": "Pumpkin Swirl Cheesecake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups vanilla wafer crumbs",
+        "½ cup PARKAY margarine, melted",
+        "2 (8 oz) pkgs Light Neufchâtel Cheese, softened",
+        "¾ cup sugar",
+        "1 tsp vanilla",
+        "3 eggs",
+        "1 cup canned pumpkin",
+        "¾ tsp cinnamon",
+        "¼ tsp ground nutmeg"
+      ],
+      "steps": [
+        "Combine crumbs and margarine; press onto bottom and sides of 9-inch springform pan.",
+        "Combine neufchâtel cheese, ½ cup sugar, and vanilla; mix at medium speed until well blended. Add eggs one at a time, mixing well after each addition.",
+        "Reserve 1 cup neufchâtel cheese mixture; add pumpkin, remaining sugar, and spices to remaining neufchâtel cheese mixture. Mix well.",
+        "Layer half of pumpkin mixture and half of neufchâtel cheese mixture over crust. Repeat layers. Cut through batter with knife several times for marble effect.",
+        "Bake at 350° for 55 minutes. Loosen cake from rim of pan; cool before removing rim. Chill. 10 to 12 servings."
+      ]
+    },
+    {
+      "id": "r122",
+      "title": "Rainbow Poke Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 pkg cake mix",
+        "1 pkg (3 oz) raspberry Jello — dissolved in boiling water",
+        "1 pkg (3 oz) lime Jello — dissolved in boiling water",
+        "1 cup boiling water (per Jello pkg)",
+        "1 container (8 oz) Cool Whip"
+      ],
+      "steps": [
+        "Prepare and bake cake as directed. Remove from pans, cool completely. Place back into cake pans.",
+        "Prick cakes with a fork. Pour raspberry Jello slowly over half the cake. Pour lime Jello slowly over the other half.",
+        "Refrigerate until set. Top with Cool Whip before serving."
+      ]
+    },
+    {
+      "id": "r123",
+      "title": "Red Velvet Cake",
+      "category": "Cakes",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "½ cup shortening",
+        "1½ cups sugar",
+        "2 eggs",
+        "2 Tbs cocoa + 2 oz red food coloring (mixed into paste)",
+        "1 cup buttermilk",
+        "1 tsp salt",
+        "1 tsp vanilla",
+        "2½ cups flour",
+        "1¼ tsp baking soda",
+        "1 Tbs vinegar",
+        "## Red Velvet Frosting",
+        "6 Tbs flour",
+        "1 cup milk",
+        "1 cup butter",
+        "1 cup sugar",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Cream shortening, sugar, and eggs. Add cocoa paste to creamed mixture. Alternate flour with buttermilk mixture. Fold in baking soda and vinegar — do not beat.",
+        "Bake at 350°.",
+        "Cook flour and milk together, stirring constantly, until thick. Cool completely.",
+        "Beat butter, sugar, and vanilla until fluffy. Add cooled flour mixture and beat until spreading consistency — should look like whipped cream."
+      ]
+    },
+    {
+      "id": "r124",
+      "title": "Cherry Cream Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 (9 in) graham cracker crumb crust",
+        "1 (8 oz) package cream cheese, softened",
+        "1 (14 oz) can Sweetened Condensed Milk",
+        "⅓ cup lemon juice from concentrate",
+        "1 tsp vanilla extract",
+        "1 can cherry pie filling, chilled"
+      ],
+      "steps": [
+        "In large mixer bowl beat cheese until fluffy. Beat in sweetened condensed milk until smooth. Stir in lemon juice and vanilla. Pour into crust. Chill 3 hours.",
+        "Top with cherry filling."
+      ]
+    },
+    {
+      "id": "r125",
+      "title": "Fresh Blueberry Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "¾ cup sugar",
+        "6 Tbs cornstarch",
+        "¼ tsp salt",
+        "⅔ cup water",
+        "3 cups frozen or fresh blueberries",
+        "2 Tbs butter",
+        "1½ Tbs lemon juice",
+        "1 cup heavy cream",
+        "2 Tbs confectioners' sugar",
+        "½ tsp vanilla"
+      ],
+      "steps": [
+        "Combine sugar, cornstarch, and salt in saucepan. Blend in water and 1 cup blueberries. Bring to boil, cook stirring constantly until very thick.",
+        "Stir in butter and lemon juice. Cool. Fold in remaining blueberries. Chill about one hour.",
+        "Beat heavy cream until thick. Add confectioners' sugar and vanilla extract. Spread half of whipped cream over bottom of baked pastry shell. Top with blueberry filling.",
+        "Chill 1–2 hours before serving. Garnish with remaining whipped cream."
+      ]
+    },
+    {
+      "id": "r126",
+      "title": "Frontier Hazelnut Vegetable Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": "8 servings",
+      "note": null,
+      "ingredients": [
+        "1 cup fresh broccoli, chopped",
+        "1 cup fresh cauliflower, sliced",
+        "1½ cups frozen spinach, thawed",
+        "1 cup coarsely chopped hazelnuts",
+        "1½ cups milk",
+        "1 cup baking mix (Bisquick)",
+        "4 eggs",
+        "1 small onion, diced",
+        "½ green pepper, diced",
+        "1 cup cheddar cheese, grated",
+        "1 tsp garlic salt",
+        "⅛ tsp pepper"
+      ],
+      "steps": [
+        "Pre-cook broccoli and cauliflower until almost tender (about 5 minutes). Drain well.",
+        "Mix broccoli, cauliflower, spinach, onion, green pepper, and cheese and put into a well-greased 10\" pie plate. Top with hazelnuts.",
+        "Beat together milk, Bisquick, eggs, garlic salt, and pepper; pour over hazelnuts and vegetables. Bake at 400° for 35 to 40 minutes. Let stand 5 minutes before cutting.",
+        "Toast hazelnuts for full flavor! Ten ounces of frozen chopped broccoli, cauliflower, and spinach may be substituted for fresh. Thaw and drain well. Do not pre-cook."
+      ]
+    },
+    {
+      "id": "r127",
+      "title": "Lemon Thyme Cream Puffs",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": "Thaw: 40 min · Prep: 20 min · Refrigerate: 1 hr",
+      "makes": "36",
+      "note": null,
+      "ingredients": [
+        "1 (17.3 oz) package Frozen Puff Pastry Sheets (1 sheet)",
+        "1 egg",
+        "1 Tbsp water",
+        "2 Tbsp baking sugar",
+        "1 cup heavy cream",
+        "3 large sprigs fresh thyme",
+        "½ cup lemon curd",
+        "4 oz white chocolate"
+      ],
+      "steps": [
+        "Thaw the pastry sheet at room temperature for 40 minutes or until easy to handle. Heat oven to 400°F.",
+        "Line a baking sheet with parchment paper or spray with cooking spray. Stir the egg and water in a small bowl.",
+        "Unfold the pastry on a lightly floured surface. Roll into a 12-inch square. Brush with egg mixture. Cut into 36 (2-inch) squares. Sprinkle with sugar.",
+        "Place on prepared baking sheet.",
+        "Bake for 10 minutes or until golden. Cool completely on a wire rack.",
+        "Heat ⅓ cup of the cream and the thyme in a 2-quart saucepan to a boil. Reduce heat and cook for 10 minutes. Remove from heat, let steep 30 minutes.",
+        "Strain through a fine sieve. Refrigerate at least 1 hour until chilled.",
+        "Beat remaining cream to soft peaks. Add chilled cream mixture and lemon curd. Beat until stiff. Transfer to a pastry bag.",
+        "Pipe about 1 heaping Tbsp lemon thyme cream mixture into each pastry.",
+        "Melt chocolate in microwave, about 1 minute. Stir until smooth. Drizzle over puffs. Let stand until chocolate sets."
+      ]
+    },
+    {
+      "id": "r128",
+      "title": "Peach Pie",
+      "category": "Pies & Pastries",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "Pastry for 9-inch lattice-top pie",
+        "¾ to 1 cup sugar",
+        "3 Tbsp flour",
+        "¼ tsp ground nutmeg",
+        "Cinnamon and dash salt",
+        "5 cups fresh sliced peaches",
+        "2 Tbsp butter"
+      ],
+      "steps": [
+        "Prepare pastry for 9-inch lattice-top pie. Combine sugar, flour, nutmeg, cinnamon, and salt. Add to fresh sliced peaches. Line 9-inch pie plate with pastry; fill.",
+        "Dot with butter. Adjust lattice crust on top. Crimp edges. Bake 45–50 min in 400° oven. Serve warm with whipped cream or ice cream."
+      ]
+    },
+    {
+      "id": "r129",
+      "title": "Plain Pastry",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "## Single Crust (8–10 inch)",
+        "1½ cups flour",
+        "½ tsp salt",
+        "½ cup shortening",
+        "4–5 Tbsp cold water",
+        "## Double Crust or Lattice-Top Pie (8–10 inch)",
+        "2 cups flour",
+        "1 tsp salt",
+        "⅔ cup shortening",
+        "5–7 Tbsp cold water"
+      ],
+      "steps": null
+    },
+    {
+      "id": "r130",
+      "title": "Sour Cream Pecan Pie",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups pecans, sliced",
+        "1 cup sour cream",
+        "⅔ cup sugar, plus more for topping",
+        "⅓ cup flour",
+        "¼ tsp nutmeg",
+        "1 tsp cinnamon",
+        "⅛ tsp salt (optional)"
+      ],
+      "steps": [
+        "Mix everything together except pecans. Add pecans and pour into pie shell. Add top crust and brush with sugar. Bake at 400° for 30–40 min."
+      ]
+    },
+    {
+      "id": "r131",
+      "title": "Strawberry Tiramisú",
+      "category": "Pies & Pastries",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "8 servings",
+      "note": "From Bon Appétit",
+      "ingredients": [
+        "1¼ cups strawberry preserves",
+        "⅓ cup plus 4 Tbsp Cointreau or other orange liqueur, divided",
+        "⅓ cup orange juice",
+        "1 pound mascarpone cheese, room temperature",
+        "1⅓ cups chilled whipping cream",
+        "⅓ cup sugar",
+        "1 tsp vanilla extract",
+        "1½ pounds fresh strawberries, divided",
+        "52 (about) crisp ladyfingers"
+      ],
+      "steps": [
+        "Whisk preserves, ⅓ cup Cointreau, and orange juice in 2-cup measuring cup. Place mascarpone cheese and 2 Tbsp Cointreau in large bowl; fold just to blend.",
+        "Using electric mixer, beat cream, sugar, vanilla, and remaining 2 Tbsp Cointreau to soft peaks. Stir ¼ of whipped cream into mascarpone mixture to lighten.",
+        "Fold in remaining whipped cream.",
+        "Hull and slice half of strawberries. Spread ½ cup preserve mixture over bottom of 3-quart oblong serving dish or 13x9x2-inch glass baking dish.",
+        "Arrange enough ladyfingers over preserve mixture to cover bottom of dish. Spoon ¾ cup preserve mixture over ladyfingers, then spread 2½ cups mascarpone mixture over.",
+        "Arrange sliced strawberries over mascarpone mixture. Repeat layering with remaining ladyfingers, preserve mixture, and mascarpone mixture.",
+        "Cover with plastic and chill at least 8 hours or overnight.",
+        "Slice remaining strawberries. Arrange over tiramisú and serve."
+      ]
+    },
+    {
+      "id": "r132",
+      "title": "Any Cake Mix Can Be a Cookie",
+      "category": "Cookies & Bars",
+      "contributor": "n-zackette",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 box cake mix, any flavor",
+        "Ingredients the box calls for (use less milk)",
+        "## Jalapeño brownies",
+        "1 box brownie mix",
+        "1 can (4 oz) chopped jalapeño peppers, drained"
+      ],
+      "steps": [
+        "Cut back on milk and follow box directions and any cake mix can be a cookie.",
+        "Or put a 4 oz can of drained chopped jalapeño peppers in a brownie mix. Follow box directions. These are great! Whole new taste to brownies!"
+      ]
+    },
+    {
+      "id": "r133",
+      "title": "Brown Sugar Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "4 dozen",
+      "note": null,
+      "ingredients": [
+        "½ cup Crisco All-Vegetable Shortening",
+        "½ cup butter",
+        "1¼ cups firmly packed brown sugar",
+        "1 large egg",
+        "1 tsp vanilla extract",
+        "2 cups all-purpose flour",
+        "½ tsp baking soda",
+        "¼ tsp salt"
+      ],
+      "steps": [
+        "Heat oven to 350°F. Beat shortening, butter, brown sugar, egg, and vanilla in medium bowl with electric mixer on medium speed until creamy.",
+        "Stir together flour, baking soda, and salt. Add gradually to creamed mixture, beating on low speed until blended. Shape dough into 1-inch balls.",
+        "Place 2 inches apart on ungreased baking sheet. Bake 12 to 14 minutes or until golden brown. Cool on baking sheet 2 minutes. Remove to wire rack to cool completely."
+      ]
+    },
+    {
+      "id": "r134",
+      "title": "Cake Box Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "sharon-champagne",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": "From My Favorite Recipe",
+      "ingredients": [
+        "1 box any flavor cake mix",
+        "½ cup oil",
+        "2 eggs"
+      ],
+      "steps": [
+        "Mix all together and drop by spoonful on pan. Bake at 350° for 10–12 min, or 14 min for crispy cookies."
+      ]
+    },
+    {
+      "id": "r135",
+      "title": "Chewy Toffee Almond Bars",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "about 36 bars",
+      "note": null,
+      "ingredients": [
+        "1 cup (2 sticks) butter, softened",
+        "½ cup sugar",
+        "2 cups all-purpose flour",
+        "1¾ cups (10 oz) English Toffee Bits or Bits 'O Brickle",
+        "¾ cup light corn syrup",
+        "1 cup sliced natural almonds, divided",
+        "¾ cup sweetened coconut flakes, divided"
+      ],
+      "steps": [
+        "Heat oven to 350°F. Grease sides of 13x9x2-inch baking pan.",
+        "Beat butter and sugar until fluffy. Gradually add flour, beating until well blended. Press dough evenly into prepared pan.",
+        "Bake 15–20 minutes or until edges are lightly browned. Meanwhile combine toffee bits and corn syrup in medium saucepan.",
+        "Cook over medium heat, stirring constantly, until toffee is melted (about 10–12 minutes). Stir in ½ cup almonds and ½ cup coconut.",
+        "Spread toffee mixture to within ¼ inch of edges of crust. Sprinkle remaining almonds and coconut over top.",
+        "Bake an additional 15 minutes or until bubbly. Cool completely. Cut into bars."
+      ]
+    },
+    {
+      "id": "r136",
+      "title": "Chocolate Almond Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "about 3½ dozen",
+      "note": null,
+      "ingredients": [
+        "1 cup (2 sticks) butter or margarine, softened",
+        "1 cup sugar",
+        "1 egg",
+        "½ tsp almond extract",
+        "½ tsp vanilla extract",
+        "2 cups all-purpose flour",
+        "½ cup HERSHEY'S Cocoa",
+        "¼ tsp baking powder",
+        "¼ tsp baking soda",
+        "⅛ tsp salt",
+        "1 cup semi-sweet chocolate chips or mini chips",
+        "Additional sugar for rolling",
+        "Blanched slivered almonds"
+      ],
+      "steps": [
+        "Beat butter and 1 cup sugar until fluffy. Add egg, almond extract, and vanilla; beat well.",
+        "Combine flour, cocoa, baking powder, baking soda, and salt; blend into butter mixture. Stir in chocolate chips.",
+        "Refrigerate dough about 1 hour if needed until firm enough to handle.",
+        "Heat oven to 350°F. Shape dough into 1-inch balls; roll in sugar. Place about 2 inches apart on ungreased cookie sheet.",
+        "Place three slivered almonds on top of each; press lightly.",
+        "Bake 9 to 10 minutes or until set. Cool slightly. Remove from cookie sheet to wire rack. Cool completely."
+      ]
+    },
+    {
+      "id": "r137",
+      "title": "Chocolate-Covered Cherry Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "48 cookies",
+      "note": null,
+      "ingredients": [
+        "1½ cups all-purpose flour",
+        "½ cup unsweetened cocoa powder",
+        "¼ tsp salt",
+        "¼ tsp baking powder",
+        "¼ tsp baking soda",
+        "½ cup butter or margarine, softened",
+        "1 cup sugar",
+        "1 egg",
+        "1½ tsp vanilla",
+        "1 (10 oz) jar maraschino cherries (about 48)",
+        "1 (6 oz) package semisweet chocolate pieces",
+        "½ cup Eagle Brand sweetened condensed milk"
+      ],
+      "steps": [
+        "In large bowl stir together flour, cocoa powder, salt, baking powder, and baking soda. In mixer bowl beat butter and sugar until fluffy. Add egg and vanilla; beat well.",
+        "Gradually add dry ingredients; beat till well blended. Shape dough into 1-inch balls; place on ungreased cookie sheet. Press down center of dough with thumb.",
+        "Drain maraschino cherries, reserving juice. Place a cherry in the center of each cookie.",
+        "In small saucepan combine chocolate pieces and sweetened condensed milk; heat till chocolate is melted. Stir in 4 tsp of the reserved cherry juice.",
+        "Spoon about 1 tsp frosting over each cherry, spreading to cover.",
+        "(Frosting may be thinned with additional cherry juice if necessary.) Bake in 350° oven about 10 minutes or till done. Remove to wire rack; cool."
+      ]
+    },
+    {
+      "id": "r138",
+      "title": "Funfetti Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": "3 dozen",
+      "note": "From Bake-Off Contest 34",
+      "ingredients": [
+        "1 (18.9 oz) pkg Pillsbury Moist Supreme Funfetti Cake Mix",
+        "⅓ cup oil",
+        "2 eggs",
+        "½ can Pillsbury Creamy Supreme Funfetti Vanilla Frosting"
+      ],
+      "steps": [
+        "In large bowl, combine cake mix, oil, and eggs; stir with spoon until thoroughly blended. Shape dough into 1-inch balls; place 2 inches apart on ungreased cookie sheets.",
+        "With bottom of glass dipped in flour, flatten to ¼-inch thickness.",
+        "Bake at 375°F for 6 to 8 minutes or until edges are light golden brown. Cool 1 minute; remove from cookie sheets.",
+        "Spread frosting over cookies. Immediately sprinkle each with candy bits from frosting. Let frosting set before storing. Store in tightly covered container."
+      ]
+    },
+    {
+      "id": "r139",
+      "title": "Holiday Cookie Mix",
+      "category": "Cookies & Bars",
+      "contributor": "elaine-hartly",
+      "cardImages": [],
+      "temp": "375°",
+      "time": null,
+      "makes": "23 cups of mix",
+      "note": null,
+      "ingredients": [
+        "## Base Mix",
+        "12 cups all-purpose flour",
+        "4 cups sugar",
+        "3 Tbsp baking powder",
+        "1 Tbsp salt",
+        "4 cups shortening"
+      ],
+      "steps": [
+        "In Fix-N-Mix bowl combine first 4 ingredients. Cut in shortening till mixture resembles fine crumbs. Spoon into canister.",
+        "Seal; store at room temperature up to 6 weeks or freeze for longer storage.",
+        "Cherry-Almond Drops (Makes 2 dozen): Combine 2 cups cookie mix, 1 egg, and ½ tsp almond extract. Add ½ cup chopped almonds and ¼ cup finely chopped maraschino cherries.",
+        "Drop from teaspoon onto greased cookie sheet. Bake at 375° for 8–10 minutes or just till edges are lightly browned. Cool on rack.",
+        "Festive Cutouts (Makes 3 dozen): Combine 2 cups cookie mix, 1 egg, and ½ tsp vanilla. Roll dough to ¼-inch thickness. Cut with 2½-inch cookie cutters.",
+        "Transfer to ungreased cookie sheet. Bake at 375° about 8 minutes or till light brown. Cool on wire rack. Decorate with icing if desired."
+      ]
+    },
+    {
+      "id": "r140",
+      "title": "Magic Cookie Bars",
+      "category": "Cookies & Bars",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "24 bars",
+      "note": null,
+      "ingredients": [
+        "½ cup butter or margarine",
+        "1⅓ cups graham cracker crumbs",
+        "1 (14 oz) can Eagle Brand Sweetened Condensed Milk",
+        "1 (6 oz) package semi-sweet chocolate morsels",
+        "1 (3½ oz) can flaked coconut",
+        "1 cup chopped nuts"
+      ],
+      "steps": [
+        "Preheat oven to 350° (325° for glass dish). In 13x9-inch baking pan, melt butter. Sprinkle crumbs over butter; pour sweetened condensed milk evenly over crumbs.",
+        "Top evenly with remaining ingredients; press down gently.",
+        "Bake 25 to 30 minutes or until lightly browned. Cool before cutting."
+      ]
+    },
+    {
+      "id": "r141",
+      "title": "Molasses Butterball Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "325°",
+      "time": null,
+      "makes": "about 4 dozen",
+      "note": null,
+      "ingredients": [
+        "1 cup butter or margarine",
+        "¼ cup molasses",
+        "2 cups all-purpose flour",
+        "2 cups very finely chopped walnuts",
+        "Powdered sugar for coating"
+      ],
+      "steps": [
+        "In mixer bowl beat butter or margarine on medium speed for 30 seconds. Add molasses and beat till fluffy.",
+        "Add flour to butter mixture; beat at low speed till well blended. Stir in nuts. Using about 1 Tbsp dough for each, shape dough into 1-inch balls.",
+        "Place on ungreased baking sheet. Bake in a 325° oven 20 minutes. Remove to wire rack to cool. When cookies are cool, gently roll them in powdered sugar to coat."
+      ]
+    },
+    {
+      "id": "r142",
+      "title": "Nana's Chocolate Chip Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2¼ cups flour",
+        "1 tsp baking soda",
+        "1 tsp salt",
+        "1 cup (2 sticks) butter, softened",
+        "¾ cup granulated sugar",
+        "¾ cup brown sugar, packed",
+        "1½ tsp vanilla",
+        "2 large eggs",
+        "3 cups chocolate morsels (1½ bags)",
+        "1 cup chopped nuts, optional"
+      ],
+      "steps": [
+        "Preheat oven to 350°F.",
+        "In a large mixing bowl, beat butter, granulated sugar, brown sugar, and vanilla until creamy.",
+        "In a small bowl, combine flour, baking soda, and salt.",
+        "Add eggs, one at a time, beating well after each addition. Beat in flour mixture gradually. Stir in morsels (and nuts if desired).",
+        "Drop by rounded tablespoon onto an ungreased baking sheet.",
+        "Bake 8 minutes (2 minutes longer if you prefer crispier).",
+        "Cool 2 minutes on baking sheet; remove to wire racks to cool completely."
+      ]
+    },
+    {
+      "id": "r143",
+      "title": "No-Bake Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "tiffany-jefferson",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups sugar",
+        "½ cup milk",
+        "¼ cup cocoa powder",
+        "¼ cup margarine",
+        "3 cups quick cooking oats",
+        "½ cup peanut butter",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Bring sugar, milk, cocoa, and margarine to a boil in a saucepan over medium-high heat, stirring constantly. When mixture reaches boil, continue stirring for one minute.",
+        "Remove from heat.",
+        "Add oats, peanut butter, and vanilla. Combine well. Form into balls and drop onto wax paper. Let cool. Makes 3–4 dozen."
+      ]
+    },
+    {
+      "id": "r144",
+      "title": "Old Fashioned Sugar Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": "From The American Cooking Guild, 1989",
+      "ingredients": [
+        "3¼ cups all purpose flour",
+        "1½ cups granulated sugar",
+        "⅔ cup shortening",
+        "2 eggs",
+        "2½ tsp double-acting baking powder",
+        "2 Tbsp milk",
+        "1 tsp vanilla extract",
+        "½ tsp salt"
+      ],
+      "steps": [
+        "In large bowl combine all ingredients. With mixer at medium speed beat until well mixed, scraping sides of bowl. Mixture will be crumbly.",
+        "Shape dough into ball and wrap with waxed paper; refrigerate 2 to 3 hours until easy to handle.",
+        "When ready to bake, preheat oven to 400° and lightly grease cookie sheets. On lightly floured surface, roll half of dough at a time, keeping rest refrigerated.",
+        "For crisp cookies roll dough paper-thin. For softer cookies roll out dough ⅛ to ¼-inch thick. Cut into shapes with floured cookie cutters.",
+        "Place ½-inch apart on cookie sheets. Bake 8 minutes or until very light brown. Remove to racks; cool immediately."
+      ]
+    },
+    {
+      "id": "r145",
+      "title": "Peanut Butter Cut-Out Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "½ cup (1 stick) butter or margarine",
+        "1 cup peanut butter chips",
+        "⅔ cup packed light brown sugar",
+        "1 egg",
+        "¾ tsp vanilla",
+        "1⅓ cups flour",
+        "¾ tsp baking soda",
+        "1 cup vanilla frosting — food color",
+        "Candy bits"
+      ],
+      "steps": [
+        "Combine butter and peanut butter chips in saucepan; cook over low heat, stirring constantly until melted. Pour into large bowl, add brown sugar, egg, and vanilla.",
+        "Beat well. Stir in flour and baking soda. Refrigerate 15–20 min.",
+        "Heat oven to 350°F. Roll a small portion at a time on lightly floured surface to ¼\" thick. Cut into desired shapes; place on ungreased cookie sheet. Bake 7–8 min.",
+        "Cool 1 min, remove and put on wire rack. Garnish with candy bits or frost."
+      ]
+    },
+    {
+      "id": "r146",
+      "title": "Peanut Butter Squares",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups peanut butter",
+        "¾ cup honey",
+        "2 cups powdered milk",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Mix peanut butter, honey, powdered milk, and vanilla until well blended. Pat into pan of desired thickness — either 8x8 in or 8x13 in.",
+        "Top with melted chocolate. Drizzle with glaze if desired. Cut into squares."
+      ]
+    },
+    {
+      "id": "r147",
+      "title": "Puddin' Head Gingerbread Men",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "2½ dozen 4-inch cookies",
+      "note": null,
+      "ingredients": [
+        "½ cup butter or margarine, softened",
+        "½ cup packed brown sugar",
+        "1 (3¾ or 4 oz) package regular butterscotch pudding mix",
+        "1 egg",
+        "1½ cups all-purpose flour",
+        "1 tsp baking soda",
+        "1½ tsp ground ginger",
+        "½ tsp ground cinnamon",
+        "2 cups sifted powdered sugar",
+        "2 Tbsp frozen lemonade concentrate, thawed",
+        "Water as needed",
+        "Gumdrops and assorted candies (optional)"
+      ],
+      "steps": [
+        "Cream butter or margarine, brown sugar, and pudding mix. Add egg; beat well. Combine flour, baking soda, ginger, and cinnamon. Stir into creamed mixture; chill.",
+        "Roll part of chilled dough out on floured surface to ⅛-inch thickness. Cut with 4-inch gingerbread-man cutter. Place on ungreased cookie sheet.",
+        "Bake in 350° oven for 6 to 8 minutes. Remove from cookie sheet. Cool.",
+        "Mix powdered sugar, lemonade concentrate, and enough water to make spreading consistency. Frost gingerbread men or use pastry tube to pipe on frosting decorations.",
+        "Decorate with candies if desired."
+      ]
+    },
+    {
+      "id": "r148",
+      "title": "Sugar Cookies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "400°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1½ cup sugar",
+        "1½ cup flour",
+        "½ tsp salt",
+        "½ tsp baking powder",
+        "½ tsp baking soda",
+        "½ cup butter",
+        "2 Tbs milk",
+        "1 tsp vanilla",
+        "1 egg"
+      ],
+      "steps": [
+        "Mix together. Roll out and cut.",
+        "Bake at 400° for 8 min."
+      ]
+    },
+    {
+      "id": "r149",
+      "title": "Tri-Level Brownies",
+      "category": "Cookies & Bars",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "16",
+      "note": null,
+      "ingredients": [
+        "## Bottom Layer",
+        "1 cup quick-cooking rolled oats",
+        "½ cup all-purpose flour",
+        "½ cup packed brown sugar",
+        "¼ tsp baking soda",
+        "6 Tbsp butter or margarine, melted",
+        "## Middle Layer",
+        "¾ cup granulated sugar",
+        "¼ cup butter or margarine, melted",
+        "1 oz unsweetened chocolate, melted and cooled",
+        "1 egg",
+        "⅔ cup all-purpose flour",
+        "¼ tsp baking powder",
+        "¼ cup milk",
+        "½ tsp vanilla",
+        "½ cup chopped walnuts",
+        "## Fudge Frosting",
+        "1 oz unsweetened chocolate",
+        "2 Tbsp butter or margarine",
+        "1½ cups sifted powdered sugar",
+        "1 tsp vanilla",
+        "Hot water (about 2 Tbsp)"
+      ],
+      "steps": [
+        "For bottom layer, stir together first 4 ingredients and ¼ tsp salt. Stir in melted butter. Pat in 11x7½x1½-inch baking pan. Bake at 350° for 10 minutes.",
+        "For middle layer, combine granulated sugar, ¼ cup butter, and chocolate; add egg. Beat well.",
+        "Stir together ⅔ cup flour, baking powder, and ¼ tsp salt; add to chocolate mixture alternately with a mixture of the milk and vanilla, mixing after each addition.",
+        "Fold in nuts. Spread batter over baked layer. Continue baking at 350° for 25 minutes. Cool. Frost with Fudge Frosting. Cut into bars.",
+        "Fudge Frosting: In small saucepan melt chocolate and butter over low heat; stir constantly. Remove from heat; stir in powdered sugar and vanilla.",
+        "Blend in hot water (about 2 Tbsp) to make almost pourable consistency."
+      ]
+    },
+    {
+      "id": "r150",
+      "title": "Famous Fudge",
+      "category": "Candy",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1½ cups sugar",
+        "⅔ cup evaporated milk",
+        "2 Tbsp butter or margarine",
+        "¼ tsp salt",
+        "2 cups mini marshmallows",
+        "1½ cups semi-sweet chocolate morsels",
+        "½ cup chopped nuts (optional)",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Line 8-inch square baking pan with foil. In a medium heavy-duty saucepan, combine sugar, evaporated milk, butter, and salt.",
+        "Bring to a full rolling boil over medium-high heat, stirring constantly. Boil 4–5 minutes, stirring constantly.",
+        "Remove from heat. Stir in marshmallows, morsels, nuts, and vanilla. Stir vigorously until marshmallows are melted. Spread into prepared pan. Refrigerate until firm.",
+        "Lift foil from pan and cut into pieces."
+      ]
+    },
+    {
+      "id": "r151",
+      "title": "Chocolate Toffee Layered Dessert",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 cups cold milk",
+        "2 packages (4-serving size) JELL-O Chocolate Flavor Instant Pudding & Pie Filling",
+        "1 tub (8 oz) COOL WHIP Non-Dairy Whipped Topping, thawed",
+        "1 package (12 oz) Entenmann's Marble Pound Loaf, cut into ½-inch cubes",
+        "½ cup chocolate syrup",
+        "4 packages (1.4 oz each) chocolate-covered English toffee bars, chopped"
+      ],
+      "steps": [
+        "Pour milk into large bowl. Add pudding mixes. Beat with wire whisk 2 minutes. Let stand 5 minutes. Gently stir in 2 cups of the whipped topping.",
+        "Arrange ½ of the cake cubes in 3½-quart serving bowl. Drizzle with ½ of the chocolate syrup. Layer with ½ of the chopped candy bars and ½ of the pudding mixture.",
+        "Repeat layers ending with pudding mixture."
+      ]
+    },
+    {
+      "id": "r152",
+      "title": "Cobbler",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 pts berries (maybe a bit more)",
+        "1 sm Jello — plain",
+        "½ cup sugar",
+        "1 yellow cake mix",
+        "1½ cube margarine, melted",
+        "¼ cup water"
+      ],
+      "steps": [
+        "Place berries on bottom of a pan. Mix in Jello and sugar. In a separate bowl, mix cake mix, margarine, and water. Spread evenly over berries.",
+        "Bake at 350° for about 20+ min til golden brown."
+      ]
+    },
+    {
+      "id": "r153",
+      "title": "Creamy Apple Squares",
+      "category": "Desserts",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": "12 to 15 squares",
+      "note": "Recipe from Dornie Goins",
+      "ingredients": [
+        "1 package Pillsbury Plus Yellow Cake Mix",
+        "½ cup soft margarine or butter",
+        "¼ cup firmly packed brown sugar",
+        "½ tsp cinnamon",
+        "2 apples, thinly sliced",
+        "1 cup sour cream",
+        "1 egg"
+      ],
+      "steps": [
+        "Preheat oven to 350°. Combine cake mix and margarine; mix until crumbly.",
+        "Reserve ⅔ cup for topping; add brown sugar and cinnamon to reserved topping mix, mix well, set aside. Press remaining mixture onto bottom of ungreased 13x9-inch pan.",
+        "Arrange apple slices over base. Blend sour cream and egg; spread evenly over apples. Sprinkle reserved topping mixture over all.",
+        "Bake at 350° for 25 to 30 min or until topping is golden brown and bubbly. Serve warm. Refrigerate leftovers. Makes 12 to 15 squares.",
+        "High Altitude: Bake at 375°"
+      ]
+    },
+    {
+      "id": "r154",
+      "title": "Creamy Banana Pudding",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "8–10 servings",
+      "note": null,
+      "ingredients": [
+        "1 (14 oz) can Eagle Brand Sweetened Condensed Milk (NOT evaporated milk)",
+        "1½ cups cold water",
+        "1 (4-serving size) package instant vanilla flavor pudding mix",
+        "2 cups (1 pint) whipping cream, whipped",
+        "36 vanilla wafers",
+        "3 medium bananas, sliced and dipped in lemon juice"
+      ],
+      "steps": [
+        "In large bowl, combine sweetened condensed milk and water. Add pudding mix; beat well. Chill 5 minutes. Fold in whipped cream.",
+        "Spoon 1 cup pudding mixture into a 2½-quart glass serving bowl. Top with one-third each of the wafers, bananas, and pudding. Repeat layering twice, ending with pudding.",
+        "Chill. Garnish as desired. Refrigerate leftovers."
+      ]
+    },
+    {
+      "id": "r155",
+      "title": "Creamy Butter Frosting",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "¼ cup butter",
+        "1 tsp vanilla extract",
+        "¼ tsp salt",
+        "1 pound sifted confectioners' sugar",
+        "⅛ to ¼ cup cream"
+      ],
+      "steps": [
+        "Cream butter in mixing bowl. Add vanilla extract, salt, sugar, and cream. Beat until smooth and of spreading consistency. If necessary, thin with additional cream."
+      ]
+    },
+    {
+      "id": "r156",
+      "title": "Emily's Two-Layer Dessert",
+      "category": "Desserts",
+      "contributor": "emily-d",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "## 1st Layer",
+        "2 cups flour",
+        "1 stick margarine",
+        "½ cup nuts",
+        "## 2nd Layer",
+        "1 (8 oz) pkg Philadelphia Cream Cheese",
+        "1 cup powdered sugar",
+        "½ large container Cool Whip",
+        "## Frosting / 3rd Layer",
+        "5 Tbs flour",
+        "1 cup milk — cook until thick",
+        "1 cup butter",
+        "1 cup sugar",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Mix as crust in bottom of 9x13 pan. Bake at 350° for 15 min. Cool.",
+        "Mix and fold together. Spread over cooled 1st layer.",
+        "Cook flour and milk, stirring constantly, until thick. Cool completely.",
+        "Beat flour mixture with butter, sugar, and vanilla until spreading consistency — should look like whipped cream. Spread as top layer.",
+        "Refrigerate 2 hrs. Serve on taller plate, topping with remaining Cool Whip. Keep refrigerated."
+      ]
+    },
+    {
+      "id": "r157",
+      "title": "Lemon Cheesecake Mousse",
+      "category": "Desserts",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 package graham crackers, crushed, plus more for garnish",
+        "12 oz cream cheese, softened",
+        "1 cup powdered sugar",
+        "Juice of 1 lemon",
+        "1 cup whipped topping, plus more for garnish",
+        "Lemon wedges, for garnish"
+      ],
+      "steps": [
+        "Divide crushed graham crackers between 4 dessert cups. In a large bowl using a hand mixer, whip cream cheese until light and fluffy.",
+        "Add powdered sugar, lemon juice, and salt and beat until combined. Fold in 1 cup whipped topping.",
+        "Pipe cream cheese mixture into cups and place in refrigerator until thickened, 1 hour up to overnight.",
+        "When ready to serve, top with remaining whipped topping and garnish with crushed graham crackers and lemon wedges."
+      ]
+    },
+    {
+      "id": "r158",
+      "title": "Lemon Rice Pudding",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": "Microwave",
+      "ingredients": [
+        "1 cup cooked rice",
+        "¼ cup sugar",
+        "2 eggs, slightly beaten",
+        "1½ tsp lemon extract",
+        "2 tsp grated lemon peel",
+        "1½ cups skim milk",
+        "Ground nutmeg",
+        "Lemon slices and fresh mint for garnish"
+      ],
+      "steps": [
+        "In a 2 qt dish, combine rice and sugar. Spread in an even layer; set aside. In small bowl, beat eggs, lemon extract, and lemon peel. Set aside.",
+        "In 2 cup glass measure, microwave milk on 100% power 1½ min. Gradually add milk to egg mixture, stir constantly. Pour milk/egg mixture over rice mixture in dish.",
+        "Microwave 18–21 min or until knife comes out clean. Spoon into 4 dessert dishes. Dust with nutmeg."
+      ]
+    },
+    {
+      "id": "r159",
+      "title": "Luscious Layered Dessert",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 cups cold milk",
+        "2 packages (4-serving size) JELL-O Vanilla Flavor Instant Pudding & Pie Filling",
+        "1 tub (8 oz) COOL WHIP Non-Dairy Whipped Topping, thawed",
+        "1 package (12 oz) Entenmann's All Butter Pound Loaf, cut into ½-inch cubes",
+        "¼ cup orange juice",
+        "2 cups sliced strawberries"
+      ],
+      "steps": [
+        "Pour milk into large bowl. Add pudding mixes. Beat with wire whisk 2 minutes. Let stand 5 minutes. Gently stir in 2 cups of the whipped topping.",
+        "Arrange ½ of the cake cubes in a 3½-quart serving bowl. Drizzle with ½ of the orange juice. Spread ½ of the pudding mixture over cake cubes. Top with strawberries.",
+        "Layer with remaining cake cubes, orange juice, and pudding mixture.",
+        "Refrigerate 1 hour or until ready to serve. Garnish with remaining whipped topping. Store leftover dessert in refrigerator."
+      ]
+    },
+    {
+      "id": "r160",
+      "title": "Majestic Plum Pudding",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "6 to 8 servings",
+      "note": null,
+      "ingredients": [
+        "2 cups soft bread crumbs",
+        "½ cup milk",
+        "2 beaten eggs",
+        "½ cup packed brown sugar",
+        "½ cup chopped beef suet (3 oz)",
+        "½ cup all-purpose flour",
+        "½ tsp baking soda",
+        "½ tsp ground nutmeg",
+        "½ tsp ground cinnamon",
+        "¼ tsp salt",
+        "1 cup finely chopped pared apple (1 large)",
+        "1 cup raisins",
+        "¼ cup mixed candied fruits and peels",
+        "½ cup finely chopped walnuts"
+      ],
+      "steps": [
+        "Soak the bread in milk; beat smooth. Stir in eggs, brown sugar, and suet. Stir together flour, baking soda, spices, and salt. Add fruits and nuts; mix well.",
+        "Stir in bread mixture. Oil and lightly flour a 1-quart mold. Press pudding into mold. Cover with foil; tie with string.",
+        "Place on rack in deep kettle; add boiling water 1 inch deep. Cover and steam 2 hours or till done. Serve warm with Foamy Sauce or Hard Sauce.",
+        "Foamy Sauce: Beat 2 egg whites to stiff peaks; gradually add 1 cup sifted powdered sugar. Beat 2 egg yolks and ¼ tsp vanilla till thick; fold into egg white.",
+        "Whip ½ cup whipping cream to soft peaks; fold into egg mixture.",
+        "Hard Sauce: Thoroughly cream ½ cup butter or margarine with 2 cups sifted powdered sugar. Add 1 tsp vanilla and 1 beaten egg yolk; mix well.",
+        "Fold in 1 stiffly beaten egg white. Chill. Pipe in rosettes around pudding using pastry bag if desired."
+      ]
+    },
+    {
+      "id": "r161",
+      "title": "Man in a Hurry Cobbler",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "300°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 stick margarine",
+        "1 cup sugar",
+        "1 cup flour",
+        "Fruit of choice"
+      ],
+      "steps": [
+        "Bake at 300° till done, light brown and bubbly."
+      ]
+    },
+    {
+      "id": "r162",
+      "title": "Pear Crisp",
+      "category": "Desserts",
+      "contributor": "emily-nash",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1½ cups flour",
+        "1 cup sugar — white or brown",
+        "½ cup margarine",
+        "Pears, sliced — enough to fill a pie pan"
+      ],
+      "steps": [
+        "Mix ingredients — either melted butter or make a crumbly mixture. Slice pears — enough to fill a pie pan. Top with crumble mixture."
+      ]
+    },
+    {
+      "id": "r163",
+      "title": "Powdered Sugar Pastry / Icing",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "3 cups",
+      "note": "D.T.J.",
+      "ingredients": [
+        "1 pound powdered sugar, sifted",
+        "2 Tbsp Crisco",
+        "Water or milk as needed",
+        "1 tsp vanilla"
+      ],
+      "steps": [
+        "Mix in slow speed, then mix in fast speed. Always sift your powdered sugar."
+      ]
+    },
+    {
+      "id": "r164",
+      "title": "Rainbow in a Cloud",
+      "category": "Desserts",
+      "contributor": "jeanette",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "1 pkg (3 oz) Jello Gelatin, any flavor",
+        "1 cup boiling water",
+        "½ cup cold water",
+        "1⅓ cups Cool Whip Non-Dairy Whipped Topping, thawed"
+      ],
+      "steps": [
+        "Dissolve gelatin in boiling water. Add cold water and pour into 8-inch square pan. Chill until firm, at least 3 hours.",
+        "Cut into cubes using sharp knife that has been dipped in hot water. Quickly dip pan in warm water. Remove cubes with spatula.",
+        "Spoon about ⅓ cup of the whipped topping into each of 4 dessert glasses. Using back of spoon, make depression in center and spread topping up sides of glasses.",
+        "Spoon gelatin cubes into glasses. Chill."
+      ]
+    },
+    {
+      "id": "r165",
+      "title": "Rice Pudding",
+      "category": "Desserts",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": "350°",
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 cups nonfat milk",
+        "⅓ cup rice",
+        "¼ cup sugar",
+        "½ tsp vanilla",
+        "¼ tsp nutmeg"
+      ],
+      "steps": [
+        "Combine ingredients in baking pan. Cover and bake at 350° for 3 hrs or until golden brown."
+      ]
+    },
+    {
+      "id": "r166",
+      "title": "Glogg Nog",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "17 cups",
+      "note": null,
+      "ingredients": [
+        "6 eggs",
+        "¼ cup sugar",
+        "¼ tsp ground cardamom",
+        "¼ tsp ground cinnamon",
+        "¼ tsp ground cloves",
+        "1 quart vanilla ice cream, softened",
+        "6 cups orange juice",
+        "¼ cup lemon juice",
+        "1 quart (4 cups) ginger ale, chilled",
+        "Ice Ring, ground nutmeg, stick cinnamon (all optional)"
+      ],
+      "steps": [
+        "Beat eggs on low speed of electric mixer till blended. Add sugar and spices. Beat at medium speed till sugar is dissolved. On low speed beat in softened ice cream.",
+        "Add the juices. Cover and chill. To serve, pour the ice cream mixture into a large punch bowl. Slowly pour in ginger ale, stirring with an up-and-down motion.",
+        "Add Ice Ring to punch bowl if desired. For each serving, sprinkle nutmeg atop and add a stick cinnamon stirrer if desired.",
+        "Ice Ring: Arrange orange slices in bottom of a small ring mold. Fill with cold water. Freeze till firm. Unmold onto plate; slip ring gently into punch bowl."
+      ]
+    },
+    {
+      "id": "r167",
+      "title": "Kiwi Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "3 servings",
+      "note": null,
+      "ingredients": [
+        "2 cups Chablis",
+        "3 very ripe kiwis, peeled and sieved",
+        "2 Tbsp sugar",
+        "1 tsp lime juice"
+      ],
+      "steps": [
+        "Combine wine, kiwi puree, sugar, and lime juice. Chill well or serve over ice cubes.",
+        "#"
+      ]
+    },
+    {
+      "id": "r168",
+      "title": "Lemonade",
+      "category": "Drinks",
+      "contributor": "sharon",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "7–14 servings",
+      "note": null,
+      "ingredients": [
+        "2 cups lemon juice",
+        "6 cups water",
+        "⅔ cup sugar (add more if needed)"
+      ],
+      "steps": [
+        "Mix together in a large pitcher. Pour over ice in glasses."
+      ]
+    },
+    {
+      "id": "r169",
+      "title": "Low-Fat Yogurt Drink",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "1 small container low fat honey yogurt",
+        "2 or 3 cups fresh or thawed berries",
+        "2 Tbsp honey or to taste",
+        "Enough milk to make drinkable"
+      ],
+      "steps": [
+        "Blend together and serve."
+      ]
+    },
+    {
+      "id": "r170",
+      "title": "Mango Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "3 mangos, peeled, seeded, and pureed",
+        "½ pint vanilla ice cream",
+        "½ cup tequila",
+        "2 Tbsp sugar",
+        "2 cups ice cubes"
+      ],
+      "steps": [
+        "Combine mango puree, ice cream, tequila, and sugar in blender and blend well. Add ice cubes and blend until thick and frothy. Serve at once."
+      ]
+    },
+    {
+      "id": "r171",
+      "title": "Orange Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "4 servings",
+      "note": null,
+      "ingredients": [
+        "1 cup fresh orange juice",
+        "1 cup Chenin Blanc",
+        "1 Tbsp sugar",
+        "Ginger ale"
+      ],
+      "steps": [
+        "Combine orange juice, wine, and sugar. Blend well. Fill 4 tall glasses with ice cubes and divide orange mixture among them. Fill glasses to top with ginger ale."
+      ]
+    },
+    {
+      "id": "r172",
+      "title": "Orange Melon Wine Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "3 drinks",
+      "note": null,
+      "ingredients": [
+        "2 cups white Gamay Beaujolais",
+        "1 cup orange melon puree",
+        "2 Tbsp sugar",
+        "Juice of ½ lime"
+      ],
+      "steps": [
+        "Combine wine, melon puree, sugar, and lime juice and blend well. Chill thoroughly or serve over ice cubes."
+      ]
+    },
+    {
+      "id": "r173",
+      "title": "Pineapple-Lychee and Rum Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "10–12 servings",
+      "note": null,
+      "ingredients": [
+        "4 cups chopped fresh pineapple",
+        "1 (20 oz) can seeded lychees in syrup",
+        "2 Tbsp sugar",
+        "¼ to ½ cup rum",
+        "2 cups ice cubes"
+      ],
+      "steps": [
+        "Puree pineapple and lychees with syrup in blender. Add sugar and rum. Blend well. Blend ½ pineapple mix with 1 cup ice till frothy.",
+        "Repeat with other half of pineapple mix and ice cubes. Serve at once."
+      ]
+    },
+    {
+      "id": "r174",
+      "title": "Strawberry Cooler",
+      "category": "Drinks",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": "6 to 8 servings",
+      "note": null,
+      "ingredients": [
+        "2 cups Muscat Alexandria or other sweet white wine",
+        "2 cups strawberries",
+        "2 Tbsp sugar",
+        "1 Tbsp lime juice",
+        "1 cup ice cubes"
+      ],
+      "steps": [
+        "Combine wine and strawberries in blender and puree. Strain. Add sugar and lime juice to wine mixture. Add ice cubes and blend till thick and frothy."
+      ]
+    },
+    {
+      "id": "r175",
+      "title": "Cough Remedy",
+      "category": "Remedies & More",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "2 cups water",
+        "1 cup raisins",
+        "2 oranges, cut up",
+        "1 lemon, cut up",
+        "2 tsp ginger, grated",
+        "2 tsp honey"
+      ],
+      "steps": [
+        "Boil 20 min. Strain and drink."
+      ]
+    },
+    {
+      "id": "r176",
+      "title": "Fruit Flavored Vinegar",
+      "category": "Remedies & More",
+      "contributor": "none",
+      "cardImages": [],
+      "temp": null,
+      "time": null,
+      "makes": null,
+      "note": null,
+      "ingredients": [
+        "3 cups white vinegar",
+        "⅛ cup sugar",
+        "1–1½ cups fruit of choice"
+      ],
+      "steps": [
+        "Heat sugar and vinegar. Pour over fruit in jar. Let set 5 days. Strain. Store."
       ]
     }
   ]

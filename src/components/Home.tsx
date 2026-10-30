@@ -97,7 +97,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
 
       <div className="list-head row-between">
         <span className="t">{q ? 'Results' : favorites ? 'Hearted recipes' : f.who && P[f.who] ? 'From ' + P[f.who].short + '’s kitchen' : f.cat || 'All recipes'}</span>
-        <span className="meta">{plural(list.length, 'card')}</span>
+        <span className="meta">{plural(list.length, 'recipe')}</span>
       </div>
       <div className="pad">
         {list.map((r) => {
@@ -106,7 +106,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
           const p = P[r.contributor];
           return (
             <button key={r.id} className="recipe-row" onClick={() => go('recipe/' + r.id)}>
-              {r.cardImages[0] ? <img className="thumb" src={r.cardImages[0]} alt="" loading="lazy" /> : <div className="thumb" />}
+              {r.cardImages[0] ? <img className="thumb" src={r.cardImages[0]} alt="" loading="lazy" /> : <div className="thumb thumb-blank" aria-hidden>{r.title.replace(/^[^A-Za-z0-9]+/, '')[0]}</div>}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="t">{r.title}</div>
                 <div className="s">

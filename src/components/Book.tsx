@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { Family } from '../lib/store';
-import { isTyped } from '../types';
+import { groupName, isGroup, isTyped } from '../types';
 import { MOM_NOTE } from './bits';
 
 type Opts = { cards: boolean; typed: boolean; stories: boolean };
@@ -93,12 +93,18 @@ function PrintBook({ fam, opts }: { fam: Family; opts: Opts }) {
             </div>
             {opts.typed && isTyped(r) && (
               <>
-                {r.note && <p className="st">Note on the card: “{r.note}”</p>}
+                {r.note && <p className="st">{r.cardImages.length ? `Note on the card: “${r.note}”` : r.note}</p>}
                 <h3>Ingredients</h3>
                 <ul>
-                  {r.ingredients!.map((t, i) => (
-                    <li key={i}>{t}</li>
-                  ))}
+                  {r.ingredients!.map((t, i) =>
+                    isGroup(t) ? (
+                      <li key={i} className="grp">
+                        {groupName(t)}
+                      </li>
+                    ) : (
+                      <li key={i}>{t}</li>
+                    ),
+                  )}
                 </ul>
                 <h3>Method</h3>
                 <ol>

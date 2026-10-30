@@ -32,4 +32,8 @@ export interface Story {
   createdAt: number;
 }
 
-export const isTyped = (r: Recipe) => !!r.ingredients && r.ingredients.length > 0;
+/** Ingredient lines starting with "## " are section headings, like "## Topping". */
+export const isGroup = (t: string) => t.startsWith('## ');
+export const groupName = (t: string) => t.slice(3).trim();
+
+export const isTyped =(r: Recipe) => !!r.ingredients && r.ingredients.length > 0;
