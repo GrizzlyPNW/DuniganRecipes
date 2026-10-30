@@ -1431,7 +1431,9 @@
       "title": "Breakfast or Anytime Drink",
       "category": "Breakfast",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Breakfast or Anytime Drink.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "1 serving",
@@ -1564,7 +1566,10 @@
       "title": "Yorkshire Pudding",
       "category": "Breakfast",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Yorkshire Pudding - Front.png",
+        "uploads/Yorkshire Pudding - Back.png"
+      ],
       "temp": "425°",
       "time": null,
       "makes": null,
@@ -1588,7 +1593,10 @@
       "title": "Basic Muffins",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Basic Muffins - Front.png",
+        "uploads/Basic Muffins - Back.png"
+      ],
       "temp": "400°",
       "time": null,
       "makes": "10–12 muffins",
@@ -1612,7 +1620,10 @@
       "title": "Candy Cane Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Candy Cane Bread - Front.png",
+        "uploads/Candy Cane Bread - Back.png"
+      ],
       "temp": "425°",
       "time": null,
       "makes": "10",
@@ -1645,7 +1656,10 @@
       "title": "Cheese Straws",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cheese Straws - Front.png",
+        "uploads/Cheese Straws - Back.png"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -1738,7 +1752,10 @@
       "title": "Honey Oatmeal Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Honey Oatmeal Bread - Front.png",
+        "uploads/Honey Oatmeal Bread - Back.png"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -1889,7 +1906,10 @@
       "title": "Pumpkin Muffins",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pumpkin Muffins - Front.png",
+        "uploads/Pumpkin Muffins - Back.png"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -1916,7 +1936,10 @@
       "title": "Scones",
       "category": "Breads & Muffins",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Scones - Front.png",
+        "uploads/Scones - Back.png"
+      ],
       "temp": "375°",
       "time": null,
       "makes": null,
@@ -1942,7 +1965,10 @@
       "title": "Sourdough Biscuits",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sourdough Biscuits - Front.png",
+        "uploads/Sourdough Biscuits - Back.png"
+      ],
       "temp": "375°",
       "time": null,
       "makes": null,
@@ -1968,7 +1994,10 @@
       "title": "Whole Wheat Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Whole Wheat Bread - Front.png",
+        "uploads/Whole Wheat Bread - Back.png"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -1997,7 +2026,10 @@
       "title": "Yeast Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Yeast Bread - Front.png",
+        "uploads/Yeast Bread - Back.png"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2025,7 +2057,10 @@
       "title": "Zucchini Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Zucchini Bread - Front.png",
+        "uploads/Zucchini Bread - Back.png"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "1 loaf",
@@ -2142,7 +2177,10 @@
       "title": "Onion Soup",
       "category": "Soups & Stews",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Onion Soup - Front.png",
+        "uploads/Onion Soup - Back.png"
+      ],
       "temp": "425°",
       "time": null,
       "makes": "6 servings",
@@ -3145,7 +3183,9 @@
       "title": "Creamy Cucumber",
       "category": "Salads & Fruit",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Creamy Cucumber.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3167,7 +3207,9 @@
       "title": "Fruit Salad",
       "category": "Salads & Fruit",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Fruit Salad.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3394,7 +3436,9 @@
       "title": "Salmon Spread",
       "category": "Dips & Spreads",
       "contributor": "elaine-hartly",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Salmon Spread.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3419,7 +3463,10 @@
       "title": "Spinach Ricotta Pie (Dip)",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Spinach Ricotta Pie (Dip) - Front.png",
+        "uploads/Spinach Ricotta Pie (Dip) - Back.png"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "12 servings",
@@ -4993,7 +5040,9 @@
       "title": "Kiwi Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Kiwi Cooler.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "3 servings",
@@ -5015,7 +5064,9 @@
       "title": "Lemonade",
       "category": "Drinks",
       "contributor": "sharon",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Lemonade.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "7–14 servings",
@@ -5035,7 +5086,9 @@
       "title": "Low-Fat Yogurt Drink",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Low-Fat Yogurt Drink.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -5078,7 +5131,9 @@
       "title": "Orange Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Orange Cooler.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -5120,7 +5175,9 @@
       "title": "Pineapple-Lychee and Rum Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pineapple-Lychee and Rum Cooler.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "10–12 servings",
@@ -5143,7 +5200,9 @@
       "title": "Strawberry Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Strawberry Cooler.png"
+      ],
       "temp": null,
       "time": null,
       "makes": "6 to 8 servings",
@@ -5165,7 +5224,9 @@
       "title": "Cough Remedy",
       "category": "Remedies & More",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cough Remedy.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -5188,7 +5249,9 @@
       "title": "Fruit Flavored Vinegar",
       "category": "Remedies & More",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Fruit Flavored Vinegar.png"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
