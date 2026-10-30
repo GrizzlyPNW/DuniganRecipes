@@ -1454,7 +1454,10 @@
       "title": "Belgian Waffles",
       "category": "Breakfast",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Belgian Waffles - Front.jpg",
+        "uploads/Belgian Waffles - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -1481,7 +1484,10 @@
       "title": "Ham and Swiss Quiche",
       "category": "Breakfast",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Ham and Swiss Quiche - Front.jpg",
+        "uploads/Ham and Swiss Quiche - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -1509,7 +1515,9 @@
       "title": "Hash Brown Breakfast Casserole",
       "category": "Breakfast",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Hash Brown Breakfast Casserole.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -1538,7 +1546,9 @@
       "title": "Huevos Rancheros Pizza",
       "category": "Breakfast",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Huevos Rancheros Pizza.jpg"
+      ],
       "temp": "450°",
       "time": null,
       "makes": "4–6 servings",
@@ -1687,7 +1697,10 @@
       "title": "Citrus Nut Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Citrus Nut Bread - Front.jpg",
+        "uploads/Citrus Nut Bread - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "1 loaf",
@@ -1718,7 +1731,10 @@
       "title": "Festive Three C Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Festive Three C Bread - Front.jpg",
+        "uploads/Festive Three C Bread - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "4 small loaves",
@@ -1782,7 +1798,10 @@
       "title": "Lemon Tea Bread",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Lemon Tea Bread - Front.jpg",
+        "uploads/Lemon Tea Bread - Back.jpg"
+      ],
       "temp": "325°",
       "time": null,
       "makes": null,
@@ -1845,7 +1864,9 @@
       "title": "Pennsylvania Dutch Christmas Loaves",
       "category": "Breads & Muffins",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pennsylvania Dutch Christmas Loaves.jpg"
+      ],
       "temp": "375°",
       "time": null,
       "makes": "4 loaves",
@@ -1882,7 +1903,10 @@
       "title": "Pizza Crust",
       "category": "Breads & Muffins",
       "contributor": "olyne-unruh",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pizza Crust - Front.jpg",
+        "uploads/Pizza Crust - Back.jpg"
+      ],
       "temp": "375°",
       "time": null,
       "makes": null,
@@ -2088,7 +2112,9 @@
       "title": "Big Rock Candy Mountain Stew",
       "category": "Soups & Stews",
       "contributor": "jeff-ashley",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Big Rock Candy Mountain Stew.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2118,7 +2144,9 @@
       "title": "Carrot Soup with Orange and Tarragon",
       "category": "Soups & Stews",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Carrot Soup with Orange and Tarragon.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -2146,7 +2174,9 @@
       "title": "Cauliflower Soup",
       "category": "Soups & Stews",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cauliflower Soup.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2206,7 +2236,9 @@
       "title": "Simple Turkey Chili",
       "category": "Soups & Stews",
       "contributor": "amanda-ingraham",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Simple Turkey Chili.jpg"
+      ],
       "temp": null,
       "time": "Prep: 15 min · Cook: 45 min · Ready in: 1 hr",
       "makes": null,
@@ -2239,7 +2271,9 @@
       "title": "Turkey Chili",
       "category": "Soups & Stews",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Turkey Chili.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "6 servings",
@@ -2270,7 +2304,9 @@
       "title": "Vegetable Chowder",
       "category": "Soups & Stews",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Vegetable Chowder.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "8 servings",
@@ -2297,7 +2333,9 @@
       "title": "Angel Hair with Smoked Salmon in Tomato-Herb Sauce",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Angel Hair with Smoked Salmon in Tomato-Herb Sauce.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -2328,7 +2366,9 @@
       "title": "Antipasto Pizza",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Antipasto Pizza.jpg"
+      ],
       "temp": "450°",
       "time": null,
       "makes": "4–6 servings",
@@ -2354,7 +2394,10 @@
       "title": "Azteca Casserole",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Azteca Casserole - Front.jpg",
+        "uploads/Azteca Casserole - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2383,7 +2426,10 @@
       "title": "Chicken Broccoli Divan",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chicken Broccoli Divan - Front.jpg",
+        "uploads/Chicken Broccoli Divan - Back.jpg"
+      ],
       "temp": "450°",
       "time": null,
       "makes": null,
@@ -2407,7 +2453,10 @@
       "title": "Chicken Over Rice",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chicken Over Rice - Front.jpg",
+        "uploads/Chicken Over Rice - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2479,7 +2528,10 @@
       "title": "Chicken and Cheese Enchiladas",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chicken and Cheese Enchiladas - Front.jpg",
+        "uploads/Chicken and Cheese Enchiladas - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2506,7 +2558,10 @@
       "title": "Enchilada Pie",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Enchilada Pie - Front.jpg",
+        "uploads/Enchilada Pie - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2537,7 +2592,9 @@
       "title": "Foolproof Swiss Steak",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Foolproof Swiss Steak.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "4 servings",
@@ -2564,7 +2621,10 @@
       "title": "Impossible Cheeseburger Pie",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Impossible Cheeseburger Pie - Front.jpg",
+        "uploads/Impossible Cheeseburger Pie - Back.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -2589,7 +2649,9 @@
       "title": "Italian Sausage and Mushroom Pizza",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Italian Sausage and Mushroom Pizza.jpg"
+      ],
       "temp": "450°",
       "time": null,
       "makes": "4–6 servings",
@@ -2615,7 +2677,9 @@
       "title": "Make It Easy Chicken",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Make It Easy Chicken.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "4 servings",
@@ -2643,7 +2707,10 @@
       "title": "Meatballs with Rice",
       "category": "Main Dishes",
       "contributor": "sunny-b",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Meatballs with Rice - Front.jpg",
+        "uploads/Meatballs with Rice - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2670,7 +2737,9 @@
       "title": "Mexican Chicken Casserole",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Mexican Chicken Casserole.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -2695,7 +2764,9 @@
       "title": "Northwest Hazelnut Turkey Casserole",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Northwest Hazelnut Turkey Casserole.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "6 servings",
@@ -2724,7 +2795,9 @@
       "title": "Pasta with Spinach Pesto",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pasta with Spinach Pesto.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -2752,7 +2825,10 @@
       "title": "Pizza",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pizza - Front.jpg",
+        "uploads/Pizza - Back.jpg"
+      ],
       "temp": "500°",
       "time": null,
       "makes": null,
@@ -2786,7 +2862,9 @@
       "title": "Sautéed Chicken with Tomato-Saffron Vinaigrette on Frisée",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sautéed Chicken with Tomato-Saffron Vinaigrette on Frisée.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -2815,7 +2893,10 @@
       "title": "Slow Cooker Lasagna",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Slow Cooker Lasagna - Front.jpg",
+        "uploads/Slow Cooker Lasagna - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2845,7 +2926,9 @@
       "title": "Spring Garden Fettuccine",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Spring Garden Fettuccine.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -2875,7 +2958,9 @@
       "title": "Stir-Fried Turkey",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Stir-Fried Turkey.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2901,7 +2986,10 @@
       "title": "Sweet and Sour Meatballs",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sweet and Sour Meatballs - Front.jpg",
+        "uploads/Sweet and Sour Meatballs - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2930,7 +3018,10 @@
       "title": "Taco Delight",
       "category": "Main Dishes",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Taco Delight - Front.jpg",
+        "uploads/Taco Delight - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -2955,7 +3046,10 @@
       "title": "Tater Tot Casserole",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Tater Tot Casserole - Front.jpg",
+        "uploads/Tater Tot Casserole - Back.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -2979,7 +3073,9 @@
       "title": "Tortellini con Melanzane (Eggplant)",
       "category": "Main Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Tortellini con Melanzane (Eggplant).jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -3007,7 +3103,10 @@
       "title": "Canning Salsa",
       "category": "Side Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Canning Salsa - Front.jpg",
+        "uploads/Canning Salsa - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "7 quarts",
@@ -3036,7 +3135,10 @@
       "title": "Canning Tomato Sauce",
       "category": "Side Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Canning Tomato Sauce - Front.jpg",
+        "uploads/Canning Tomato Sauce - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "approx. 6–8 quarts",
@@ -3095,7 +3197,10 @@
       "title": "Salsa",
       "category": "Side Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Salsa - Front.jpg",
+        "uploads/Salsa - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3124,7 +3229,10 @@
       "title": "Spiced Oranges",
       "category": "Side Dishes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Spiced Oranges - Front.jpg",
+        "uploads/Spiced Oranges - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "3 cups",
@@ -3154,7 +3262,9 @@
       "title": "Sweet Yams",
       "category": "Side Dishes",
       "contributor": "sharon-m",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sweet Yams.jpg"
+      ],
       "temp": "375°",
       "time": null,
       "makes": null,
@@ -3236,7 +3346,10 @@
       "title": "Artichoke-Chili Dip",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Artichoke-Chili Dip - Front.jpg",
+        "uploads/Artichoke-Chili Dip - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "about 2⅔ cups",
@@ -3259,7 +3372,9 @@
       "title": "Brie en Croûte",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Brie en Croûte.jpg"
+      ],
       "temp": "400°",
       "time": "Thaw: 40 min · Prep: 15 min · Bake: 20 min · Stand: 1 hr",
       "makes": "12 servings",
@@ -3289,7 +3404,9 @@
       "title": "Cheese Ball",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cheese Ball.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3315,7 +3432,10 @@
       "title": "Cheese and Onion Tart",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cheese and Onion Tart - Front.jpg",
+        "uploads/Cheese and Onion Tart - Back.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -3339,7 +3459,9 @@
       "title": "Cheesy Zucchini and Red Onion Flatbread",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cheesy Zucchini and Red Onion Flatbread.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": "4 to 6 servings",
@@ -3367,7 +3489,9 @@
       "title": "Clotted Cream",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Clotted Cream.jpg"
+      ],
       "temp": null,
       "time": "Total Time: 10 minutes",
       "makes": "8 servings",
@@ -3388,7 +3512,9 @@
       "title": "Garden Vegetable Onion Dip",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Garden Vegetable Onion Dip.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3410,7 +3536,9 @@
       "title": "Guacamole Dip",
       "category": "Dips & Spreads",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Guacamole Dip.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3496,7 +3624,10 @@
       "title": "Banana-Nut Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Banana-Nut Cake - Front.jpg",
+        "uploads/Banana-Nut Cake - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -3528,7 +3659,10 @@
       "title": "Bible Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Bible Cake - Front.jpg",
+        "uploads/Bible Cake - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3558,7 +3692,10 @@
       "title": "Blueberry Bundt Cake",
       "category": "Cakes",
       "contributor": "elaine-hartly",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Blueberry Bundt Cake - Front.jpg",
+        "uploads/Blueberry Bundt Cake - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3580,7 +3717,9 @@
       "title": "Boose Cake",
       "category": "Cakes",
       "contributor": "martel-goins",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Boose Cake.jpg"
+      ],
       "temp": "300°",
       "time": null,
       "makes": null,
@@ -3609,7 +3748,10 @@
       "title": "Dark Fruitcake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Dark Fruitcake - Front.jpg",
+        "uploads/Dark Fruitcake - Back.jpg"
+      ],
       "temp": "300°",
       "time": null,
       "makes": null,
@@ -3649,7 +3791,9 @@
       "title": "Fresh Apple Cake",
       "category": "Cakes",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Fresh Apple Cake.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "12 servings",
@@ -3684,7 +3828,10 @@
       "title": "Golden Glow Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Golden Glow Cake - Front.jpg",
+        "uploads/Golden Glow Cake - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -3742,7 +3889,9 @@
       "title": "Pumpkin Spice Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pumpkin Spice Cake.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -3769,7 +3918,9 @@
       "title": "Pumpkin Swirl Cheesecake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pumpkin Swirl Cheesecake.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -3799,7 +3950,10 @@
       "title": "Rainbow Poke Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Rainbow Poke Cake - Front.jpg",
+        "uploads/Rainbow Poke Cake - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3823,7 +3977,10 @@
       "title": "Red Velvet Cake",
       "category": "Cakes",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Red Velvet Cake - Front.jpg",
+        "uploads/Red Velvet Cake - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -3859,7 +4016,9 @@
       "title": "Cherry Cream Pie",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cherry Cream Pie.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3883,7 +4042,10 @@
       "title": "Fresh Blueberry Pie",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Fresh Blueberry Pie - Front.jpg",
+        "uploads/Fresh Blueberry Pie - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -3913,7 +4075,9 @@
       "title": "Frontier Hazelnut Vegetable Pie",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Frontier Hazelnut Vegetable Pie.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": "8 servings",
@@ -3945,7 +4109,9 @@
       "title": "Lemon Thyme Cream Puffs",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Lemon Thyme Cream Puffs.jpg"
+      ],
       "temp": "400°",
       "time": "Thaw: 40 min · Prep: 20 min · Refrigerate: 1 hr",
       "makes": "36",
@@ -3979,7 +4145,10 @@
       "title": "Peach Pie",
       "category": "Pies & Pastries",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Peach Pie - Front.jpg",
+        "uploads/Peach Pie - Back.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -4026,25 +4195,32 @@
     },
     {
       "id": "r130",
-      "title": "Sour Cream Pecan Pie",
+      "title": "Sour Cream Peach Pie",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sour Cream Peach Pie - Front.jpg",
+        "uploads/Sour Cream Peach Pie - Back.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
       "note": null,
       "ingredients": [
-        "2 cups pecans, sliced",
+        "5 cups peaches, sliced",
         "1 cup sour cream",
-        "⅔ cup sugar, plus more for topping",
+        "⅔–1 cup sugar, plus more for topping",
         "⅓ cup flour",
         "¼ tsp nutmeg",
         "1 tsp cinnamon",
-        "⅛ tsp salt (optional)"
+        "⅛ tsp salt (optional)",
+        "Pastry for a 2-crust pie"
       ],
       "steps": [
-        "Mix everything together except pecans. Add pecans and pour into pie shell. Add top crust and brush with sugar. Bake at 400° for 30–40 min."
+        "Mix everything together except the peaches.",
+        "Add the peaches and pour into the pie shell.",
+        "Add the top crust and brush with sugar.",
+        "Bake at 400° for 30–40 min."
       ],
       "typed": true
     },
@@ -4053,7 +4229,9 @@
       "title": "Strawberry Tiramisú",
       "category": "Pies & Pastries",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Strawberry Tiramisú.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "8 servings",
@@ -4086,7 +4264,9 @@
       "title": "Any Cake Mix Can Be a Cookie",
       "category": "Cookies & Bars",
       "contributor": "n-zackette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Any Cake Mix Can Be a Cookie.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4109,7 +4289,9 @@
       "title": "Brown Sugar Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Brown Sugar Cookies.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "4 dozen",
@@ -4136,7 +4318,9 @@
       "title": "Cake Box Cookies",
       "category": "Cookies & Bars",
       "contributor": "sharon-champagne",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cake Box Cookies.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -4156,7 +4340,9 @@
       "title": "Chewy Toffee Almond Bars",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chewy Toffee Almond Bars.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "about 36 bars",
@@ -4185,7 +4371,9 @@
       "title": "Chocolate Almond Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chocolate Almond Cookies.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "about 3½ dozen",
@@ -4220,7 +4408,10 @@
       "title": "Chocolate-Covered Cherry Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chocolate-Covered Cherry Cookies - Front.jpg",
+        "uploads/Chocolate-Covered Cherry Cookies - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "48 cookies",
@@ -4254,7 +4445,9 @@
       "title": "Funfetti Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Funfetti Cookies.jpg"
+      ],
       "temp": "375°",
       "time": null,
       "makes": "3 dozen",
@@ -4278,7 +4471,9 @@
       "title": "Holiday Cookie Mix",
       "category": "Cookies & Bars",
       "contributor": "elaine-hartly",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Holiday Cookie Mix.jpg"
+      ],
       "temp": "375°",
       "time": null,
       "makes": "23 cups of mix",
@@ -4306,7 +4501,9 @@
       "title": "Magic Cookie Bars",
       "category": "Cookies & Bars",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Magic Cookie Bars.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "24 bars",
@@ -4331,7 +4528,10 @@
       "title": "Molasses Butterball Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Molasses Butterball Cookies - Front.jpg",
+        "uploads/Molasses Butterball Cookies - Back.jpg"
+      ],
       "temp": "325°",
       "time": null,
       "makes": "about 4 dozen",
@@ -4388,7 +4588,10 @@
       "title": "No-Bake Cookies",
       "category": "Cookies & Bars",
       "contributor": "tiffany-jefferson",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/No-Bake Cookies - Front.jpg",
+        "uploads/No-Bake Cookies - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4414,7 +4617,9 @@
       "title": "Old Fashioned Sugar Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Old Fashioned Sugar Cookies.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -4443,7 +4648,10 @@
       "title": "Peanut Butter Cut-Out Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Peanut Butter Cut-Out Cookies - Front.jpg",
+        "uploads/Peanut Butter Cut-Out Cookies - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -4472,7 +4680,10 @@
       "title": "Peanut Butter Squares",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Peanut Butter Squares - Front.jpg",
+        "uploads/Peanut Butter Squares - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4494,7 +4705,10 @@
       "title": "Puddin' Head Gingerbread Men",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Puddin' Head Gingerbread Men - Front.jpg",
+        "uploads/Puddin' Head Gingerbread Men - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "2½ dozen 4-inch cookies",
@@ -4527,7 +4741,9 @@
       "title": "Sugar Cookies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Sugar Cookies.jpg"
+      ],
       "temp": "400°",
       "time": null,
       "makes": null,
@@ -4554,7 +4770,10 @@
       "title": "Tri-Level Brownies",
       "category": "Cookies & Bars",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Tri-Level Brownies - Front.jpg",
+        "uploads/Tri-Level Brownies - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "16",
@@ -4598,7 +4817,10 @@
       "title": "Famous Fudge",
       "category": "Candy",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Famous Fudge - Front.jpg",
+        "uploads/Famous Fudge - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4626,7 +4848,9 @@
       "title": "Chocolate Toffee Layered Dessert",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Chocolate Toffee Layered Dessert.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4651,7 +4875,10 @@
       "title": "Cobbler",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Cobbler - Front.jpg",
+        "uploads/Cobbler - Back.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -4675,7 +4902,9 @@
       "title": "Creamy Apple Squares",
       "category": "Desserts",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Creamy Apple Squares.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": "12 to 15 squares",
@@ -4703,7 +4932,9 @@
       "title": "Creamy Banana Pudding",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Creamy Banana Pudding.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "8–10 servings",
@@ -4728,7 +4959,9 @@
       "title": "Creamy Butter Frosting",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Creamy Butter Frosting.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4750,7 +4983,9 @@
       "title": "Emily's Two-Layer Dessert",
       "category": "Desserts",
       "contributor": "emily-d",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Emily's Two-Layer Dessert.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -4785,7 +5020,9 @@
       "title": "Lemon Cheesecake Mousse",
       "category": "Desserts",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Lemon Cheesecake Mousse.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4811,7 +5048,10 @@
       "title": "Lemon Rice Pudding",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Lemon Rice Pudding - Front.jpg",
+        "uploads/Lemon Rice Pudding - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4838,7 +5078,9 @@
       "title": "Luscious Layered Dessert",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Luscious Layered Dessert.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4864,7 +5106,10 @@
       "title": "Majestic Plum Pudding",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Majestic Plum Pudding - Front.jpg",
+        "uploads/Majestic Plum Pudding - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "6 to 8 servings",
@@ -4901,7 +5146,9 @@
       "title": "Man in a Hurry Cobbler",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Man in a Hurry Cobbler.jpg"
+      ],
       "temp": "300°",
       "time": null,
       "makes": null,
@@ -4922,7 +5169,9 @@
       "title": "Pear Crisp",
       "category": "Desserts",
       "contributor": "emily-nash",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Pear Crisp.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": null,
@@ -4943,7 +5192,9 @@
       "title": "Powdered Sugar Pastry / Icing",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Powdered Sugar Pastry - Icing.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "3 cups",
@@ -4964,7 +5215,9 @@
       "title": "Rainbow in a Cloud",
       "category": "Desserts",
       "contributor": "jeanette",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Rainbow in a Cloud.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -4988,7 +5241,9 @@
       "title": "Rice Pudding",
       "category": "Desserts",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Rice Pudding.jpg"
+      ],
       "temp": "350°",
       "time": null,
       "makes": null,
@@ -5010,7 +5265,10 @@
       "title": "Glogg Nog",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Glogg Nog - Front.jpg",
+        "uploads/Glogg Nog - Back.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "17 cups",
@@ -5109,7 +5367,9 @@
       "title": "Mango Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Mango Cooler.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "4 servings",
@@ -5154,7 +5414,9 @@
       "title": "Orange Melon Wine Cooler",
       "category": "Drinks",
       "contributor": "none",
-      "cardImages": [],
+      "cardImages": [
+        "uploads/Orange Melon Wine Cooler.jpg"
+      ],
       "temp": null,
       "time": null,
       "makes": "3 drinks",
