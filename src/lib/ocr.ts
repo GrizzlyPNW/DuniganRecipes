@@ -64,6 +64,12 @@ const tidy = (l: string) =>
   l
     // Stray marks from the card's printed lines and borders at the start of a line.
     .replace(/^[^A-Za-z0-9½¼¾⅓⅔⅛|]+/, '')
+    // Round bullets come out as "e", "eo" or "o".
+    .replace(/^(?:eo?|oe?|e°)\s+(?=[\d½¼¾⅓⅔⅛A-Z])/, '')
+    // Units stuck to the word: "3 gcinnamon", "1.5gginger"; and "0.5 g" read as "0.59".
+    .replace(/(\d)g(?=[a-z]{3,})/g, '$1 g ')
+    .replace(/(\d) g(?!al|r)(?=[a-z]{3,})/g, '$1 g ')
+    .replace(/\b(\d+\.\d)9(?=\s+[a-z])/g, '$1 g')
     // A lone | or l before a word is almost always a 1; ½ often comes out as %.
     .replace(/^[|l!]\s+(?=[a-z])/, '1 ')
     .replace(/(\d)%/g, '$1½')
@@ -83,7 +89,8 @@ const tidy = (l: string) =>
 /** A line that looks like "1 c. sugar", "2 eggs", "½ tsp salt" or "Salt to taste". */
 function isIngredient(l: string) {
   if (l.length > 70 || /[a-z][.;] +[A-Z]/.test(l)) return false; // a sentence, so part of the method
-  if (/^[\d½¼¾⅓⅔⅛]/.test(l) && !/^\d+[.)]\s+[A-Z][a-z]+\s+\w+\s+\w+/.test(l)) return true;
+  if (/^\d{1,2}[.)]\s+[A-Z]/.test(l)) return false; // "1. Preheat the oven…" is a numbered step
+  if (/^[\d½¼¾⅓⅔⅛]/.test(l)) return true;
   if (/^(a |an |one |two |three |few |several )?(pinch|dash|handful)/i.test(l)) return true;
   if (/\bto taste\b/i.test(l) && l.length < 40) return true;
   return UNITS.test(l.split(' ').slice(0, 3).join(' ')) && !/[.!]$/.test(l) && l.split(' ').length <= 8;
@@ -107,7 +114,10 @@ export function sortCard(raw: string): CardText {
   let makes = '';
   // Oven temperature: a 3-digit number near "oven", "bake" or "preheat" (not a candy temperature).
   const flat = raw.replace(/\s+/g, ' ');
-  const t = flat.match(/(?:oven|bake|baked|baking|preheat)[^.]{0,40}?\b(\d{3})\b/i) || flat.match(/^\s*(\d{3})\s*(?:°|º|degrees)/im);
+  const t =
+    flat.match(/\b(\d{3})\s*[°º]?\s*F\b/) ||
+    flat.match(/(?:oven|bake|baked|baking|preheat)[^.]{0,40}?\b(\d{3})\b(?!\s*[°º]?\s*C\b)/i) ||
+    flat.match(/^\s*(\d{3})\s*(?:°|º|degrees)/im);
   if (t && +t[1] >= 200 && +t[1] <= 550) temp = t[1] + '°';
   const mk = flat.match(/\b(?:makes|yields?)\s+(?:about\s+)?(\d[^.;]{0,30})/i);
   if (mk) makes = mk[1].trim();
@@ -137,9 +147,12 @@ export function sortCard(raw: string): CardText {
       ingredients[ingredients.length - 1] = prev + ' ' + l;
       continue;
     }
-    // Once the method starts, a stray short line is a wrapped sentence, not an ingredient.
-    if (isIngredient(l) && (stepText.length === 0 || (/^[\d½¼¾⅓⅔⅛]/.test(l) && !/^\d+[.)]/.test(l)))) ingredients.push(l);
-    else if (/:$/.test(l) && l.length <= 40 && stepText.length === 0) ingredients.push(l);
+    // Once the method starts, everything after it is method (wrapped lines often start with a number).
+    if (stepText.length) stepText.push(l);
+    else if (isIngredient(l)) ingredients.push(l);
+    // A part name like "Filling" or "Topping:" above its ingredients.
+    else if (/:$/.test(l) && l.length <= 40) ingredients.push(l);
+    else if (/^[A-Z][A-Za-z' &-]*$/.test(l) && l.split(' ').length <= 3) ingredients.push(l + ':');
     else stepText.push(l);
   }
 
