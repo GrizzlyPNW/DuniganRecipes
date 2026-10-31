@@ -9,6 +9,16 @@ const baseContributors: Record<string, Contributor> = Object.fromEntries(
 );
 const baseRecipes = base.recipes as Recipe[];
 export const CATEGORIES: string[] = base.categories;
+
+// Recipes the family edited in the app keep the category name from when they were saved.
+const RENAMED: Record<string, string> = {
+  Breakfast: 'Breakfast & Brunch',
+  'Dips & Spreads': 'Appetizers & Dips',
+  'Salads & Fruit': 'Salads',
+  Candy: 'Candy & Fudge',
+  'Remedies & More': 'Home Remedies',
+};
+const withCurrentCategory = (r: Recipe): Recipe => (RENAMED[r.category] ? { ...r, category: RENAMED[r.category] } : r);
 export const isBaseContributor = (id: string) => id in baseContributors;
 
 /**
@@ -144,7 +154,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
 
   const { recipes, contributors } = useMemo(() => {
     const byId = new Map(baseRecipes.map((r) => [r.id, r]));
-    for (const e of edits) byId.set(e.id, e);
+    for (const e of edits) byId.set(e.id, withCurrentCategory(e));
     const contributors = { ...baseContributors };
     for (const p of people) if (!contributors[p.id]) contributors[p.id] = p;
     for (const r of byId.values()) if (r.newContributor && !contributors[r.contributor]) contributors[r.contributor] = r.newContributor;

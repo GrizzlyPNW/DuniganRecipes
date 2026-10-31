@@ -147,20 +147,27 @@
     }
   },
   "categories": [
-    "Breakfast",
+    "Breakfast & Brunch",
+    "Appetizers & Dips",
     "Breads & Muffins",
     "Soups & Stews",
+    "Salads",
     "Main Dishes",
+    "Casseroles",
+    "Pizza & Pasta",
+    "Slow Cooker",
+    "BBQ & Grilling",
+    "Smoked",
     "Side Dishes",
-    "Salads & Fruit",
-    "Dips & Spreads",
+    "Canning & Preserves",
     "Cakes",
     "Pies & Pastries",
     "Cookies & Bars",
-    "Candy",
+    "Candy & Fudge",
     "Desserts",
+    "Frostings & Toppings",
     "Drinks",
-    "Remedies & More"
+    "Home Remedies"
   ],
   "recipes": [
     {
@@ -443,7 +450,7 @@
     {
       "id": "r9",
       "title": "Finnish Ribbon Cakes",
-      "category": "Pies & Pastries",
+      "category": "Cookies & Bars",
       "contributor": "elaine",
       "cardImages": [
         "uploads/Finnish Ribbon Cakes - Front.png",
@@ -604,7 +611,7 @@
     {
       "id": "r14",
       "title": "Italian Macaroni Pie",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Italian Macaroni Pie - Front.png",
@@ -849,7 +856,7 @@
     {
       "id": "r21",
       "title": "Almond Caramels",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Almond Caramels - Front.png",
@@ -879,7 +886,7 @@
     {
       "id": "r22",
       "title": "Ambrosia Eggnog Candy",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Ambrosia Eggnog Candy - Front.png",
@@ -909,7 +916,7 @@
     {
       "id": "r23",
       "title": "Butterscotch-Peanut Fudge",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Butterscotch-Peanut Fudge - Front.png",
@@ -937,7 +944,7 @@
     {
       "id": "r24",
       "title": "Chocolate Peanut Butter Swirls",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Chocolate Peanut Butter Swirls - Front.png",
@@ -966,7 +973,7 @@
     {
       "id": "r25",
       "title": "Christmas Jelly Candy",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Christmas Jelly Candy - Front.png",
@@ -993,7 +1000,7 @@
     {
       "id": "r26",
       "title": "Marshmallow Treats",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Marshmallow Treats - Front.png",
@@ -1052,7 +1059,7 @@
     {
       "id": "r28",
       "title": "Creamy Ham and Macaroni Bake",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Creamy Ham and Macaroni Bake - Front.png",
@@ -1338,7 +1345,7 @@
     {
       "id": "r37",
       "title": "Delicious Double Layer Chocolate Pie",
-      "category": "Desserts",
+      "category": "Pies & Pastries",
       "contributor": "none",
       "cardImages": [
         "uploads/Delicious Double Layer Chocolate Pie - Front.png",
@@ -1367,7 +1374,7 @@
     {
       "id": "r38",
       "title": "Sensational Double Layer Pumpkin Pie",
-      "category": "Desserts",
+      "category": "Pies & Pastries",
       "contributor": "none",
       "cardImages": [
         "uploads/Sensational Double Layer Pumpkin Pie - Front.png",
@@ -1429,7 +1436,7 @@
     {
       "id": "r40",
       "title": "Breakfast or Anytime Drink",
-      "category": "Breakfast",
+      "category": "Breakfast & Brunch",
       "contributor": "none",
       "cardImages": [
         "uploads/Breakfast or Anytime Drink.png"
@@ -1452,7 +1459,7 @@
     {
       "id": "r41",
       "title": "Belgian Waffles",
-      "category": "Breakfast",
+      "category": "Breakfast & Brunch",
       "contributor": "none",
       "cardImages": [
         "uploads/Belgian Waffles - Front.jpg",
@@ -1482,7 +1489,7 @@
     {
       "id": "r42",
       "title": "Ham and Swiss Quiche",
-      "category": "Breakfast",
+      "category": "Breakfast & Brunch",
       "contributor": "none",
       "cardImages": [
         "uploads/Ham and Swiss Quiche - Front.jpg",
@@ -1513,7 +1520,7 @@
     {
       "id": "r43",
       "title": "Hash Brown Breakfast Casserole",
-      "category": "Breakfast",
+      "category": "Breakfast & Brunch",
       "contributor": "jeanette",
       "cardImages": [
         "uploads/Hash Brown Breakfast Casserole.jpg"
@@ -1544,7 +1551,7 @@
     {
       "id": "r44",
       "title": "Huevos Rancheros Pizza",
-      "category": "Breakfast",
+      "category": "Breakfast & Brunch",
       "contributor": "none",
       "cardImages": [
         "uploads/Huevos Rancheros Pizza.jpg"
@@ -1574,7 +1581,7 @@
     {
       "id": "r45",
       "title": "Yorkshire Pudding",
-      "category": "Breakfast",
+      "category": "Side Dishes",
       "contributor": "jeanette",
       "cardImages": [
         "uploads/Yorkshire Pudding - Front.png",
@@ -1664,7 +1671,7 @@
     {
       "id": "r48",
       "title": "Cheese Straws",
-      "category": "Breads & Muffins",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Cheese Straws - Front.png",
@@ -1903,7 +1910,7 @@
     {
       "id": "r55",
       "title": "Pizza Crust",
-      "category": "Breads & Muffins",
+      "category": "Pizza & Pasta",
       "contributor": "olyne-unruh",
       "cardImages": [
         "uploads/Pizza Crust - Front.jpg",
@@ -2333,7 +2340,7 @@
     {
       "id": "r69",
       "title": "Angel Hair with Smoked Salmon in Tomato-Herb Sauce",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Angel Hair with Smoked Salmon in Tomato-Herb Sauce.jpg"
@@ -2366,7 +2373,7 @@
     {
       "id": "r70",
       "title": "Antipasto Pizza",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Antipasto Pizza.jpg"
@@ -2394,7 +2401,7 @@
     {
       "id": "r71",
       "title": "Azteca Casserole",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Azteca Casserole - Front.jpg",
@@ -2426,7 +2433,7 @@
     {
       "id": "r72",
       "title": "Chicken Broccoli Divan",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Chicken Broccoli Divan - Front.jpg",
@@ -2561,7 +2568,7 @@
     {
       "id": "r76",
       "title": "Enchilada Pie",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Enchilada Pie - Front.jpg",
@@ -2624,7 +2631,7 @@
     {
       "id": "r78",
       "title": "Impossible Cheeseburger Pie",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Impossible Cheeseburger Pie - Front.jpg",
@@ -2652,7 +2659,7 @@
     {
       "id": "r79",
       "title": "Italian Sausage and Mushroom Pizza",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Italian Sausage and Mushroom Pizza.jpg"
@@ -2740,7 +2747,7 @@
     {
       "id": "r82",
       "title": "Mexican Chicken Casserole",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Mexican Chicken Casserole.jpg"
@@ -2767,7 +2774,7 @@
     {
       "id": "r83",
       "title": "Northwest Hazelnut Turkey Casserole",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Northwest Hazelnut Turkey Casserole.jpg"
@@ -2798,7 +2805,7 @@
     {
       "id": "r84",
       "title": "Pasta with Spinach Pesto",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Pasta with Spinach Pesto.jpg"
@@ -2828,7 +2835,7 @@
     {
       "id": "r85",
       "title": "Pizza",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Pizza - Front.jpg",
@@ -2896,7 +2903,7 @@
     {
       "id": "r87",
       "title": "Slow Cooker Lasagna",
-      "category": "Main Dishes",
+      "category": "Slow Cooker",
       "contributor": "none",
       "cardImages": [
         "uploads/Slow Cooker Lasagna - Front.jpg",
@@ -2929,7 +2936,7 @@
     {
       "id": "r88",
       "title": "Spring Garden Fettuccine",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Spring Garden Fettuccine.jpg"
@@ -3049,7 +3056,7 @@
     {
       "id": "r92",
       "title": "Tater Tot Casserole",
-      "category": "Main Dishes",
+      "category": "Casseroles",
       "contributor": "none",
       "cardImages": [
         "uploads/Tater Tot Casserole - Front.jpg",
@@ -3076,7 +3083,7 @@
     {
       "id": "r93",
       "title": "Tortellini con Melanzane (Eggplant)",
-      "category": "Main Dishes",
+      "category": "Pizza & Pasta",
       "contributor": "none",
       "cardImages": [
         "uploads/Tortellini con Melanzane (Eggplant).jpg"
@@ -3106,7 +3113,7 @@
     {
       "id": "r94",
       "title": "Canning Salsa",
-      "category": "Side Dishes",
+      "category": "Canning & Preserves",
       "contributor": "none",
       "cardImages": [
         "uploads/Canning Salsa - Front.jpg",
@@ -3138,7 +3145,7 @@
     {
       "id": "r95",
       "title": "Canning Tomato Sauce",
-      "category": "Side Dishes",
+      "category": "Canning & Preserves",
       "contributor": "none",
       "cardImages": [
         "uploads/Canning Tomato Sauce - Front.jpg",
@@ -3171,7 +3178,7 @@
     {
       "id": "r96",
       "title": "Mama's Cowboy Beans",
-      "category": "Side Dishes",
+      "category": "Slow Cooker",
       "contributor": "jeanette",
       "cardImages": [
         "uploads/Mamas Cowboy Beans.jpg"
@@ -3202,7 +3209,7 @@
     {
       "id": "r97",
       "title": "Salsa",
-      "category": "Side Dishes",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Salsa - Front.jpg",
@@ -3234,7 +3241,7 @@
     {
       "id": "r98",
       "title": "Spiced Oranges",
-      "category": "Side Dishes",
+      "category": "Canning & Preserves",
       "contributor": "none",
       "cardImages": [
         "uploads/Spiced Oranges - Front.jpg",
@@ -3298,7 +3305,7 @@
     {
       "id": "r100",
       "title": "Creamy Cucumber",
-      "category": "Salads & Fruit",
+      "category": "Salads",
       "contributor": "none",
       "cardImages": [
         "uploads/Creamy Cucumber.png"
@@ -3322,7 +3329,7 @@
     {
       "id": "r101",
       "title": "Fruit Salad",
-      "category": "Salads & Fruit",
+      "category": "Salads",
       "contributor": "none",
       "cardImages": [
         "uploads/Fruit Salad.png"
@@ -3351,7 +3358,7 @@
     {
       "id": "r102",
       "title": "Artichoke-Chili Dip",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Artichoke-Chili Dip - Front.jpg",
@@ -3377,7 +3384,7 @@
     {
       "id": "r103",
       "title": "Brie en Croûte",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Brie en Croûte.jpg"
@@ -3409,7 +3416,7 @@
     {
       "id": "r104",
       "title": "Cheese Ball",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Cheese Ball.jpg"
@@ -3437,7 +3444,7 @@
     {
       "id": "r105",
       "title": "Cheese and Onion Tart",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Cheese and Onion Tart - Front.jpg",
@@ -3464,7 +3471,7 @@
     {
       "id": "r106",
       "title": "Cheesy Zucchini and Red Onion Flatbread",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Cheesy Zucchini and Red Onion Flatbread.jpg"
@@ -3494,7 +3501,7 @@
     {
       "id": "r107",
       "title": "Clotted Cream",
-      "category": "Dips & Spreads",
+      "category": "Frostings & Toppings",
       "contributor": "none",
       "cardImages": [
         "uploads/Clotted Cream.jpg"
@@ -3517,7 +3524,7 @@
     {
       "id": "r108",
       "title": "Garden Vegetable Onion Dip",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Garden Vegetable Onion Dip.jpg"
@@ -3541,7 +3548,7 @@
     {
       "id": "r109",
       "title": "Guacamole Dip",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Guacamole Dip.jpg"
@@ -3569,7 +3576,7 @@
     {
       "id": "r110",
       "title": "Salmon Spread",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "elaine-hartly",
       "cardImages": [
         "uploads/Salmon Spread.png"
@@ -3596,7 +3603,7 @@
     {
       "id": "r111",
       "title": "Spinach Ricotta Pie (Dip)",
-      "category": "Dips & Spreads",
+      "category": "Appetizers & Dips",
       "contributor": "none",
       "cardImages": [
         "uploads/Spinach Ricotta Pie (Dip) - Front.png",
@@ -4080,7 +4087,7 @@
     {
       "id": "r126",
       "title": "Frontier Hazelnut Vegetable Pie",
-      "category": "Pies & Pastries",
+      "category": "Side Dishes",
       "contributor": "none",
       "cardImages": [
         "uploads/Frontier Hazelnut Vegetable Pie.jpg"
@@ -4234,7 +4241,7 @@
     {
       "id": "r131",
       "title": "Strawberry Tiramisú",
-      "category": "Pies & Pastries",
+      "category": "Desserts",
       "contributor": "none",
       "cardImages": [
         "uploads/Strawberry Tiramisú.jpg"
@@ -4824,7 +4831,7 @@
     {
       "id": "r150",
       "title": "Famous Fudge",
-      "category": "Candy",
+      "category": "Candy & Fudge",
       "contributor": "none",
       "cardImages": [
         "uploads/Famous Fudge - Front.jpg",
@@ -4966,7 +4973,7 @@
     {
       "id": "r155",
       "title": "Creamy Butter Frosting",
-      "category": "Desserts",
+      "category": "Frostings & Toppings",
       "contributor": "none",
       "cardImages": [
         "uploads/Creamy Butter Frosting.jpg"
@@ -5199,7 +5206,7 @@
     {
       "id": "r163",
       "title": "Powdered Sugar Pastry / Icing",
-      "category": "Desserts",
+      "category": "Frostings & Toppings",
       "contributor": "none",
       "cardImages": [
         "uploads/Powdered Sugar Pastry - Icing.jpg"
@@ -5493,7 +5500,7 @@
     {
       "id": "r175",
       "title": "Cough Remedy",
-      "category": "Remedies & More",
+      "category": "Home Remedies",
       "contributor": "none",
       "cardImages": [
         "uploads/Cough Remedy.png"
@@ -5518,7 +5525,7 @@
     {
       "id": "r176",
       "title": "Fruit Flavored Vinegar",
-      "category": "Remedies & More",
+      "category": "Canning & Preserves",
       "contributor": "none",
       "cardImages": [
         "uploads/Fruit Flavored Vinegar.png"

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import type { Family } from '../lib/store';
+import { CATEGORIES, type Family } from '../lib/store';
 import { groupName, isGroup, isTyped } from '../types';
 import { MOM_NOTE } from './bits';
 
@@ -66,7 +66,9 @@ export function Book({ fam, toast }: { fam: Family; toast: (t: string) => void }
 }
 
 function PrintBook({ fam, opts }: { fam: Family; opts: Opts }) {
-  const list = [...fam.recipes].sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
+  // Book order follows the menu: breakfast first, drinks and remedies last.
+  const rank = (c: string) => (CATEGORIES.includes(c) ? CATEGORIES.indexOf(c) : CATEGORIES.length);
+  const list = [...fam.recipes].sort((a, b) => rank(a.category) - rank(b.category) || a.title.localeCompare(b.title));
   return (
     <div className="print-book">
       <section className="pb-page pb-cover">
