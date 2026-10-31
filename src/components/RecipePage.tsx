@@ -187,12 +187,21 @@ export function RecipePage({
                     Method
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                    {r.steps.map((t, i) => (
-                      <div key={i} className="step">
-                        <div className="n">{i + 1}</div>
-                        <div className="x">{t}</div>
-                      </div>
-                    ))}
+                    {(() => {
+                      let n = 0;
+                      return r.steps.map((t, i) =>
+                        isGroup(t) ? (
+                          <div key={i} className="ing-group step-group">
+                            {groupName(t)}
+                          </div>
+                        ) : (
+                          <div key={i} className="step">
+                            <div className="n">{++n}</div>
+                            <div className="x">{t}</div>
+                          </div>
+                        ),
+                      );
+                    })()}
                   </div>
                   <button className="btn btn-accent btn-block btn-big" style={{ marginTop: 22 }} onClick={() => go(`recipe/${r.id}/cook`)}>
                     Start cooking · step by step

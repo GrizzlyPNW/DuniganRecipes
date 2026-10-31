@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Recipe, Contributor } from '../types';
+import { groupName, isGroup, type Recipe, type Contributor } from '../types';
 import { minsLabel, timerMins } from '../lib/util';
 
 export function CookMode({
@@ -15,7 +15,18 @@ export function CookMode({
   toStories: () => void;
   toast: (t: string) => void;
 }) {
-  const steps = r.steps || [];
+  // Section headings ("Caramel sauce") aren't steps; each step remembers which section it's in.
+  const all = r.steps || [];
+  const steps: string[] = [];
+  const sections: (string | null)[] = [];
+  let section: string | null = null;
+  for (const s of all) {
+    if (isGroup(s)) section = groupName(s);
+    else {
+      steps.push(s);
+      sections.push(section);
+    }
+  }
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [left, setLeft] = useState<number | null>(null);
@@ -95,7 +106,9 @@ export function CookMode({
         ))}
       </div>
       <div className="cook-body">
-        <div className="eyebrow">Step {step + 1}</div>
+        <div className="eyebrow">
+          {sections[step] ? sections[step] + ' · ' : ''}Step {step + 1}
+        </div>
         <div className="txt">{t}</div>
         {mins &&
           (left === null ? (

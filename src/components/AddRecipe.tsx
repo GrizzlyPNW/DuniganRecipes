@@ -3,8 +3,8 @@ import type { Family } from '../lib/store';
 import { CATEGORIES, isBaseContributor } from '../lib/store';
 import { back, go, replace } from '../lib/router';
 import { compressImage } from '../lib/image';
-import { lines, makeContributor, newId } from '../lib/util';
-import type { Recipe } from '../types';
+import { makeContributor, newId, parseIngredients, parseSteps } from '../lib/util';
+import { groupName, isGroup, type Recipe } from '../types';
 import { useMe } from '../lib/session';
 import { AccessGate, Header } from './Account';
 
@@ -81,12 +81,10 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
     if (!category) return toast('Pick a category');
     if (kind === 'photo' && !photos[0]) return toast('Add a photo of the front of the card');
     if (who === '__new' && !newCook.trim()) return toast('Type the cook’s name');
-    const ingredients = lines(ings);
-    const stepList = steps
-      .split(/\n+/)
-      .map((s) => s.replace(/^\s*\d+[.)]\s*/, '').trim())
-      .filter(Boolean);
-    if (showTyping && kind !== 'photo' && (!ingredients.length || !stepList.length)) return toast('Add at least one ingredient and one step');
+    const ingredients = parseIngredients(ings);
+    const stepList = parseSteps(steps);
+    if (showTyping && kind !== 'photo' && (!ingredients.some((t) => !isGroup(t)) || !stepList.some((t) => !isGroup(t))))
+      return toast('Add at least one ingredient and one step');
 
     setBusy(true);
     try {
@@ -301,14 +299,18 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
                 Ingredients
               </label>
               <textarea id="f-ing" className="field" rows={7} value={ings} onChange={(e) => setIngs(e.target.value)} placeholder={'One per line\n1 c sugar\n2 eggs'} />
-              <p className="field-help">For a section like a topping, start a line with ## (for example: ## Topping).</p>
+              <p className="field-help">One per line. For a part like a topping, put its name on its own line ending in a colon, like “Topping:”.</p>
             </div>
             <div className="form-group">
               <label className="field-label" htmlFor="f-steps">
                 Steps
               </label>
               <textarea id="f-steps" className="field" rows={7} value={steps} onChange={(e) => setSteps(e.target.value)} placeholder={'One step per line\nMix the butter and sugar.\nBake at 350° for 12 min.'} />
-              <p className="field-help">Write times like “12 min” or “1 hr” and cook mode will offer a timer.</p>
+              <p className="field-help">
+                One step per line. Part names on their own line (like “Caramel sauce”) become headings, not steps. Times like “12 min”
+                get a timer in cook mode.
+              </p>
+              <StepPreview text={steps} />
             </div>
             <div className="form-group">
               <label className="field-label" htmlFor="f-note">
@@ -333,6 +335,31 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
           <div style={{ textAlign: 'right', font: '600 14px var(--sans)', padding: '0 8px' }}>Close ✕</div>
           <img src={lightbox} alt="Card" />
         </div>
+      )}
+    </div>
+  );
+}
+
+/** Shows how the typed steps will look: headings for parts, numbers for steps. */
+function StepPreview({ text }: { text: string }) {
+  const list = useMemo(() => parseSteps(text), [text]);
+  if (!list.some(isGroup)) return null;
+  let n = 0;
+  return (
+    <div className="step-preview" aria-label="Preview of the steps">
+      <div className="field-label" style={{ marginBottom: 6 }}>
+        Preview
+      </div>
+      {list.map((t, i) =>
+        isGroup(t) ? (
+          <div key={i} className="ing-group" style={{ margin: '10px 0 2px' }}>
+            {groupName(t)}
+          </div>
+        ) : (
+          <div key={i} className="sp-step">
+            <b>{++n}</b> {t.length > 70 ? t.slice(0, 70) + '…' : t}
+          </div>
+        ),
       )}
     </div>
   );

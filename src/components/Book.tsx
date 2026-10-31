@@ -110,9 +110,21 @@ function PrintBook({ fam, opts }: { fam: Family; opts: Opts }) {
                 </ul>
                 <h3>Method</h3>
                 <ol>
-                  {(r.steps || []).map((t, i) => (
-                    <li key={i}>{t}</li>
-                  ))}
+                  {(() => {
+                    // Explicit numbers so section headings don't take a step number.
+                    let n = 0;
+                    return (r.steps || []).map((t, i) =>
+                      isGroup(t) ? (
+                        <li key={i} className="grp">
+                          {groupName(t)}
+                        </li>
+                      ) : (
+                        <li key={i} value={++n}>
+                          {t}
+                        </li>
+                      ),
+                    );
+                  })()}
                 </ol>
               </>
             )}

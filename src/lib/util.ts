@@ -65,3 +65,27 @@ export function lines(text: string) {
     .map((l) => l.replace(/^\s*(?:\d+[.)]|[-•*])\s*/, '').trim())
     .filter(Boolean);
 }
+
+// Lines like "Method" or "Ingredients:" that only repeat the form's own labels.
+const LABEL_ONLY = /^(method|instructions|directions|steps|preparation|ingredients)\s*:?$/i;
+const heading = (t: string) => '## ' + t.replace(/^#+\s*/, '').replace(/:\s*$/, '').trim();
+
+/** Ingredient lines. "## Topping" or "Topping:" becomes a section heading. */
+export function parseIngredients(text: string) {
+  return lines(text)
+    .filter((l) => !LABEL_ONLY.test(l))
+    .map((l) => (/^#/.test(l) || (/:$/.test(l) && l.length <= 50) ? heading(l) : l));
+}
+
+/**
+ * Step lines. Section titles pasted in with the steps ("Apple filling", "Caramel sauce:")
+ * become headings instead of numbered steps: a "## " line, a short line ending in ":",
+ * or a short title-like line with no sentence punctuation and no numbers.
+ */
+export function parseSteps(text: string) {
+  const looksLikeTitle = (l: string) =>
+    l.length <= 40 && l.split(/\s+/).length <= 5 && /^[A-Z]/.test(l) && !/[.!?)]$/.test(l) && !/\d/.test(l);
+  return lines(text)
+    .filter((l) => !LABEL_ONLY.test(l))
+    .map((l) => (/^#/.test(l) || (/:$/.test(l) && l.length <= 50) || looksLikeTitle(l) ? heading(l) : l));
+}
