@@ -30,7 +30,8 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
   const cooks = [...new Set(recipes.map((r) => r.contributor))]
     .filter((k) => P[k])
     .sort((a, b) => (a === 'none' ? 1 : b === 'none' ? -1 : P[a].name.localeCompare(P[b].name)));
-  const cats = CATEGORIES.filter((c) => recipes.some((r) => inCategory(r, c)));
+  // Every category shows, even empty ones like Smoking, so people know where new recipes can go.
+  const cats = CATEGORIES;
   const filtered = !!(f.cat || f.who);
 
   return (
@@ -126,9 +127,20 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
           );
         })}
         {list.length === 0 && (
+          <>
           <div className="italic-empty">
-            {favorites && !q && !filtered ? 'Tap the ♥ on any recipe to keep it here.' : 'Nothing in the box matches that yet.'}
+            {favorites && !q && !filtered
+              ? 'Tap the ♥ on any recipe to keep it here.'
+              : f.cat && !q && !f.who && !recipes.some((r) => inCategory(r, f.cat!))
+                ? `No ${f.cat} recipes yet.`
+                : 'Nothing in the box matches that yet.'}
           </div>
+          {f.cat && !favorites && !q && !f.who && !recipes.some((r) => inCategory(r, f.cat!)) && (
+            <button className="btn btn-accent btn-block" style={{ marginTop: 4 }} onClick={() => go('add')}>
+              Add the first one
+            </button>
+          )}
+          </>
         )}
       </div>
 
@@ -167,7 +179,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
           ) : (
             <div className="cat-grid">
               {[null, ...cats].map((c) => (
-                <button key={c || 'all'} className={'cat-opt' + (f.cat === c ? ' on' : '')} onClick={() => (setF({ ...f, cat: c }), setSheet(null))}>
+                <button key={c || 'all'} className={'cat-opt' + (f.cat === c ? ' on' : '') + (c && !recipes.some((r) => inCategory(r, c)) ? ' empty' : '')} onClick={() => (setF({ ...f, cat: c }), setSheet(null))}>
                   <span>{c || 'All categories'}</span>
                   <span className="ct">{c ? recipes.filter((r) => inCategory(r, c)).length : recipes.length}</span>
                 </button>

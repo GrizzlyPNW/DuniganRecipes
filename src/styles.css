@@ -161,6 +161,7 @@ a { color: var(--accent); }
 .cat-opt { min-height: 52px; padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(43, 37, 33, 0.14); background: var(--card); display: flex; justify-content: space-between; align-items: center; gap: 8px; text-align: left; font: 500 14px/1.25 var(--sans); }
 .cat-opt .ct { font: 500 12px var(--sans); color: var(--muted); }
 .cat-opt.on { border-color: var(--accent); background: #f6e6dc; color: var(--accent-dark); }
+.cat-opt.empty:not(.on) { background: transparent; border-style: dashed; color: var(--muted); }
 
 /* Hearts on the recipe page */
 .fav-btn {

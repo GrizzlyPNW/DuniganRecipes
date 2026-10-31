@@ -157,7 +157,7 @@
     "Pizza & Pasta",
     "Slow Cooker",
     "BBQ & Grilling",
-    "Smoked",
+    "Smoking",
     "Side Dishes",
     "Canning & Preserves",
     "Cakes",
@@ -3293,7 +3293,8 @@
       ],
       "typed": true,
       "alsoIn": [
-        "Side Dishes"
+        "Side Dishes",
+        "BBQ & Grilling"
       ]
     },
     {

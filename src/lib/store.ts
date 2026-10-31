@@ -17,8 +17,13 @@ const RENAMED: Record<string, string> = {
   'Salads & Fruit': 'Salads',
   Candy: 'Candy & Fudge',
   'Remedies & More': 'Home Remedies',
+  Smoked: 'Smoking',
 };
-const withCurrentCategory = (r: Recipe): Recipe => (RENAMED[r.category] ? { ...r, category: RENAMED[r.category] } : r);
+const withCurrentCategory = (r: Recipe): Recipe => ({
+  ...r,
+  category: RENAMED[r.category] || r.category,
+  alsoIn: r.alsoIn?.map((c) => RENAMED[c] || c),
+});
 export const isBaseContributor = (id: string) => id in baseContributors;
 
 /**
