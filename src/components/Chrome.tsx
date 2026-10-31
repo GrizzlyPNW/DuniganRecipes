@@ -1,7 +1,7 @@
 import { go } from '../lib/router';
 import type { Mode } from '../lib/api';
 
-export type Tab = 'home' | 'favorites' | 'family' | 'book' | 'admin' | 'invite';
+export type Tab = 'home' | 'favorites' | 'shopping' | 'family' | 'book' | 'admin' | 'invite';
 
 const icons = {
   home: (on: boolean) => (
@@ -35,6 +35,21 @@ const icons = {
       <path d="M15.5 5.6a3.1 3.1 0 0 1 0 6M17.6 14.4c1.8.6 3.1 2.3 3.6 5.1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   ),
+  shopping: (on: boolean) => (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path
+        d="M3 4h2.2l2.1 10.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L20.5 8H6.4"
+        fill={on ? 'currentColor' : 'none'}
+        fillOpacity={on ? 0.15 : 0}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="9.5" cy="19.5" r="1.4" fill="currentColor" />
+      <circle cx="17" cy="19.5" r="1.4" fill="currentColor" />
+    </svg>
+  ),
   book: (on: boolean) => (
     <svg viewBox="0 0 24 24" aria-hidden>
       <path
@@ -50,10 +65,16 @@ const icons = {
   ),
 };
 
-export function TabBar({ tab }: { tab: Tab }) {
-  const item = (k: 'home' | 'favorites' | 'family' | 'book', label: string, path: string) => (
-    <button className={'tab' + (tab === k ? ' on' : '')} onClick={() => tab !== k && go(path)} aria-current={tab === k ? 'page' : undefined}>
+export function TabBar({ tab, listCount = 0 }: { tab: Tab; listCount?: number }) {
+  const item = (k: 'home' | 'favorites' | 'shopping' | 'family' | 'book', label: string, path: string, badge = 0) => (
+    <button
+      className={'tab' + (tab === k ? ' on' : '')}
+      onClick={() => tab !== k && go(path)}
+      aria-current={tab === k ? 'page' : undefined}
+      aria-label={badge ? `${label}, ${badge} to get` : undefined}
+    >
       {icons[k](tab === k)}
+      {badge > 0 && <span className="tab-badge">{badge > 99 ? '99+' : badge}</span>}
       <span>{label}</span>
     </button>
   );
@@ -68,8 +89,8 @@ export function TabBar({ tab }: { tab: Tab }) {
           </svg>
         </button>
       </div>
+      {item('shopping', 'List', 'shopping', listCount)}
       {item('family', 'Family', 'family')}
-      {item('book', 'Book', 'book')}
     </nav>
   );
 }
@@ -94,6 +115,7 @@ export function Menu({
     ['add', 'add', 'Add Recipe', 'Photograph or type a card'],
   ];
   items.splice(1, 0, ['favorites', 'favorites', 'Favorites', 'Recipes you’ve hearted']);
+  items.splice(2, 0, ['shopping', 'shopping', 'Shopping list', 'What to pick up at the store']);
   if (admin && mode === 'shared') {
     items.push(['invite-family', 'invite', 'Invite family', 'Text each cook their own link']);
     items.push(['admin', 'admin', 'Manage family', 'Who’s in the box']);

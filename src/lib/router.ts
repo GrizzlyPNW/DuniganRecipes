@@ -8,6 +8,7 @@ export type Route =
   | { name: 'admin' }
   | { name: 'invite-family' }
   | { name: 'favorites' }
+  | { name: 'shopping' }
   | { name: 'claim'; token: string }
   | { name: 'add' }
   | { name: 'new'; kind: 'photo' | 'type' }
@@ -27,6 +28,8 @@ export function parse(hash: string): Route {
       return { name: 'admin' };
     case 'favorites':
       return { name: 'favorites' };
+    case 'shopping':
+      return { name: 'shopping' };
     case 'invite-family':
       return { name: 'invite-family' };
     case 'i':

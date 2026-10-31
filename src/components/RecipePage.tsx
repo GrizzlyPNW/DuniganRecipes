@@ -7,6 +7,7 @@ import { AppPortal, Layer } from './Stack';
 import { groupName, isGroup, isTyped, type Recipe } from '../types';
 import { ago, initials, makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
+import { useShoppingList } from '../lib/shopping';
 
 const cardLabel = (r: Recipe, i: number) =>
   r.cardImages.length === 1 ? 'Card' : i === 0 ? 'Front of card' : i === 1 ? 'Back of card' : 'Card ' + (i + 1);
@@ -181,6 +182,7 @@ export function RecipePage({
                 </button>
                 ),
               )}
+              <ShopButton recipe={r} checked={checked} toast={toast} />
               {r.steps && r.steps.length > 0 && (
                 <>
                   <h3 className="h3" style={{ margin: '28px 0 10px' }}>
@@ -464,5 +466,40 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
         </>
       )}
     </>
+  );
+}
+
+/**
+ * Puts the ingredients on the shopping list. Ingredients ticked as "gathered" are
+ * things you already have, so only the rest get added.
+ */
+function ShopButton({ recipe: r, checked, toast }: { recipe: Recipe; checked: Record<number, boolean>; toast: (t: string) => void }) {
+  const shop = useShoppingList();
+  const need = (r.ingredients || []).filter((t, i) => !isGroup(t) && !checked[i]);
+  const all = (r.ingredients || []).filter((t) => !isGroup(t)).length;
+  const onList = shop.has(r.id);
+
+  function add() {
+    if (!need.length) return toast('You’ve got everything. Nothing to add.');
+    const n = shop.addRecipe(r, need);
+    toast(n ? `Added ${plural(n, 'item')} to your shopping list` : 'Those are already on your list');
+  }
+
+  return (
+    <div className="shop-cta-row">
+      <button className="btn btn-outline btn-block shop-cta" onClick={add}>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
+          <path d="M3 4h2.2l2.1 10.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L20.5 8H6.4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="9.5" cy="19.5" r="1.4" fill="currentColor" />
+          <circle cx="17" cy="19.5" r="1.4" fill="currentColor" />
+        </svg>
+        {need.length === all ? 'Add to shopping list' : `Add the ${plural(need.length, 'item')} I still need`}
+      </button>
+      {onList && (
+        <button className="link-btn" onClick={() => go('shopping')}>
+          On your list · View ›
+        </button>
+      )}
+    </div>
   );
 }

@@ -77,6 +77,12 @@ function ensureSchema(sql: Sql) {
       created_at timestamptz not null default now(),
       primary key (user_id, recipe_id)
     )`;
+    // Each person's shopping list, saved whole so it follows them between devices.
+    await sql`create table if not exists shopping_lists (
+      user_id text primary key,
+      items jsonb not null default '[]',
+      updated_at timestamptz not null default now()
+    )`;
     // Personal invite links, one per cook.
     await sql`create table if not exists invites (
       token text primary key,
@@ -288,6 +294,13 @@ export async function GET(req: Request) {
       recipes: edits.map((e) => e.data),
     });
   }
+
+  if (op === 'shopping') {
+    const who = await requireMember(req, sql);
+    if (who instanceof Response) return who;
+    const [row] = (await sql`select items, updated_at from shopping_lists where user_id = ${who.id}`) as any[];
+    return json({ items: row?.items || [], updatedAt: row ? new Date(row.updated_at).getTime() : 0 });
+  }
   return json({ error: 'Unknown request' }, 404);
 }
 
@@ -371,6 +384,24 @@ export async function POST(req: Request) {
     const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text)
       values (${recipeId}, ${authorName}, ${who.id}, ${text}) returning id, created_at`) as any[];
     return json({ id: row.id, recipeId, authorName, authorId: who.id, text, createdAt: new Date(row.created_at).getTime() });
+  }
+
+  if (op === 'shopping') {
+    const raw = Array.isArray(body.items) ? body.items.slice(0, 500) : null;
+    if (!raw) return json({ error: 'Missing items' }, 400);
+    const str = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : undefined);
+    const items = raw
+      .map((i: any) => ({
+        id: str(i?.id, 40),
+        text: str(i?.text, 300)?.trim(),
+        done: !!i?.done,
+        recipeId: str(i?.recipeId, 60),
+        recipe: str(i?.recipe, 200),
+      }))
+      .filter((i: any) => i.id && i.text);
+    await sql`insert into shopping_lists (user_id, items, updated_at) values (${who.id}, ${JSON.stringify(items)}::jsonb, now())
+      on conflict (user_id) do update set items = excluded.items, updated_at = now()`;
+    return json({ ok: true, count: items.length });
   }
 
   if (op === 'favorite') {

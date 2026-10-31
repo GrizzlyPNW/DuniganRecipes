@@ -7,6 +7,8 @@ import { MeContext, type Me } from './lib/session';
 import { Home, type Filters } from './components/Home';
 import { Family } from './components/Family';
 import { Book } from './components/Book';
+import { ShoppingPage } from './components/Shopping';
+import { ShoppingContext, useShopping } from './lib/shopping';
 import { Menu, TabBar, type Tab } from './components/Chrome';
 import { AdminPage } from './components/Admin';
 import { InvitePage } from './components/Invite';
@@ -21,6 +23,7 @@ import { Toast } from './components/bits';
 const ROOTS: Partial<Record<Route['name'], Tab>> = {
   home: 'home',
   favorites: 'favorites',
+  shopping: 'shopping',
   family: 'family',
   book: 'book',
   admin: 'admin',
@@ -35,6 +38,7 @@ export default function App() {
     [user?.id, user?.name, user?.email, user?.image], // eslint-disable-line react-hooks/exhaustive-deps
   );
   const fam = useFamily(me?.id ?? null, session.isPending);
+  const shopping = useShopping(fam.mode, fam.access, me?.id ?? null);
   const route = useRoute();
   const [filters, setFilters] = useState<Filters>({ query: '', cat: null, who: null });
   const [panel, setPanel] = useState<'menu' | 'profile' | null>(null);
@@ -102,6 +106,8 @@ export default function App() {
   const rootPage =
     tab === 'family' ? (
       <Family fam={fam} pick={pickWho} />
+    ) : tab === 'shopping' ? (
+      <ShoppingPage toast={toast} />
     ) : tab === 'book' ? (
       <Book fam={fam} toast={toast} />
     ) : tab === 'admin' ? (
@@ -117,12 +123,13 @@ export default function App() {
   return (
     <MeContext.Provider value={me}>
       <NavContext.Provider value={nav}>
+      <ShoppingContext.Provider value={shopping}>
         <div className="app">
           <div className={'base' + (layer1Key ? ' covered' : '')} aria-hidden={!!layer1Key}>
             <div key={tab} className="root-fade">
               {rootPage}
             </div>
-            <TabBar tab={tab} />
+            <TabBar tab={tab} listCount={shopping.open} />
             <Header />
           </div>
 
@@ -172,6 +179,7 @@ export default function App() {
           <Toast text={toastText} />
           <LoadingScreen done={fam.ready && !session.isPending} />
         </div>
+      </ShoppingContext.Provider>
       </NavContext.Provider>
     </MeContext.Provider>
   );

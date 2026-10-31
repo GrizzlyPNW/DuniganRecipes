@@ -230,3 +230,17 @@ export async function uploadPhoto(mode: Mode, jpeg: Blob): Promise<string> {
   const { url } = await call<{ url: string }>('POST', 'upload', jpeg, 'image/jpeg');
   return url;
 }
+
+/* ---------- Shopping list (one per person) ---------- */
+
+export interface ShopItem {
+  id: string;
+  text: string;
+  done: boolean;
+  /** Set when the item came from a recipe's ingredients. */
+  recipeId?: string;
+  recipe?: string;
+}
+
+export const getShopping = () => call<{ items: ShopItem[]; updatedAt: number }>('GET', 'shopping');
+export const saveShopping = (items: ShopItem[]) => call<{ ok: boolean }>('POST', 'shopping', JSON.stringify({ items }));
