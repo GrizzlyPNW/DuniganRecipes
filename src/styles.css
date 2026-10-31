@@ -567,7 +567,8 @@ select.field { appearance: none; background-image: linear-gradient(45deg, transp
 .shop-item.done .box { background: var(--accent); border-color: var(--accent); }
 .shop-item.done .txt { color: var(--muted3); text-decoration: line-through; }
 .shop-x { flex: none; width: 40px; height: 40px; border: 0; background: transparent; color: var(--muted3); font-size: 14px; }
-.shop-cta { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.shop-cta { display: flex; align-items: center; justify-content: center; gap: 8px; background: #3f7d4a; border: 1px solid #3f7d4a; color: #fff; box-shadow: 0 2px 8px rgba(63, 125, 74, 0.25); }
+.shop-cta:active { background: #33683d; border-color: #33683d; }
 .tab .tab-badge { position: absolute; top: 2px; right: calc(50% - 20px); min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: var(--accent); color: #fff; font: 700 10px/17px var(--sans); text-align: center; }
 .shop-cta-row { margin-top: 14px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 

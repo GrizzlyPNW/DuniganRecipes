@@ -487,7 +487,7 @@ function ShopButton({ recipe: r, checked, toast }: { recipe: Recipe; checked: Re
 
   return (
     <div className="shop-cta-row">
-      <button className="btn btn-outline btn-block shop-cta" onClick={add}>
+      <button className="btn btn-block shop-cta" onClick={add}>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
           <path d="M3 4h2.2l2.1 10.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L20.5 8H6.4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           <circle cx="9.5" cy="19.5" r="1.4" fill="currentColor" />
