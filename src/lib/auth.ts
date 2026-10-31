@@ -2,8 +2,13 @@ import { createAuthClient } from '@neondatabase/auth';
 import { BetterAuthReactAdapter } from '@neondatabase/auth/react/adapters';
 
 // Neon Auth for the production branch. It's a public address, not a secret.
-const AUTH_URL =
+const NEON_AUTH_URL =
   import.meta.env.VITE_NEON_AUTH_URL || 'https://ep-rapid-unit-aru1y562.neonauth.c-4.us-west-2.aws.neon.tech/neondb/auth';
+
+// On the live site, sign-in goes through our own /api/auth (api/auth.ts) so the session cookie
+// belongs to this site and survives closing the app. The Vite dev server has no /api, so it talks to Neon directly.
+const isDevServer = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+const AUTH_URL = isDevServer ? NEON_AUTH_URL : location.origin + '/api/auth';
 
 export const authClient = createAuthClient(AUTH_URL, { adapter: BetterAuthReactAdapter() });
 
