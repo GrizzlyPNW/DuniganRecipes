@@ -9,6 +9,17 @@ import { ago, initials, makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
 import { useShoppingList } from '../lib/shopping';
 
+/** Opens the typing form and has it read the card photos right away. */
+export const AUTO_READ_KEY = 'dunigan-auto-read';
+function typeFromPhoto(id: string) {
+  try {
+    sessionStorage.setItem(AUTO_READ_KEY, id);
+  } catch {
+    /* private mode: the form still opens, they just tap the button there */
+  }
+  go(`recipe/${id}/type`);
+}
+
 const cardLabel = (r: Recipe, i: number) =>
   r.cardImages.length === 1 ? 'Card' : i === 0 ? 'Front of card' : i === 1 ? 'Back of card' : 'Card ' + (i + 1);
 
@@ -124,9 +135,19 @@ export function RecipePage({
             )}
           </div>
           <div className="two-btns" style={r.cardImages.length ? undefined : { gridTemplateColumns: '1fr' }}>
-            <button className="btn btn-accent" onClick={() => jump(recipeRef.current)}>
-              {typed ? 'Go to recipe ↓' : 'Help type it ↓'}
-            </button>
+            {typed ? (
+              <button className="btn btn-accent" onClick={() => jump(recipeRef.current)}>
+                Go to recipe ↓
+              </button>
+            ) : r.cardImages.length > 0 ? (
+              <button className="btn btn-accent" onClick={() => typeFromPhoto(r.id)}>
+                Type it up from the photo
+              </button>
+            ) : (
+              <button className="btn btn-accent" onClick={() => go(`recipe/${r.id}/type`)}>
+                Type it in
+              </button>
+            )}
             {r.cardImages.length > 0 && (
               <button className="btn btn-outline" onClick={() => jump(cardRef.current)}>
                 See the card ↓
@@ -214,10 +235,20 @@ export function RecipePage({
           ) : (
             <div className="dashed">
               <div className="t">This card hasn't been typed up yet</div>
-              <div className="s">Read the card below and type it in so it's searchable and works in cook mode.</div>
-              <button className="btn btn-outline" style={{ marginTop: 12, height: 44, borderColor: '#2b2521' }} onClick={() => go(`recipe/${r.id}/type`)}>
-                I'll type it up
-              </button>
+              <div className="s">
+                Type it in so it's searchable and works in cook mode.
+                {r.cardImages.length > 0 && ' The app can read the card photo and fill it in for you to check.'}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+                {r.cardImages.length > 0 && (
+                  <button className="btn btn-accent" style={{ height: 44 }} onClick={() => typeFromPhoto(r.id)}>
+                    Type it up from the photo
+                  </button>
+                )}
+                <button className="btn btn-outline" style={{ height: 44, borderColor: '#2b2521' }} onClick={() => go(`recipe/${r.id}/type`)}>
+                  I'll type it myself
+                </button>
+              </div>
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
 import { CATEGORIES, isBaseContributor } from '../lib/store';
 import { back, go, replace } from '../lib/router';
@@ -152,6 +152,8 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
       if (!steps.trim()) setSteps(r.steps.join('\n'));
       setShowTyping(true);
       toast('Typed up! Check it over and fix any mistakes.');
+      // Show what it filled in, which is below the name and category.
+      setTimeout(() => document.getElementById('f-temp')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
     } catch (e) {
       console.error(e);
       toast('Couldn’t read the card. Check your connection and try again.');
@@ -159,6 +161,24 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
       setReading(null);
     }
   }
+
+  // "Type it up from the photo" on the recipe page: start reading as soon as the form opens.
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (autoStarted.current || !existing || fam.access !== 'member') return;
+    let wanted = false;
+    try {
+      wanted = sessionStorage.getItem('dunigan-auto-read') === existing.id;
+      if (wanted) sessionStorage.removeItem('dunigan-auto-read');
+    } catch {
+      /* no storage: they can tap the button */
+    }
+    if (wanted && cardSources.length) {
+      autoStarted.current = true;
+      typeItUp();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existing?.id, fam.access]);
 
   if (fam.access !== 'member') {
     return (
