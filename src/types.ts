@@ -10,7 +10,10 @@ export interface Contributor {
 export interface Recipe {
   id: string;
   title: string;
+  /** Main category: shown on the recipe and used to order the printed book. */
   category: string;
+  /** Other categories it also shows up under, e.g. a slow-cooker lasagna is also Pizza & Pasta. */
+  alsoIn?: string[] | null;
   contributor: string;
   cardImages: string[];
   temp?: string | null;
@@ -35,5 +38,8 @@ export interface Story {
 /** Ingredient lines starting with "## " are section headings, like "## Topping". */
 export const isGroup = (t: string) => t.startsWith('## ');
 export const groupName = (t: string) => t.slice(3).trim();
+
+/** True when the recipe belongs to a category, as its main one or an extra. */
+export const inCategory = (r: Recipe, c: string) => r.category === c || !!r.alsoIn?.includes(c);
 
 export const isTyped =(r: Recipe) => !!r.ingredients && r.ingredients.length > 0;

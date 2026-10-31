@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Family } from '../lib/store';
 import { CATEGORIES } from '../lib/store';
 import { go } from '../lib/router';
-import { isTyped } from '../types';
+import { inCategory, isTyped } from '../types';
 import { plural } from '../lib/util';
 import { Avatar } from './bits';
 import { AppPortal, Layer } from './Stack';
@@ -21,16 +21,16 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
   const pool = favorites ? recipes.filter((r) => fam.isFavorite(r.id)) : recipes;
   const list = pool.filter(
     (r) =>
-      (!f.cat || r.category === f.cat) &&
+      (!f.cat || inCategory(r, f.cat)) &&
       (!f.who || r.contributor === f.who) &&
-      (!q || [r.title, P[r.contributor]?.name, r.category, ...(r.ingredients || [])].join(' ').toLowerCase().includes(q)),
+      (!q || [r.title, P[r.contributor]?.name, r.category, ...(r.alsoIn || []), ...(r.ingredients || [])].join(' ').toLowerCase().includes(q)),
   );
   list.sort((a, b) => a.title.localeCompare(b.title));
 
   const cooks = [...new Set(recipes.map((r) => r.contributor))]
     .filter((k) => P[k])
     .sort((a, b) => (a === 'none' ? 1 : b === 'none' ? -1 : P[a].name.localeCompare(P[b].name)));
-  const cats = CATEGORIES.filter((c) => recipes.some((r) => r.category === c));
+  const cats = CATEGORIES.filter((c) => recipes.some((r) => inCategory(r, c)));
   const filtered = !!(f.cat || f.who);
 
   return (
@@ -169,7 +169,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
               {[null, ...cats].map((c) => (
                 <button key={c || 'all'} className={'cat-opt' + (f.cat === c ? ' on' : '')} onClick={() => (setF({ ...f, cat: c }), setSheet(null))}>
                   <span>{c || 'All categories'}</span>
-                  <span className="ct">{c ? recipes.filter((r) => r.category === c).length : recipes.length}</span>
+                  <span className="ct">{c ? recipes.filter((r) => inCategory(r, c)).length : recipes.length}</span>
                 </button>
               ))}
             </div>

@@ -640,7 +640,11 @@
         "Pour meat mixture over macaroni; cover with foil. Bake 25–30 min.",
         "Remove foil; let stand 5 min before cutting. Sprinkle with Parmesan."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes",
+        "Casseroles"
+      ]
     },
     {
       "id": "r15",
@@ -1089,7 +1093,11 @@
         "Stir in flour, salt, parsley flakes, dry mustard, and pepper. Blend in milk. Cook, stirring constantly, until thickened and bubbly. Add cheese; stir until melted.",
         "Add cooked macaroni, ham, and mushrooms; mix well. Pour into buttered 2-qt pan. Sprinkle with bread crumbs. Bake 350°F for 30 min or until bubbly. Refrigerate leftovers."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Pizza & Pasta",
+        "Main Dishes"
+      ]
     },
     {
       "id": "r29",
@@ -1239,7 +1247,10 @@
         "Cut cereal mixture into twelve 3-inch squares. Sandwich each slice of ice cream between 2 squares. Freeze until firm.",
         "Cut each large sandwich in half and wrap individually in foil. Store in freezer until needed."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Desserts"
+      ]
     },
     {
       "id": "r34",
@@ -1369,7 +1380,10 @@
         "Pour 1½ cups milk into bowl. Add pudding mixes. Beat with wire whisk 1 min. (Mixture will be thick.) Stir in remaining whipped topping. Spread over cream cheese layer.",
         "Refrigerate 4 hrs or until set. Garnish with remaining whipped topping. Store leftover pie in refrigerator."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Desserts"
+      ]
     },
     {
       "id": "r38",
@@ -1402,7 +1416,10 @@
         "Add pudding mixes. Beat with wire whisk 1 min. (Mixture will be thick.) Stir in pumpkin and spices with wire whisk until well mixed. Spread over cream cheese layer.",
         "Refrigerate 4 hours or until set. Garnish with additional whipped topping if desired. Store leftover pie in refrigerator."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Desserts"
+      ]
     },
     {
       "id": "r39",
@@ -1454,7 +1471,10 @@
       "steps": [
         "Mix together in blender and serve."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Drinks"
+      ]
     },
     {
       "id": "r41",
@@ -1546,7 +1566,10 @@
         "Whisk together eggs, milk, and remaining 1 tsp salt. Pour evenly over potato mixture.",
         "Bake at 350° for 35–40 minutes."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Casseroles"
+      ]
     },
     {
       "id": "r44",
@@ -1576,7 +1599,10 @@
         "In large skillet melt butter and cook egg mixture until eggs are set, stirring frequently. Place Boboli on baking sheet. Evenly spread pizza sauce over crust.",
         "Spoon eggs over sauce. Sprinkle with cheese. Bake 10 minutes or until cheese melts."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Pizza & Pasta"
+      ]
     },
     {
       "id": "r45",
@@ -1603,7 +1629,10 @@
         "Spoon chilled mix (after a quick beating right out of the fridge) onto drippings. Bake 20 min at 425°, lower to 375° and bake another 15 min.",
         "DO NOT OPEN OVEN until done — no peeking!"
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Breads & Muffins"
+      ]
     },
     {
       "id": "r46",
@@ -1630,7 +1659,10 @@
       "steps": [
         "Mix dry ingredients. Make well in center. Combine egg, milk, and oil. Add all at once to flour. Stir till moistened. Fill muffin tins ⅔ full. Bake 400° for 20 to 25 min."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Breakfast & Brunch"
+      ]
     },
     {
       "id": "r47",
@@ -1932,7 +1964,10 @@
         "Add salt and shortening with other half of flour, mix together then beat hard.",
         "Roll dough into ball, let stand covered for 5–10 min. Grease pans. Divide dough and press into pans. Add topping of any kind. Bake 20–30 min at 375°. Makes 2 pizzas."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Breads & Muffins"
+      ]
     },
     {
       "id": "r56",
@@ -1991,7 +2026,10 @@
         "Mix dry ingredients with spoon. Cut in butter till fine. Beat egg with whisk. Add cream and goodies to egg. Add wet to dry — do not overwork.",
         "Make 2 balls; place on greased cookie sheet and flatten to 1½\". Brush with egg. Bake 375°F for 12–15 min."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Breakfast & Brunch"
+      ]
     },
     {
       "id": "r58",
@@ -2368,7 +2406,10 @@
         "Add 2 cups tomatoes, wine, capers, dill weed, and basil; stir and cook until mixture is hot. Drain pasta; place in large serving bowl.",
         "Toss angel hair with tomato mixture. Add salmon and cheese; toss gently. Garnish with remaining tomatoes and parsley if desired."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r70",
@@ -2396,7 +2437,10 @@
         "Preheat oven to 450°. Place Boboli on baking sheet. Top with ½ cup Mozzarella cheese and pizza sauce. Place mushrooms and roasted red peppers on Boboli.",
         "Garnish with salami strips and olives. Place green pepper strips along edge of Boboli. Sprinkle with remaining cheese. Bake 10 minutes or until cheese melts."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r71",
@@ -2428,7 +2472,10 @@
         "Top with half the chicken, a third of the tomato sauce mixture, and sour cream. Repeat layers and top with remaining tortillas, sauce, sour cream, and cheese.",
         "Bake in preheated 350° for 35 min or until hot. Makes 8 servings."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r72",
@@ -2455,7 +2502,10 @@
         "In 2-qt oblong baking dish arrange broccoli and chicken. Combine soup and milk. Pour over broccoli and chicken. Top with cheese and bread crumbs.",
         "Bake at 450°F for 20 min or until hot and bubbling. Serves 4."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r73",
@@ -2597,7 +2647,10 @@
         "Cover bottom of casserole with sauce. Place tortillas on sauce and cover with more sauce and shredded cheese. Repeat until all is used up, ending with cheese.",
         "Bake in oven at 350° for 45 min. Can also put chopped green onions on when you add cheese."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r77",
@@ -2654,7 +2707,10 @@
         "Heat oven to 400°. Cook ground beef and onions; drain. Stir in salt. Spread in greased 9\" pie plate; sprinkle with cheese.",
         "Stir remaining ingredients with fork until blended. Pour into plate. Bake 25 min or until knife inserted in center comes out clean."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r79",
@@ -2682,7 +2738,10 @@
         "Add pizza sauce; simmer 15 minutes. Place Boboli on baking sheet. Evenly spoon sausage, mushrooms, and green pepper slices over Boboli. Sprinkle with Mozzarella cheese.",
         "Bake 10 minutes or until cheese melts."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r80",
@@ -2769,7 +2828,10 @@
         "Mix soups, milk, and salsa together. Layer tortillas — chicken — sauce — tortillas — chicken — sauce — tortillas — chicken — sauce. Top with cheese.",
         "Bake at 350° for 1 hour."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r83",
@@ -2800,7 +2862,10 @@
         "Top with remaining hazelnut-pepper mixture. Bake at 350° for 15–20 min or microwave covered on full power for 8–10 min. Garnish with parsley; serve over cooked noodles.",
         "Toast hazelnuts for full flavor!"
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r84",
@@ -2830,7 +2895,10 @@
         "In food processor or blender, place spinach, oil, cheese, basil, garlic powder, garlic, and pine nuts. Pulse on-and-off until almost smooth; reserve.",
         "Prepare pasta as package directs; drain. Toss pesto with hot pasta. Season with salt. To serve, sprinkle with remaining pine nuts and additional cheese if desired."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r85",
@@ -2867,7 +2935,10 @@
         "Mix crust ingredients thoroughly. Place in bowl and let rise. Punch down. Work into circle. Let rest 10 min. Place in 500° oven for 3–4 min.",
         "Spread topping onto crust. Add thin slices of lowfat Mozzarella cheese on top. Bake at 500° till done. Garnish with parsley. Brush sides with milk."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r86",
@@ -2931,7 +3002,11 @@
         "Top with 5 noodles, remaining cheese mix, and ¼ sausage mix. Cook on low setting 4–6 hrs, or till tender.",
         "Sprinkle with remaining Mozzarella cheese, cover, let stand 10 min. Cut and serve."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Pizza & Pasta",
+        "Main Dishes"
+      ]
     },
     {
       "id": "r88",
@@ -2963,7 +3038,10 @@
         "Add wine, artichoke hearts, oregano, basil, and crushed red pepper; bring sauce to boil. Stir in prosciutto. Drain fettuccine; place in serving bowl.",
         "Toss with fettuccine and cheese."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r89",
@@ -3078,7 +3156,10 @@
         "Brown hamburger and sausage. Drain, set aside. Empty cans of soup in bowl, add ½ cup milk. In large pan layer: tater tots, soup, cheese until gone. Bake at 400° for 1 hr.",
         "Stir approximately every 10–15 min."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r93",
@@ -3108,7 +3189,10 @@
         "Cook covered over medium heat for 15 minutes or until onions are tender. Meanwhile cook tortellini as package directs. Drain. Add to eggplant; toss gently to mix.",
         "Serve in pasta bowl; sprinkle with cheese."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r94",
@@ -3140,7 +3224,10 @@
       "steps": [
         "Mix well. Put into jars. Seal. Process in water bath 25 min."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Appetizers & Dips"
+      ]
     },
     {
       "id": "r95",
@@ -3204,7 +3291,10 @@
         "Combine ground sausage, bacon, baked beans, green chilis, and BBQ sauce. Add brown sugar, garlic, chili powder, and hot pepper sauce.",
         "Cook on high 2 hours, or 4–5 hours slowly."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Side Dishes"
+      ]
     },
     {
       "id": "r97",
@@ -3496,7 +3586,10 @@
         "Cut onion into ⅛-inch-thick rounds. Arrange rows of zucchini and onion on top. Brush vegetables with oil; sprinkle with salt and pepper.",
         "Bake until puffed and deep brown at edges, about 24 minutes. Sprinkle with 1 Tbsp parsley."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Pizza & Pasta"
+      ]
     },
     {
       "id": "r107",
@@ -4116,7 +4209,10 @@
         "Beat together milk, Bisquick, eggs, garlic salt, and pepper; pour over hazelnuts and vegetables. Bake at 400° for 35 to 40 minutes. Let stand 5 minutes before cutting.",
         "Toast hazelnuts for full flavor! Ten ounces of frozen chopped broccoli, cauliflower, and spinach may be substituted for fresh. Thaw and drain well. Do not pre-cook."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Main Dishes"
+      ]
     },
     {
       "id": "r127",
@@ -4271,7 +4367,10 @@
         "Cover with plastic and chill at least 8 hours or overnight.",
         "Slice remaining strawberries. Arrange over tiramisú and serve."
       ],
-      "typed": true
+      "typed": true,
+      "alsoIn": [
+        "Pies & Pastries"
+      ]
     },
     {
       "id": "r132",

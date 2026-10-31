@@ -58,6 +58,7 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
 
   const [title, setTitle] = useState(existing?.title || '');
   const [category, setCategory] = useState(existing?.category || '');
+  const [alsoIn, setAlsoIn] = useState<string[]>(existing?.alsoIn || []);
   const [who, setWho] = useState(defaultWho);
   const [newCook, setNewCook] = useState('');
   const [photos, setPhotos] = useState<(File | null)[]>([null, null]);
@@ -111,6 +112,7 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
         id: existing?.id || newId(),
         title: title.trim(),
         category,
+        alsoIn: alsoIn.filter((c) => c !== category).length ? alsoIn.filter((c) => c !== category) : null,
         contributor,
         newContributor,
         cardImages: [...(existing?.cardImages || []), ...uploaded],
@@ -220,6 +222,30 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
               <option key={c}>{c}</option>
             ))}
           </select>
+          {category && (
+            <>
+              <span className="field-label" style={{ display: 'block', margin: '14px 0 8px' }}>
+                Also show it under (optional)
+              </span>
+              <div className="also-chips">
+                {CATEGORIES.filter((c) => c !== category).map((c) => {
+                  const on = alsoIn.includes(c);
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      className={'chip chip-sm' + (on ? ' on' : '')}
+                      aria-pressed={on}
+                      onClick={() => setAlsoIn(on ? alsoIn.filter((x) => x !== c) : [...alsoIn, c])}
+                    >
+                      {on ? '✓ ' : '+ '}
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
         <div className="form-group">
           <label className="field-label" htmlFor="f-who">

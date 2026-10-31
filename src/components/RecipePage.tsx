@@ -78,7 +78,7 @@ export function RecipePage({
       <Header onBack={() => back('')} backLabel="Recipes" />
       <div className="screen" ref={box}>
         <div className="pad">
-          <div className="eyebrow">{r.category}</div>
+          <div className="eyebrow">{[r.category, ...(r.alsoIn || [])].join(' · ')}</div>
           <div className="title-row">
             <h1>{r.title}</h1>
             <button
