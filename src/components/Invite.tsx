@@ -131,7 +131,7 @@ function PersonSheet({
       .catch((e) => setError((e as Error).message));
   }, [person.id, joined]);
 
-  const first = person.short || person.name.split(' ')[0];
+  const first = (person.short || person.name.split(' ')[0]).replace(/.$/, '');
   const link = code ? `${SITE}/#/i/${code}` : '';
   const message = code
     ? `Hi ${first}! The family recipe box is online: The Dunigan Recipes. ` +
