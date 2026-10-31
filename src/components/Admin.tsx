@@ -54,7 +54,7 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
   async function share() {
     try {
       await navigator.share({
-        title: 'The Dunigan Kitchen',
+        title: 'The Dunigan Recipes',
         text: 'Join the Dunigan family recipe box. Open this link and sign in with Google:',
         url: link,
       });

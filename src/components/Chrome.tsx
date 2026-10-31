@@ -125,7 +125,7 @@ export function Menu({
       <div className="scrim" onClick={close} />
       <div className="drawer" role="dialog" aria-label="Menu">
         <div className="row-between" style={{ alignItems: 'center' }}>
-          <span className="eyebrow">The Dunigan Kitchen</span>
+          <span className="eyebrow">The Dunigan Recipes</span>
           <button className="x" onClick={close} aria-label="Close menu">
             ✕
           </button>

@@ -5,9 +5,14 @@ import { makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
 import { AppPortal, Layer } from './Stack';
 
-/** Admin: send each cook their own invite link by text. Signing up with it puts their recipes under their name. */
+// Invites always point at the family's own address, even when sent from an older link.
+const SITE = /\.vercel\.app$/.test(location.hostname) ? 'https://www.duniganrecipes.com' : location.origin;
+/** "K7QM2P" → "K7Q-M2P", easier to read out loud or type. Older long codes stay as they are. */
+const pretty = (code: string) => (code.length === 6 ? code.slice(0, 3) + '-' + code.slice(3) : code);
+
+/** Admin: the family list. Tap a person to see their profile and text them their own invite. */
 export function InvitePage({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
-  const [inviting, setInviting] = useState<Contributor | null>(null);
+  const [open, setOpen] = useState<Contributor | null>(null);
   const [newName, setNewName] = useState('');
 
   if (!fam.admin || fam.mode !== 'shared') {
@@ -28,7 +33,7 @@ export function InvitePage({ fam, toast }: { fam: Family; toast: (t: string) => 
     try {
       const c = await fam.addContributor(makeContributor(newName, fam.contributors), false);
       setNewName('');
-      setInviting(c);
+      setOpen(c);
     } catch (e) {
       toast((e as Error).message || 'Couldn’t add them.');
     }
@@ -41,35 +46,32 @@ export function InvitePage({ fam, toast }: { fam: Family; toast: (t: string) => 
         Invite family
       </h1>
       <p className="lead">
-        Text each cook their own link. When they sign in with it, their recipes show up under their name and they can add
-        more. {joined > 0 && <b>{plural(joined, 'person has', 'people have')} joined.</b>}
+        Tap anyone to text them their own invite code. When they join with it, their recipes show up under their name.{' '}
+        {joined > 0 && <b>{plural(joined, 'person has', 'people have')} joined.</b>}
       </p>
 
       {cooks.map((c) => {
         const link = fam.linkByContributor[c.id];
         const n = fam.recipes.filter((r) => r.contributor === c.id).length;
         return (
-          <div key={c.id} className="invite-row">
+          <button key={c.id} className="invite-row" onClick={() => setOpen(c)}>
             {link?.image ? (
               <img className="pf-img" src={link.image} alt="" width={44} height={44} referrerPolicy="no-referrer" />
             ) : (
               <Avatar c={c} size={44} font={15} />
             )}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="t">
+            <span className="invite-txt">
+              <span className="t">
                 {c.name}
                 {c.rel ? ' · ' + c.rel : ''}
-              </div>
-              <div className="s">{plural(n, 'recipe')}</div>
-            </div>
-            {link ? (
-              <span className="joined-badge">✓ Joined</span>
-            ) : (
-              <button className="btn btn-accent btn-sm" onClick={() => setInviting(c)}>
-                Invite
-              </button>
-            )}
-          </div>
+              </span>
+              <span className="s">{plural(n, 'recipe')}</span>
+            </span>
+            {link ? <span className="joined-badge">✓ Joined</span> : <span className="invite-chip">Invite</span>}
+            <span className="chev" aria-hidden>
+              ›
+            </span>
+          </button>
         );
       })}
 
@@ -87,74 +89,118 @@ export function InvitePage({ fam, toast }: { fam: Family; toast: (t: string) => 
       </div>
 
       <AppPortal>
-        <Layer show={!!inviting} kind="fade" z={45}>
-          {inviting && <InviteSheet person={inviting} close={() => setInviting(null)} toast={toast} />}
+        <Layer show={!!open} kind="fade" z={45}>
+          {open && (
+            <PersonSheet
+              person={open}
+              joined={fam.linkByContributor[open.id] || null}
+              recipes={fam.recipes.filter((r) => r.contributor === open.id).length}
+              close={() => setOpen(null)}
+              toast={toast}
+            />
+          )}
         </Layer>
       </AppPortal>
     </div>
   );
 }
 
-function InviteSheet({ person, close, toast }: { person: Contributor; close: () => void; toast: (t: string) => void }) {
-  const [link, setLink] = useState<string | null>(null);
+/** One person's profile: who they are, and (if they haven't joined) a text with their invite code. */
+function PersonSheet({
+  person,
+  joined,
+  recipes,
+  close,
+  toast,
+}: {
+  person: Contributor;
+  joined: api.Link | null;
+  recipes: number;
+  close: () => void;
+  toast: (t: string) => void;
+}) {
+  const [code, setCode] = useState<string | null>(null);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (joined) return;
     api
       .createInvite(person.id)
-      .then((token) => setLink(`${location.origin}/#/i/${token}`))
+      .then(setCode)
       .catch((e) => setError((e as Error).message));
-  }, [person.id]);
+  }, [person.id, joined]);
 
   const first = person.short || person.name.split(' ')[0];
-  const message = link
-    ? `Hi ${first}! The family recipe box is online now: The Dunigan Kitchen. Your recipes are already in it under your name. Tap this link and sign in with Google to join: ${link}`
+  const link = code ? `${SITE}/#/i/${code}` : '';
+  const message = code
+    ? `Hi ${first}! The family recipe box is online: The Dunigan Recipes. ` +
+      (recipes ? 'Your recipes are already in it under your name. ' : '') +
+      `Tap this link and sign in with Google to join: ${link}\n\nOr go to ${SITE.replace(/^https:\/\//, '')}, sign in, and enter your code: ${pretty(code)}`
     : '';
   const digits = phone.replace(/[^\d+]/g, '');
   const smsHref = `sms:${digits}?&body=${encodeURIComponent(message)}`;
 
-  async function copy() {
+  async function copy(text: string, done: string) {
     try {
-      await navigator.clipboard.writeText(message);
-      toast('Invite copied. Paste it into a text.');
+      await navigator.clipboard.writeText(text);
+      toast(done);
     } catch {
-      toast('Couldn’t copy. Press and hold the message to copy it.');
-    }
-  }
-  async function share() {
-    try {
-      await navigator.share({ title: 'The Dunigan Kitchen', text: message });
-    } catch {
-      /* cancelled */
+      toast('Couldn’t copy. Press and hold to copy it.');
     }
   }
 
   return (
     <>
       <div className="scrim" onClick={close} />
-      <div className="sheet" role="dialog" aria-label={'Invite ' + person.name}>
+      <div className="sheet" role="dialog" aria-label={person.name}>
         <div className="sheet-grab" />
-        <div className="row-between" style={{ alignItems: 'center', marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Avatar c={person} size={40} font={14} />
-            <h2 className="h2" style={{ fontSize: 22 }}>
-              Invite {first}
-            </h2>
+        <div className="row-between" style={{ alignItems: 'center', marginBottom: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+            {joined?.image ? (
+              <img className="pf-img" src={joined.image} alt="" width={52} height={52} referrerPolicy="no-referrer" />
+            ) : (
+              <Avatar c={person} size={52} font={18} />
+            )}
+            <div style={{ minWidth: 0 }}>
+              <h2 className="h2" style={{ fontSize: 22 }}>
+                {person.name}
+              </h2>
+              <div className="field-help" style={{ margin: 0 }}>
+                {person.rel ? person.rel + ' · ' : ''}
+                {plural(recipes, 'recipe')}
+              </div>
+            </div>
           </div>
           <button className="link-btn" onClick={close}>
             Done
           </button>
         </div>
 
-        {error ? (
+        {joined ? (
+          <div className="pf-status">
+            ✓ {first} joined{joined.name && joined.name !== person.name ? ` as ${joined.name}` : ''}. Their recipes and stories are under their
+            name.
+          </div>
+        ) : error ? (
           <p className="field-help">{error}</p>
-        ) : !link ? (
+        ) : !code ? (
           <div className="italic-empty" style={{ padding: '12px 0' }}>
-            Making their link…
+            Making their code…
           </div>
         ) : (
           <>
+            <div className="invite-code-box">
+              <div className="field-label" style={{ margin: 0 }}>
+                {first}’s invite code
+              </div>
+              <button className="invite-code" onClick={() => copy(pretty(code), 'Code copied')} aria-label="Copy the code">
+                {pretty(code)}
+              </button>
+              <div className="field-help" style={{ margin: 0 }}>
+                Only works once, and only for {first}.
+              </div>
+            </div>
             <div className="form-group">
               <label className="field-label" htmlFor="inv-phone">
                 Their phone number (optional)
@@ -171,30 +217,32 @@ function InviteSheet({ person, close, toast }: { person: Contributor; close: () 
               />
               <p className="field-help">Leave it blank to pick them from your contacts in Messages.</p>
             </div>
-            <div className="field-label">The text they’ll get</div>
-            <div className="invite-link" style={{ fontSize: 14, marginBottom: 14 }}>
-              {message}
-            </div>
             <a className="btn btn-accent btn-block btn-big" href={smsHref} style={{ textDecoration: 'none' }}>
-              Open Messages
+              Text {first} the code
             </a>
             <div className="two-btns">
-              <button className="btn btn-outline" onClick={copy}>
+              <button className="btn btn-outline" onClick={() => copy(message, 'Invite copied. Paste it into a text.')}>
                 Copy text
               </button>
-              {'share' in navigator ? (
-                <button className="btn btn-outline" onClick={share}>
+              {typeof navigator.share === 'function' ? (
+                <button
+                  className="btn btn-outline"
+                  onClick={() => navigator.share({ title: 'The Dunigan Recipes', text: message }).catch(() => {})}
+                >
                   Share…
                 </button>
               ) : (
-                <button className="btn btn-outline" onClick={() => navigator.clipboard?.writeText(link).then(() => toast('Link copied'))}>
+                <button className="btn btn-outline" onClick={() => copy(link, 'Link copied')}>
                   Copy link
                 </button>
               )}
             </div>
-            <p className="field-help" style={{ marginTop: 10 }}>
-              This link is just for {first}. Once they use it, it stops working, so nobody else can join as them.
-            </p>
+            <details className="invite-preview">
+              <summary>See the text they’ll get</summary>
+              <div className="invite-link" style={{ fontSize: 14, whiteSpace: 'pre-wrap' }}>
+                {message}
+              </div>
+            </details>
           </>
         )}
       </div>

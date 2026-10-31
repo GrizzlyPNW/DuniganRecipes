@@ -4,7 +4,7 @@
 import { neon } from '@neondatabase/serverless';
 import { put } from '@vercel/blob';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
-import { timingSafeEqual, randomUUID } from 'node:crypto';
+import { timingSafeEqual, randomUUID, randomInt } from 'node:crypto';
 
 type Sql = ReturnType<typeof neon>;
 interface User {
@@ -175,6 +175,31 @@ async function linkContributor(sql: Sql, contributorId: string, userId: string) 
   await sql`insert into contributor_links (contributor_id, user_id) values (${contributorId}, ${userId}) on conflict do nothing`;
 }
 
+/** Invite codes ignore case, spaces and dashes, so "k7q-m2p" works as well as "K7QM2P". */
+const normCode = (v: unknown) => (typeof v === 'string' ? v.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 64) : '');
+
+/** Six letters and numbers, leaving out ones that are easy to mix up (0/O, 1/I/L). */
+function shortCode() {
+  const abc = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  return Array.from({ length: 6 }, () => abc[randomInt(abc.length)]).join('');
+}
+
+/** An invite this person can still use (unused, or already used by them). */
+async function findInvite(sql: Sql, code: unknown, userId: string) {
+  const c = normCode(code);
+  if (c.length < 6) return null;
+  const rows = (await sql`select contributor_id from invites
+    where upper(token) = ${c} and (claimed_by is null or claimed_by = ${userId})`) as { contributor_id: string }[];
+  return rows[0] ?? null;
+}
+
+/** Ties the account to the cook and retires every open invite for that cook. */
+async function useInvite(sql: Sql, contributorId: string, userId: string) {
+  if (!(await linkedContributor(sql, userId))) await linkContributor(sql, contributorId, userId);
+  await sql`update invites set claimed_by = ${userId}, claimed_at = now()
+    where contributor_id = ${contributorId} and claimed_by is null`;
+}
+
 /** Keeps only the fields a cook needs, so nobody can stuff odd data into the list. */
 function cleanContributor(c: any) {
   if (!c || typeof c.id !== 'string') return null;
@@ -309,16 +334,23 @@ export async function POST(req: Request) {
   const sql = db();
   if (!sql) return json({ error: 'No database connected' }, 503);
 
+  // The family code, or a person's own invite code (the one texted to them).
   if (op === 'join') {
     const user = await currentUser(req);
     if (!user) return json({ error: 'Please sign in first' }, 401);
     const body = await req.json().catch(() => ({}));
-    if (!codeOk(body.code)) return json({ error: 'That code didn’t match' }, 403);
     await ensureSchema(sql);
     await loadRole(sql, user);
     if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
+    if (codeOk(body.code)) {
+      await addMember(sql, user);
+      return json({ ok: true, contributorId: await linkedContributor(sql, user.id) });
+    }
+    const inv = await findInvite(sql, body.code, user.id);
+    if (!inv) return json({ error: 'That code didn’t match' }, 403);
     await addMember(sql, user);
-    return json({ ok: true });
+    await useInvite(sql, inv.contributor_id, user.id);
+    return json({ ok: true, contributorId: await linkedContributor(sql, user.id) });
   }
 
   // A personal invite link: joins the family and ties this account to the cook it was made for.
@@ -326,16 +358,15 @@ export async function POST(req: Request) {
     const user = await currentUser(req);
     if (!user) return json({ error: 'Please sign in first' }, 401);
     const body = await req.json().catch(() => ({}));
-    const token = clip(body.token, 64);
     await ensureSchema(sql);
-    const [inv] = (await sql`select contributor_id, claimed_by from invites where token = ${token}`) as any[];
-    if (!inv) return json({ error: 'That invite link isn’t valid. Ask Luke for a new one.' }, 403);
-    if (inv.claimed_by && inv.claimed_by !== user.id) return json({ error: 'That invite link was already used. Ask Luke for a new one.' }, 403);
+    const [any] = (await sql`select claimed_by from invites where upper(token) = ${normCode(body.token)}`) as any[];
+    if (!any) return json({ error: 'That invite link isn’t valid. Ask Luke for a new one.' }, 403);
+    const inv = await findInvite(sql, body.token, user.id);
+    if (!inv) return json({ error: 'That invite link was already used. Ask Luke for a new one.' }, 403);
     await loadRole(sql, user);
     if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
     await addMember(sql, user);
-    if (!(await linkedContributor(sql, user.id))) await linkContributor(sql, inv.contributor_id, user.id);
-    await sql`update invites set claimed_by = ${user.id}, claimed_at = now() where token = ${token}`;
+    await useInvite(sql, inv.contributor_id, user.id);
     return json({ ok: true, contributorId: await linkedContributor(sql, user.id) });
   }
 
@@ -345,11 +376,30 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => ({}));
     const contributorId = clip(body.contributorId, 60);
     if (!contributorId || contributorId === 'none') return json({ error: 'Pick a person to invite' }, 400);
-    const [existing] = (await sql`select token from invites where contributor_id = ${contributorId} and claimed_by is null`) as any[];
+    // Reuse their short code if they already have one. Older long links keep working too.
+    const [existing] = (await sql`select token from invites
+      where contributor_id = ${contributorId} and claimed_by is null and length(token) = 6`) as any[];
     if (existing) return json({ token: existing.token });
-    const token = randomUUID().replace(/-/g, '').slice(0, 16);
-    await sql`insert into invites (token, contributor_id, created_by) values (${token}, ${contributorId}, ${who.id})`;
-    return json({ token });
+    for (let i = 0; i < 5; i++) {
+      const token = shortCode();
+      const rows = (await sql`insert into invites (token, contributor_id, created_by) values (${token}, ${contributorId}, ${who.id})
+        on conflict do nothing returning token`) as any[];
+      if (rows.length) return json({ token });
+    }
+    return json({ error: 'Couldn’t make a code. Try again.' }, 500);
+  }
+
+  // A new member says which cook on the family list they are ("Are you this person?").
+  if (op === 'link-me') {
+    const who = await requireMember(req, sql);
+    if (who instanceof Response) return who;
+    const body = await req.json().catch(() => ({}));
+    const contributorId = clip(body.contributorId, 60);
+    if (!contributorId || contributorId === 'none') return json({ error: 'Pick a person' }, 400);
+    if (!(await linkedContributor(sql, who.id))) await linkContributor(sql, contributorId, who.id);
+    const mine = await linkedContributor(sql, who.id);
+    if (mine !== contributorId) return json({ error: 'Someone already joined as that person. Ask Luke for help.' }, 409);
+    return json({ ok: true, contributorId: mine });
   }
 
   if (op === 'remove-member' || op === 'restore-member') {

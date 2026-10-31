@@ -1,4 +1,4 @@
-# The Dunigan Kitchen
+# The Dunigan Recipes
 
 The Dunigan family recipe box as an installable phone app (PWA): 39 recipes, photos of the original cards, family stories, step-by-step cook mode with timers, and a printable book.
 

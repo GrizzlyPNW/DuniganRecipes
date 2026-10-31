@@ -108,6 +108,9 @@ export async function claimInvite(token: string): Promise<{ ok: boolean; error?:
     return { ok: false, error: (e as Error).message };
   }
 }
+/** "Are you this person?" — yes: tie this account to that cook. */
+export const linkMe = (contributorId: string) =>
+  call<{ contributorId: string }>('POST', 'link-me', JSON.stringify({ contributorId })).then((r) => r.contributorId);
 export const createInvite = (contributorId: string) =>
   call<{ token: string }>('POST', 'create-invite', JSON.stringify({ contributorId })).then((r) => r.token);
 export const listInvites = () =>

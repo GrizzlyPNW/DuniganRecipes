@@ -12,7 +12,7 @@ import { ShoppingContext, useShopping } from './lib/shopping';
 import { Menu, TabBar, type Tab } from './components/Chrome';
 import { AdminPage } from './components/Admin';
 import { InvitePage } from './components/Invite';
-import { Header, LoadingScreen, LoginScreen, ProfilePanel } from './components/Account';
+import { Header, LoadingScreen, LoginScreen, ProfilePanel, WhoAreYou } from './components/Account';
 import { RecipePage } from './components/RecipePage';
 import { CookMode } from './components/CookMode';
 import { AddChooser, RecipeForm } from './components/AddRecipe';
@@ -176,6 +176,7 @@ export default function App() {
 
           {fam.error && !toastText && <Toast text={fam.error} />}
           {fam.mode === 'shared' && fam.ready && fam.access !== 'member' && <LoginScreen fam={fam} toast={toast} />}
+          {fam.mode === 'shared' && fam.ready && fam.access === 'member' && !fam.myContributor && <WhoAreYou fam={fam} toast={toast} />}
           <Toast text={toastText} />
           <LoadingScreen done={fam.ready && !session.isPending} />
         </div>

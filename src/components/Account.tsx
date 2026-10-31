@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import type { Family } from '../lib/store';
+import type { Contributor, Family } from '../lib/store';
 import { signInWithGoogle, signOut } from '../lib/auth';
 import { useMe, type Me } from '../lib/session';
-import { initials } from '../lib/util';
+import { initials, likelyMatches, makeContributor, plural } from '../lib/util';
+import { Avatar } from './bits';
 import { go } from '../lib/router';
 import { useNav } from './Stack';
 
@@ -35,7 +36,7 @@ export function Header({ onBack, backLabel }: { onBack?: () => void; backLabel?:
       )}
       <picture className="hdr-logo">
         <source srcSet="/logo-header.webp" type="image/webp" />
-        <img src="/logo-header.png" alt="The Dunigan Kitchen" />
+        <img src="/logo-header.png" alt="The Dunigan Recipes" />
       </picture>
       <button className="hdr-btn hdr-right" onClick={nav.openProfile} aria-label={me ? 'Your profile' : 'Sign in'}>
         <ProfileIcon me={me} size={36} />
@@ -189,7 +190,7 @@ function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
     <div className="join-box">
       <div className="t">One more step</div>
       <p className="field-help" style={{ margin: '4px 0 12px' }}>
-        Open the invite link someone in the family sent you, or type the family code here. You only do this once.
+        Open the invite link someone in the family sent you, or type the code from your invite text. You only do this once.
       </p>
       <div style={{ display: 'flex', gap: 8 }}>
         <input
@@ -197,8 +198,8 @@ function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && submit()}
-          placeholder="Family code"
-          aria-label="Family code"
+          placeholder="Your code"
+          aria-label="Your invite code or the family code"
           autoCapitalize="off"
           autoCorrect="off"
         />
@@ -235,7 +236,7 @@ export function LoginScreen({ fam, toast }: { fam: Family; toast: (t: string) =>
       <div className="login-inner">
         <picture>
           <source srcSet="/logo.webp" type="image/webp" />
-          <img className="login-logo" src="/logo.png" alt="The Dunigan Kitchen" />
+          <img className="login-logo" src="/logo.png" alt="The Dunigan Recipes" />
         </picture>
         <p className="login-quote">“From my kitchen to yours, these recipes hold so much more than ingredients.”</p>
 
@@ -273,6 +274,117 @@ export function LoginScreen({ fam, toast }: { fam: Family; toast: (t: string) =>
   );
 }
 
+/* ---------- Who are you? (first visit after joining) ---------- */
+
+/**
+ * New members give their first and last name. If someone close is already on the family
+ * list, we ask "Are you this person?" so their recipes land under their name.
+ */
+export function WhoAreYou({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
+  const me = useMe();
+  const [gFirst, ...gRest] = (me?.name || '').trim().split(/\s+/);
+  const [first, setFirst] = useState(gFirst || '');
+  const [last, setLast] = useState(gRest.join(' '));
+  const [matches, setMatches] = useState<Contributor[] | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const fullName = `${first.trim()} ${last.trim()}`;
+  const open = Object.values(fam.contributors).filter((c) => c.id !== 'none' && !fam.linkByContributor[c.id]);
+
+  function next() {
+    if (!first.trim() || !last.trim()) return toast('Type your first and last name');
+    const found = likelyMatches(first, last, open);
+    if (found.length) setMatches(found);
+    else addNew();
+  }
+  async function pick(c: Contributor) {
+    setBusy(true);
+    try {
+      await fam.linkMe(c.id);
+      toast(`Welcome, ${c.short || c.name.split(' ')[0]}!`);
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t save that. Try again.');
+      setBusy(false);
+    }
+  }
+  async function addNew() {
+    setBusy(true);
+    try {
+      await fam.addContributor(makeContributor(fullName, fam.contributors), true);
+      toast(`Welcome, ${first.trim()}!`);
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t save that. Try again.');
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="login-screen">
+      <div className="login-inner">
+        <picture>
+          <source srcSet="/logo.webp" type="image/webp" />
+          <img className="login-logo who-logo" src="/logo.png" alt="The Dunigan Recipes" />
+        </picture>
+        {!matches ? (
+          <div className="join-box">
+            <div className="t">Welcome! What’s your name?</div>
+            <p className="field-help" style={{ margin: '4px 0 12px' }}>
+              So your recipes and stories show up under your name.
+            </p>
+            <label className="field-label" htmlFor="who-first">
+              First name
+            </label>
+            <input id="who-first" className="field" value={first} onChange={(e) => setFirst(e.target.value)} autoComplete="given-name" />
+            <label className="field-label" htmlFor="who-last" style={{ marginTop: 10 }}>
+              Last name
+            </label>
+            <input
+              id="who-last"
+              className="field"
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && next()}
+              autoComplete="family-name"
+            />
+            <button className="btn btn-accent btn-block" style={{ marginTop: 14 }} onClick={next} disabled={busy}>
+              {busy ? 'Saving…' : 'Continue'}
+            </button>
+          </div>
+        ) : (
+          <div className="join-box">
+            <div className="t">{matches.length === 1 ? 'Are you this person?' : 'Are you one of these people?'}</div>
+            <p className="field-help" style={{ margin: '4px 0 12px' }}>
+              {matches.length === 1 ? 'They’re' : 'These names are'} already in the recipe box. If it’s you, your recipes are waiting.
+            </p>
+            {matches.map((c) => {
+              const n = fam.recipes.filter((r) => r.contributor === c.id).length;
+              return (
+                <button key={c.id} className="who-match" onClick={() => pick(c)} disabled={busy}>
+                  <Avatar c={c} size={42} font={15} />
+                  <span className="who-txt">
+                    <span className="t2">{c.name}</span>
+                    <span className="s2">
+                      {c.rel ? c.rel + ' · ' : ''}
+                      {plural(n, 'recipe')}
+                    </span>
+                  </span>
+                  <span className="who-yes">Yes, that’s me</span>
+                </button>
+              );
+            })}
+            <button className="btn btn-outline btn-block" style={{ marginTop: 12 }} onClick={addNew} disabled={busy}>
+              No, I’m {fullName}, someone new
+            </button>
+            <button className="link-btn" style={{ marginTop: 10 }} onClick={() => setMatches(null)} disabled={busy}>
+              ‹ Fix my name
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Loading screen ---------- */
 
 export function LoadingScreen({ done }: { done: boolean }) {
@@ -300,7 +412,7 @@ export function LoadingScreen({ done }: { done: boolean }) {
     <div className={'loading-screen' + (leaving ? ' leaving' : '')} role="status" aria-label="Loading">
       <picture>
         <source srcSet="/logo.webp" type="image/webp" />
-        <img className="ls-logo" src="/logo.png" alt="The Dunigan Kitchen" />
+        <img className="ls-logo" src="/logo.png" alt="The Dunigan Recipes" />
       </picture>
       <div className="ls-dots" aria-hidden>
         <i />

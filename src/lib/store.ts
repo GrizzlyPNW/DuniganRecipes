@@ -198,6 +198,13 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       if (res.contributorId) setMyContributor(res.contributorId);
       return res.contributor;
     },
+    /** "Yes, that's me": ties this account to a cook already on the list. */
+    linkMe: async (contributorId: string) => {
+      const id = await api.linkMe(contributorId);
+      setMyContributor(id);
+      if (mode) refresh(mode);
+      return id;
+    },
     refresh: () => mode && refresh(mode),
     refreshAccess: () => setCheckNonce((n) => n + 1),
     favoriteCount: (recipeId: string) => favCounts[recipeId] || 0,

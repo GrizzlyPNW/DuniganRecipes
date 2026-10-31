@@ -56,6 +56,61 @@ export function makeContributor(name: string, taken: Record<string, Contributor>
   return { id, name: name.trim(), short: first, ini: initials(name), hue: hue || 330 };
 }
 
+/* ---------- "Are you this person?" name matching ---------- */
+
+const nameWords = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z\s'-]/g, ' ')
+    .split(/[\s-]+/)
+    .map((w) => w.replace(/'/g, ''))
+    .filter(Boolean);
+
+function editDistance(a: string, b: string) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+
+/** 1 = same word, lower = close (a typo, a short form like Jeff/Jeffrey), 0 = different. */
+function wordLike(a: string, b: string) {
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  // "D." on the card stands for any last name starting with D.
+  if (a.length === 1 || b.length === 1) return a[0] === b[0] ? 0.8 : 0;
+  if (Math.min(a.length, b.length) >= 3 && (a.startsWith(b) || b.startsWith(a))) return 0.85;
+  const dist = editDistance(a, b);
+  const len = Math.max(a.length, b.length);
+  if (dist === 1 && len >= 4) return 0.8;
+  if (dist === 2 && len >= 6) return 0.6;
+  return 0;
+}
+
+/**
+ * Cooks on the family list whose name is close to "first last", best first.
+ * A first-name match alone still counts (people's last names change), just lower.
+ */
+export function likelyMatches<T extends { id: string; name: string; short?: string }>(first: string, last: string, people: T[]) {
+  const f = nameWords(first)[0] || '';
+  const l = nameWords(last).pop() || '';
+  return people
+    .map((p) => {
+      const words = nameWords(p.name);
+      const pf = words[0] || '';
+      const pl = words.length > 1 ? words[words.length - 1] : '';
+      const firstScore = Math.max(wordLike(f, pf), wordLike(f, nameWords(p.short || '')[0] || ''));
+      const lastScore = pl ? wordLike(l, pl) : 0.5;
+      return { person: p, score: firstScore * 0.6 + lastScore * 0.4, firstScore };
+    })
+    .filter((m) => m.firstScore >= 0.8 && m.score >= 0.6)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((m) => m.person);
+}
+
 export const newId = () => 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
 /** Lines from a textarea, trimmed, blanks dropped, leading "1." / "-" bullets removed. */

@@ -75,7 +75,7 @@ function PrintBook({ fam, opts }: { fam: Family; opts: Opts }) {
         <div className="a">A Family Recipe Book</div>
         <div className="b">Collected with love over 50 years</div>
         <div className="b" style={{ marginTop: 40, fontSize: 14 }}>
-          The Dunigan Kitchen
+          The Dunigan Recipes
         </div>
       </section>
       <section className="pb-page pb-note">

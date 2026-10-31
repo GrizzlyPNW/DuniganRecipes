@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'The Dunigan Kitchen',
-        short_name: 'Dunigan Kitchen',
+        name: 'The Dunigan Recipes',
+        short_name: 'Dunigan Recipes',
         description: 'The Dunigan family recipe box: recipes, card photos and family stories.',
         theme_color: '#f7f2e8',
         background_color: '#f7f2e8',
