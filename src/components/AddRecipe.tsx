@@ -195,7 +195,7 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
                     <>
                       <span>+ {side}</span>
                       <small>{i === 0 ? 'Take or choose a photo' : 'Optional'}</small>
-                      <input type="file" accept="image/*" capture="environment" onChange={(e) => setPhoto(i, e.target.files?.[0] || null)} />
+                      <input type="file" accept="image/*" onChange={(e) => setPhoto(i, e.target.files?.[0] || null)} />
                     </>
                   )}
                 </label>
