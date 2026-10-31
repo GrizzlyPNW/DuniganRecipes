@@ -31,7 +31,7 @@ function AddOptions() {
     <>
         <button className="big-option dark" onClick={() => go('new/photo')}>
           <div className="t">Photograph a card</div>
-          <div className="s">Shoot the front, then the back. The photos go on the recipe page, and the family can type it up later.</div>
+          <div className="s">Shoot the front, then the back. The app can type it up from the photo, or the family can type it up later.</div>
         </button>
         <button className="big-option light" onClick={() => go('new/type')}>
           <div className="t">Type it in</div>
@@ -133,6 +133,33 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
 
   const setPhoto = (i: number, f: File | null) => setPhotos((p) => p.map((x, j) => (j === i ? f : x)));
 
+  // "Type it up for me": read the card photos on the phone and fill in the empty fields.
+  const [reading, setReading] = useState<number | null>(null);
+  const cardSources: (Blob | string)[] = [...(existing?.cardImages || []), ...photos.filter((f): f is File => !!f)];
+  async function typeItUp() {
+    setReading(0);
+    try {
+      const { readCard } = await import('../lib/ocr');
+      const r = await readCard(cardSources, (p) => setReading(p));
+      if (!r.ingredients.length && !r.steps.length && !r.title) {
+        toast('Couldn’t read the card. Try a brighter, straight-on photo.');
+        return;
+      }
+      if (!title.trim() && r.title) setTitle(r.title);
+      if (!temp.trim() && r.temp) setTemp(r.temp);
+      if (!makes.trim() && r.makes) setMakes(r.makes);
+      if (!ings.trim()) setIngs(r.ingredients.join('\n'));
+      if (!steps.trim()) setSteps(r.steps.join('\n'));
+      setShowTyping(true);
+      toast('Typed up! Check it over and fix any mistakes.');
+    } catch (e) {
+      console.error(e);
+      toast('Couldn’t read the card. Check your connection and try again.');
+    } finally {
+      setReading(null);
+    }
+  }
+
   if (fam.access !== 'member') {
     return (
       <div className="overlay-page">
@@ -201,6 +228,17 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
                 </label>
               ))}
             </div>
+          </div>
+        )}
+
+        {cardSources.length > 0 && (!ings.trim() || !steps.trim()) && (
+          <div className="form-group">
+            <button className="btn btn-block ocr-btn" onClick={typeItUp} disabled={reading !== null || busy}>
+              {reading !== null ? `Reading the card… ${Math.round(reading * 100)}%` : 'Type it up from the photo'}
+            </button>
+            <p className="field-help">
+              Fills in the recipe from the card. Works best with printed or neat writing in good light. Check it over before saving.
+            </p>
           </div>
         )}
 
