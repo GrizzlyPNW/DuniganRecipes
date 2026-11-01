@@ -255,6 +255,7 @@ function cleanTreePerson(p: any) {
     sex: p.sex === 'f' || p.sex === 'm' ? p.sex : null,
     parents: ids(p.parents, 2),
     spouses: ids(p.spouses, 4),
+    partners: ids(p.partners, 4),
     contributorId: clip(p.contributorId, 60) || null,
     born: clip(p.born, 20) || null,
     note: clip(p.note, 500) || null,
@@ -546,14 +547,21 @@ export async function POST(req: Request) {
 
   // Only the admin can take someone off the tree. Their links to others go too.
   if (op === 'tree-remove') {
-    if (!who.admin) return json({ error: 'Only the family admin can remove someone' }, 403);
     const id = clip(body.id, 60);
     if (!id) return json({ error: 'Bad request' }, 400);
+    // Anyone can take off someone who isn't connected to anyone anymore (like an ex after a breakup).
+    if (!who.admin) {
+      const all = (await sql`select data from family_tree`) as any[];
+      const p = all.find((r) => r.data.id === id)?.data;
+      const tied =
+        !p || p.parents?.length || p.spouses?.length || all.some((r) => r.data.parents?.includes(id) || r.data.spouses?.includes(id));
+      if (tied) return json({ error: 'Only the family admin can remove someone who is still connected to the tree' }, 403);
+    }
     await sql`delete from family_tree where id = ${id}`;
     const rows = (await sql`select data from family_tree`) as any[];
     for (const { data: p } of rows) {
       if (!p.parents?.includes(id) && !p.spouses?.includes(id)) continue;
-      const next = { ...p, parents: (p.parents || []).filter((x: string) => x !== id), spouses: (p.spouses || []).filter((x: string) => x !== id) };
+      const next = { ...p, parents: (p.parents || []).filter((x: string) => x !== id), spouses: (p.spouses || []).filter((x: string) => x !== id), partners: (p.partners || []).filter((x: string) => x !== id) };
       await sql`update family_tree set data = ${JSON.stringify(next)}::jsonb, updated_by = ${who.name}, updated_at = now() where id = ${p.id}`;
     }
     return json({ ok: true });

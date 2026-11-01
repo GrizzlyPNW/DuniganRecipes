@@ -11,6 +11,8 @@ export interface TreePerson {
   /** Up to two ids. */
   parents?: string[];
   spouses?: string[];
+  /** Of their spouses, the ones they're together with but not married to. */
+  partners?: string[];
   /** Their cook on the recipe list, so the tree can show their recipes. */
   contributorId?: string | null;
   born?: string | null;
@@ -39,6 +41,8 @@ const g = (sex: TreePerson['sex'], f: string, m: string, n: string) => (sex === 
 
 export const parentsOf = (P: People, id: string) => (P[id]?.parents || []).filter((x) => P[x]);
 export const spousesOf = (P: People, id: string) => (P[id]?.spouses || []).filter((x) => P[x]);
+/** Together but not married. */
+export const isPartner = (P: People, a: string, b: string) => !!(P[a]?.partners?.includes(b) || P[b]?.partners?.includes(a));
 export const childrenOf = (P: People, id: string) => Object.values(P).filter((p) => p.parents?.includes(id)).map((p) => p.id);
 export function siblingsOf(P: People, id: string) {
   const mine = parentsOf(P, id);
@@ -130,13 +134,14 @@ export function relation(P: People, a: string, b: string): string | null {
   const sexB = P[b].sex;
   const bl = blood(P, a, b);
   if (bl) return bloodLabel(bl[0], bl[1], sexB);
-  if (spousesOf(P, a).includes(b)) return g(sexB, 'Wife', 'Husband', 'Spouse');
+  if (spousesOf(P, a).includes(b)) return isPartner(P, a, b) ? 'Partner' : g(sexB, 'Wife', 'Husband', 'Spouse');
 
   // b married one of a's relatives.
   for (const s of spousesOf(P, b)) {
     const r = blood(P, a, s);
     if (!r) continue;
     const [da, db] = r;
+    if (isPartner(P, b, s)) return `${bloodLabel(da, db, P[s].sex)}’s partner`;
     if (da === 0 && db === 1) return g(sexB, 'Daughter-in-law', 'Son-in-law', 'Child-in-law');
     if (da === 1 && db === 1) return g(sexB, 'Sister-in-law', 'Brother-in-law', 'Sibling-in-law');
     if (da === 1 && db === 0) return g(sexB, 'Stepmother', 'Stepfather', 'Stepparent');
@@ -148,6 +153,7 @@ export function relation(P: People, a: string, b: string): string | null {
     const r = blood(P, s, b);
     if (!r) continue;
     const [da, db] = r;
+    if (isPartner(P, a, s)) return `Partner’s ${lowerFirst(bloodLabel(da, db, sexB))}`;
     if (da === 1 && db === 0) return g(sexB, 'Mother-in-law', 'Father-in-law', 'Parent-in-law');
     if (da === 1 && db === 1) return g(sexB, 'Sister-in-law', 'Brother-in-law', 'Sibling-in-law');
     if (da === 0 && db === 1) return g(sexB, 'Stepdaughter', 'Stepson', 'Stepchild');
@@ -231,9 +237,13 @@ export function withSibling(P: People, personId: string, sib: TreePerson, newId:
   return [mom, dad, { ...P[personId], parents: [mom.id, dad.id] }, { ...sib, parents: [mom.id, dad.id] }];
 }
 
-export function withSpouse(P: People, personId: string, spouse: TreePerson): TreePerson[] {
+export function withSpouse(P: People, personId: string, spouse: TreePerson, partner = false): TreePerson[] {
   const p = P[personId];
-  return [{ ...spouse, spouses: [personId] }, { ...p, spouses: [...new Set([...(p.spouses || []), spouse.id])] }];
+  const add = (list: string[] | undefined, x: string) => [...new Set([...(list || []), x])];
+  return [
+    { ...spouse, spouses: [personId], partners: partner ? [personId] : [] },
+    { ...p, spouses: add(p.spouses, spouse.id), partners: partner ? add(p.partners, spouse.id) : p.partners },
+  ];
 }
 
 export function withChild(_P: People, personId: string, child: TreePerson, otherParent: string | null): TreePerson[] {
@@ -244,7 +254,7 @@ export function withChild(_P: People, personId: string, child: TreePerson, other
 /** Sections for the list view, closest family first. */
 export const GROUPS = [
   'Parents',
-  'Husband or wife',
+  'Husband, wife or partner',
   'Brothers and sisters',
   'Children',
   'Grandparents',
@@ -258,7 +268,7 @@ export const GROUPS = [
 /** Which list section person b belongs in, seen from person a. */
 export function groupOf(P: People, a: string, b: string): (typeof GROUPS)[number] | null {
   if (a === b || !P[a] || !P[b]) return null;
-  if (spousesOf(P, a).includes(b)) return 'Husband or wife';
+  if (spousesOf(P, a).includes(b)) return 'Husband, wife or partner';
   const bl = blood(P, a, b);
   if (bl) {
     const [da, db] = bl;
@@ -272,5 +282,5 @@ export function groupOf(P: People, a: string, b: string): (typeof GROUPS)[number
   const r = relation(P, a, b);
   if (!r) return null;
   // An aunt's husband is still an uncle.
-  return /(aunt|uncle)$/i.test(r) ? 'Aunts and uncles' : 'In-laws and family by marriage';
+  return /(aunt|uncle)$/i.test(r) && !/partner/i.test(r) ? 'Aunts and uncles' : 'In-laws and family by marriage';
 }

@@ -216,7 +216,7 @@ export async function removeTreePerson(mode: Mode, id: string) {
       LOCAL_TREE,
       read<TreePerson[]>(LOCAL_TREE, [])
         .filter((p) => p.id !== id)
-        .map((p) => ({ ...p, parents: p.parents?.filter((x) => x !== id), spouses: p.spouses?.filter((x) => x !== id) })),
+        .map((p) => ({ ...p, parents: p.parents?.filter((x) => x !== id), spouses: p.spouses?.filter((x) => x !== id), partners: p.partners?.filter((x) => x !== id) })),
     );
     return;
   }

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
 import { go } from '../lib/router';
 import { newId, plural } from '../lib/util';
@@ -10,6 +10,7 @@ import {
   displayName,
   generations,
   groupOf,
+  isPartner,
   parentsOf,
   relation,
   shortName,
@@ -48,13 +49,13 @@ type View = 'tree' | 'list';
 const VIEW_KEY = 'dunigan-tree-view';
 
 /**
- * The family tree, seen from one person: you, until you tap someone and choose
- * to see it from their side. Every label ("Your aunt", "Elaine's niece") follows.
+ * The family tree, seen from one person: Jeanette, until you tap someone (or yourself)
+ * and choose to see it from their side. Every label ("Your aunt", "Elaine's niece") follows.
  */
 export function TreePage({ fam, toast, pickWho }: { fam: Family; toast: (t: string) => void; pickWho: Pick }) {
   const P = useMemo(() => byId(fam.tree), [fam.tree]);
   const meId = fam.myContributor ? fam.tree.find((p) => p.contributorId === fam.myContributor)?.id : undefined;
-  const home = meId || (P[START] ? START : fam.tree[0]?.id);
+  const home = P[START] ? START : fam.tree[0]?.id;
   const [center, setCenter] = useState(home);
   const [open, setOpen] = useState<string | null>(null);
   const [view, setView] = useState<View>(() => {
@@ -73,10 +74,6 @@ export function TreePage({ fam, toast, pickWho }: { fam: Family; toast: (t: stri
     }
   };
 
-  // Once someone finds themselves on the tree, show it from their side.
-  useEffect(() => {
-    if (meId) setCenter(meId);
-  }, [meId]);
   const c = center && P[center] ? center : home;
   if (!c) return null;
 
@@ -101,20 +98,37 @@ export function TreePage({ fam, toast, pickWho }: { fam: Family; toast: (t: stri
       <FamilySwitch on="tree" />
       <div className="eyebrow">The family</div>
       <h1 className="h1" style={{ marginBottom: 6 }}>
-        {mine ? 'Your family tree' : `${cName}’s family tree`}
+        The Dunigan Family Tree
       </h1>
+      <p className="lead">Tap anyone to see more, add their family, or see the tree from their side.</p>
 
-      {!mine && meId ? (
-        <div className="tree-you row-between" style={{ alignItems: 'center' }}>
-          <span>Seeing the family from {cName}’s side.</span>
-          <button className="link-btn" onClick={() => setCenter(meId)}>
-            Back to me
-          </button>
+      {!meId && fam.myContributor ? (
+        <div className="tree-you">
+          <b>Not on the tree yet?</b> Tap the person you’re closest to, like your partner, mom or dad. Then add yourself and tap
+          “It’s me.” If you’re already on it, tap your name and “This is me.”
         </div>
-      ) : !meId && fam.myContributor ? (
-        <div className="tree-you">Not on the tree yet? Find yourself and tap “This is me,” or add yourself next to a parent.</div>
+      ) : mine ? (
+        <div className="tree-you row-between" style={{ alignItems: 'center' }}>
+          <span>Seeing it from your side.</span>
+          {home && home !== c && (
+            <button className="link-btn" onClick={() => setCenter(home)}>
+              Back to {shortName(P, P[home])}
+            </button>
+          )}
+        </div>
       ) : (
-        <p className="lead">Tap anyone to see more, add their family, or see the tree from their side.</p>
+        <div className="tree-you row-between" style={{ alignItems: 'center', gap: 10 }}>
+          <span>Seeing it from {cName}’s side.</span>
+          {meId ? (
+            <button className="link-btn" onClick={() => setCenter(meId)}>
+              See it from my side
+            </button>
+          ) : home && home !== c ? (
+            <button className="link-btn" onClick={() => setCenter(home)}>
+              Back to {shortName(P, P[home])}
+            </button>
+          ) : null}
+        </div>
       )}
 
       <div className="seg seg-sm" role="tablist" aria-label="List or tree">
@@ -495,8 +509,14 @@ type AddKind = 'parent' | 'sibling' | 'spouse' | 'child';
 const ADD_LABEL: Record<AddKind, string> = {
   parent: 'Add a parent',
   sibling: 'Add a brother or sister',
-  spouse: 'Add a husband or wife',
+  spouse: 'Add a husband, wife or partner',
   child: 'Add a child',
+};
+const ADD_BUTTON: Record<AddKind, string> = {
+  parent: '+ Parent',
+  sibling: '+ Brother or sister',
+  spouse: '+ Spouse or partner',
+  child: '+ Child',
 };
 
 /** One person: how they're related, their close family, and buttons to add more. */
@@ -561,9 +581,37 @@ function PersonSheet({
     }
   }
 
+  /** A breakup: undo the couple. If the other person has no one else on the tree, offer to take them off. */
+  async function unlink(s: string) {
+    const other = P[s];
+    const sName = displayName(P, other);
+    const word = isPartner(P, id, s) ? 'partner' : 'husband or wife';
+    if (!confirm(`Remove ${sName} as ${first}’s ${word}? Any children stay connected to both of them.`)) return;
+    const strip = (x: TreePerson, gone: string): TreePerson => ({
+      ...x,
+      spouses: (x.spouses || []).filter((y) => y !== gone),
+      partners: (x.partners || []).filter((y) => y !== gone),
+    });
+    setBusy(true);
+    try {
+      await fam.saveTree([strip(p, s), strip(other, id)]);
+      const alone = !parentsOf(P, s).length && !spousesOf(P, s).some((y) => y !== id) && !childrenOf(P, s).length;
+      if (alone && confirm(`${sName} isn’t connected to anyone else now. Take them off the tree too?`)) {
+        await fam.removeFromTree(s);
+        toast(`${sName} was taken off the tree`);
+      } else toast(`${sName} is no longer listed as ${first}’s ${word}`);
+    } catch (e) {
+      toast((e as Error).message || 'Couldn’t save. Try again.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const links: [string, string[]][] = [
     ['Parents', parentsOf(P, id)],
-    [spousesOf(P, id).length > 1 ? 'Married to' : p.sex === 'f' ? 'Husband' : p.sex === 'm' ? 'Wife' : 'Married to', spousesOf(P, id)],
+    ...spousesOf(P, id).map(
+      (s): [string, string[]] => [isPartner(P, id, s) ? 'Partner' : P[s].sex === 'm' ? 'Husband' : P[s].sex === 'f' ? 'Wife' : 'Married to', [s]],
+    ),
     ['Brothers and sisters', siblingsOf(P, id)],
     ['Children', childrenOf(P, id)],
   ];
@@ -632,7 +680,7 @@ function PersonSheet({
                 .filter((k) => k !== 'parent' || parentsOf(P, id).filter((x) => !P[x].unknown).length < 2)
                 .map((k) => (
                   <button key={k} className="btn btn-outline" onClick={() => setMode(k)}>
-                    + {ADD_LABEL[k].replace('Add a ', '').replace(/^./, (ch) => ch.toUpperCase())}
+                    {ADD_BUTTON[k]}
                   </button>
                 ))}
             </div>
@@ -650,6 +698,12 @@ function PersonSheet({
                   This is me
                 </button>
               )}
+              {spousesOf(P, id).map((s) => (
+                <button key={s} className="link-btn" style={{ color: 'var(--muted)' }} disabled={busy} onClick={() => unlink(s)}>
+                  {isPartner(P, id, s) ? 'Remove partner' : 'Remove spouse'}
+                  {spousesOf(P, id).length > 1 ? ` (${shortName(P, P[s])})` : ''}
+                </button>
+              ))}
               {fam.admin && id !== center && (
                 <button className="link-btn" style={{ color: 'var(--muted)' }} disabled={busy} onClick={remove}>
                   Take off the tree
@@ -671,12 +725,14 @@ function PersonSheet({
           <PersonForm
             fam={fam}
             P={P}
-            start={{ id: newId(), name: '', sex: mode === 'spouse' ? (p.sex === 'm' ? 'f' : p.sex === 'f' ? 'm' : null) : null }}
+            start={{ id: newId(), name: '', sex: null }}
             title={`${ADD_LABEL[mode]} for ${first}`}
             busy={busy}
             otherParents={mode === 'child' ? spousesOf(P, id) : undefined}
+            couple={mode === 'spouse'}
+            canBeMe={!!fam.myContributor && !myCookTaken}
             cancel={() => setMode('view')}
-            submit={(v, other) => {
+            submit={(v, other, partner) => {
               const person: TreePerson = { id: newId(), ...v };
               const changed =
                 mode === 'parent'
@@ -684,9 +740,9 @@ function PersonSheet({
                   : mode === 'sibling'
                     ? withSibling(P, id, person, newId)
                     : mode === 'spouse'
-                      ? withSpouse(P, id, person)
+                      ? withSpouse(P, id, person, !!partner)
                       : withChild(P, id, person, other ?? null);
-              save(changed, `${v.name.split(' ')[0]} was added`);
+              save(changed, v.contributorId && v.contributorId === fam.myContributor ? 'You’re on the tree' : `${v.name.split(' ')[0]} was added`);
             }}
           />
         )}
@@ -705,6 +761,8 @@ function PersonForm({
   title,
   busy,
   otherParents,
+  couple,
+  canBeMe,
   cancel,
   submit,
 }: {
@@ -714,9 +772,14 @@ function PersonForm({
   title: string;
   busy: boolean;
   otherParents?: string[];
+  /** Adding a husband, wife or partner: ask whether they're married. */
+  couple?: boolean;
+  /** The viewer isn't on the tree yet, so offer "It's me". */
+  canBeMe?: boolean;
   cancel: () => void;
-  submit: (v: Fields, otherParent?: string | null) => void;
+  submit: (v: Fields, otherParent?: string | null, partner?: boolean) => void;
 }) {
+  const [partner, setPartner] = useState(false);
   const [name, setName] = useState(start.unknown ? '' : start.name);
   const [sex, setSex] = useState<TreePerson['sex']>(start.sex ?? null);
   const [born, setBorn] = useState(start.born || '');
@@ -737,12 +800,27 @@ function PersonForm({
         submit(
           { name: name.trim(), sex, born: born.trim() || null, note: note.trim() || null, contributorId: cook || null },
           otherParents ? other || null : undefined,
+          couple ? partner : undefined,
         );
       }}
     >
       <div className="field-label" style={{ fontSize: 15, color: 'var(--ink)', margin: '4px 0 12px' }}>
         {title}
       </div>
+      {canBeMe && fam.myContributor && (
+        <button
+          type="button"
+          className={'chip' + (cook === fam.myContributor ? ' on' : '')}
+          style={{ marginBottom: 14 }}
+          onClick={() => {
+            if (cook === fam.myContributor) return setCook('');
+            setCook(fam.myContributor!);
+            if (!name.trim()) setName(fam.contributors[fam.myContributor!]?.name || '');
+          }}
+        >
+          {cook === fam.myContributor ? '✓ It’s me' : 'It’s me (I’m adding myself)'}
+        </button>
+      )}
       <div className="form-group">
         <label className="field-label" htmlFor="tp-name">
           Name
@@ -766,6 +844,23 @@ function PersonForm({
         </div>
         <p className="field-help">So the tree can say sister or brother, aunt or uncle.</p>
       </div>
+      {couple && (
+        <div className="form-group">
+          <div className="field-label">They are</div>
+          <div className="also-chips">
+            {(
+              [
+                [false, 'Married'],
+                [true, 'Partners'],
+              ] as const
+            ).map(([v, l]) => (
+              <button type="button" key={l} className={'chip chip-sm' + (partner === v ? ' on' : '')} onClick={() => setPartner(v)}>
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       {otherParents && otherParents.length > 0 && (
         <div className="form-group">
           <label className="field-label" htmlFor="tp-other">
