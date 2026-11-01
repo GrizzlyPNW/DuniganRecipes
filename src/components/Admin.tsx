@@ -151,7 +151,7 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
             <input
               className="field"
               value={draft}
-              onChange={(e) => setDraft(e.target.value.replace(/s/g, ''))}
+              onChange={(e) => setDraft(e.target.value.replace(/\s/g, ''))}
               aria-label="New family code"
               autoCapitalize="characters"
               autoComplete="off"
