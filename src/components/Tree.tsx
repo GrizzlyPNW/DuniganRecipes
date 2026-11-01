@@ -59,9 +59,9 @@ export function TreePage({ fam, toast, pickWho }: { fam: Family; toast: (t: stri
   const [open, setOpen] = useState<string | null>(null);
   const [view, setView] = useState<View>(() => {
     try {
-      return localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'tree';
+      return localStorage.getItem(VIEW_KEY) === 'tree' ? 'tree' : 'list';
     } catch {
-      return 'tree';
+      return 'list';
     }
   });
   const pickView = (v: View) => {
@@ -117,12 +117,12 @@ export function TreePage({ fam, toast, pickWho }: { fam: Family; toast: (t: stri
         <p className="lead">Tap anyone to see more, add their family, or see the tree from their side.</p>
       )}
 
-      <div className="seg seg-sm" role="tablist" aria-label="Tree or list">
-        <button role="tab" aria-selected={view === 'tree'} className={view === 'tree' ? 'on' : ''} onClick={() => pickView('tree')}>
-          Tree
-        </button>
+      <div className="seg seg-sm" role="tablist" aria-label="List or tree">
         <button role="tab" aria-selected={view === 'list'} className={view === 'list' ? 'on' : ''} onClick={() => pickView('list')}>
           List
+        </button>
+        <button role="tab" aria-selected={view === 'tree'} className={view === 'tree' ? 'on' : ''} onClick={() => pickView('tree')}>
+          Tree
         </button>
       </div>
 
