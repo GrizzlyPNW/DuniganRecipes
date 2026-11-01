@@ -10,6 +10,9 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
   const [code, setCode] = useState<string | null>(null);
   const [showCode, setShowCode] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState('');
+  const [savingCode, setSavingCode] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -62,6 +65,23 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
       /* cancelled */
     }
   }
+  async function saveCode() {
+    const next = draft.trim();
+    if (!/^[A-Za-z0-9-]{4,40}$/.test(next)) return toast('Use 4 to 40 letters, numbers or dashes');
+    if (next === code) return setEditing(false);
+    if (!confirm('Change the family code? The old code and old invite links will stop working. People already in stay in.')) return;
+    setSavingCode(true);
+    try {
+      setCode(await api.setFamilyCode(next));
+      setEditing(false);
+      toast('Family code changed');
+    } catch (e) {
+      toast((e as Error).message);
+    } finally {
+      setSavingCode(false);
+    }
+  }
+
   async function toggle(m: api.Member) {
     const removing = !m.blocked;
     if (removing && !confirm(`Remove ${m.name} from the family box? They won’t be able to see stories until you restore them.`)) return;
@@ -105,8 +125,53 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
             </button>
           )}
         </div>
+      </div>
+
+      <div className="admin-card" style={{ marginTop: 12 }}>
+        <div className="row-between" style={{ alignItems: 'center' }}>
+          <div className="t">Family code</div>
+          {!editing && (
+            <button
+              className="link-btn"
+              disabled={!code}
+              onClick={() => {
+                setDraft(code || '');
+                setEditing(true);
+              }}
+            >
+              Change
+            </button>
+          )}
+        </div>
+        <p className="field-help" style={{ margin: '4px 0 12px' }}>
+          Family can type this in after signing in instead of using the link. Only you can see or change it.
+        </p>
+        {editing ? (
+          <>
+            <input
+              className="field"
+              value={draft}
+              onChange={(e) => setDraft(e.target.value.replace(/s/g, ''))}
+              aria-label="New family code"
+              autoCapitalize="characters"
+              autoComplete="off"
+              autoFocus
+            />
+            <p className="field-help">4 to 40 letters, numbers or dashes.</p>
+            <div className="two-btns" style={{ marginTop: 10 }}>
+              <button className="btn btn-outline" onClick={() => setEditing(false)} disabled={savingCode}>
+                Cancel
+              </button>
+              <button className="btn btn-accent" onClick={saveCode} disabled={savingCode}>
+                {savingCode ? 'Saving…' : 'Save code'}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="family-code">{code ?? '…'}</div>
+        )}
         <p className="field-help" style={{ marginTop: 10 }}>
-          If the link spreads too far, change <b>FAMILY_CODE</b> in Vercel and redeploy. People already in stay in.
+          If the link spreads too far, change the code. The old code and link stop working; people already in stay in.
         </p>
       </div>
 

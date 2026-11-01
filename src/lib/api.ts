@@ -138,6 +138,8 @@ export const listMembers = () => call<{ members: Member[] }>('GET', 'members').t
 export const setMemberRemoved = (userId: string, removed: boolean) =>
   call('POST', removed ? 'remove-member' : 'restore-member', JSON.stringify({ userId }));
 export const getInviteCode = () => call<{ code: string }>('GET', 'invite').then((r) => r.code);
+export const setFamilyCode = (code: string) =>
+  call<{ code: string }>('POST', 'set-code', JSON.stringify({ code })).then((r) => r.code);
 
 export async function deleteStory(mode: Mode, id: string) {
   if (mode === 'local') {

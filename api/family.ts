@@ -1,6 +1,7 @@
 // One Vercel function for everything shared: stories, recipe edits and card photo uploads.
 // People sign in with Google (Neon Auth). A signed-in person becomes a family member once,
-// by opening the invite link or typing the family code (FAMILY_CODE env var).
+// by opening the invite link or typing the family code (set by the admin in the app;
+// FAMILY_CODE env var until then).
 import { neon } from '@neondatabase/serverless';
 import { put } from '@vercel/blob';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
@@ -83,6 +84,12 @@ function ensureSchema(sql: Sql) {
       items jsonb not null default '[]',
       updated_at timestamptz not null default now()
     )`;
+    // App settings the admin can change, like the family code.
+    await sql`create table if not exists settings (
+      key text primary key,
+      value text not null,
+      updated_at timestamptz not null default now()
+    )`;
     // The family tree: one row per person (see src/lib/tree.ts).
     await sql`create table if not exists family_tree (
       id text primary key,
@@ -106,8 +113,14 @@ function ensureSchema(sql: Sql) {
   return schemaReady;
 }
 
-function codeOk(given: unknown) {
-  const want = process.env.FAMILY_CODE;
+/** The family code: the one the admin set in the app, or FAMILY_CODE from Vercel until then. */
+async function familyCode(sql: Sql) {
+  await ensureSchema(sql);
+  const rows = (await sql`select value from settings where key = 'family_code'`) as { value: string }[];
+  return (rows[0]?.value || process.env.FAMILY_CODE || '').trim();
+}
+
+function codeOk(given: unknown, want: string) {
   if (!want || typeof given !== 'string' || !given) return false;
   const a = Buffer.from(given.trim());
   const b = Buffer.from(want.trim());
@@ -321,7 +334,7 @@ export async function GET(req: Request) {
   if (op === 'invite') {
     const who = await requireAdmin(req, sql);
     if (who instanceof Response) return who;
-    return json({ code: (process.env.FAMILY_CODE || '').trim() });
+    return json({ code: await familyCode(sql) });
   }
 
   if (op === 'data') {
@@ -377,7 +390,7 @@ export async function POST(req: Request) {
     await ensureSchema(sql);
     await loadRole(sql, user);
     if ((await memberState(sql, user)) === 'blocked') return json({ error: 'Your access was removed. Ask the family admin.' }, 403);
-    if (codeOk(body.code)) {
+    if (codeOk(body.code, await familyCode(sql))) {
       await addMember(sql, user);
       return json({ ok: true, contributorId: await linkedContributor(sql, user.id) });
     }
@@ -435,6 +448,18 @@ export async function POST(req: Request) {
     const mine = await linkedContributor(sql, who.id);
     if (mine !== contributorId) return json({ error: 'Someone already joined as that person. Ask Luke for help.' }, 409);
     return json({ ok: true, contributorId: mine });
+  }
+
+  // The admin changes the family code. Old invite links with the old code stop working.
+  if (op === 'set-code') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const body = await req.json().catch(() => ({}));
+    const code = clip(body.code, 40);
+    if (!/^[A-Za-z0-9-]{4,40}$/.test(code)) return json({ error: 'Use 4 to 40 letters, numbers or dashes' }, 400);
+    await sql`insert into settings (key, value) values ('family_code', ${code})
+      on conflict (key) do update set value = excluded.value, updated_at = now()`;
+    return json({ code });
   }
 
   if (op === 'remove-member' || op === 'restore-member') {
