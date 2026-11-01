@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 export type Route =
   | { name: 'home' }
   | { name: 'family' }
+  | { name: 'tree' }
   | { name: 'book' }
   | { name: 'admin' }
   | { name: 'invite-family' }
@@ -22,6 +23,8 @@ export function parse(hash: string): Route {
   switch (p[0]) {
     case 'family':
       return { name: 'family' };
+    case 'tree':
+      return { name: 'tree' };
     case 'book':
       return { name: 'book' };
     case 'admin':

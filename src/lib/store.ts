@@ -3,6 +3,7 @@ import base from '../data/recipes.json';
 import type { Contributor, Recipe, Story } from '../types';
 export type { Contributor };
 import * as api from './api';
+import { SEED, type TreePerson } from './tree';
 
 const baseContributors: Record<string, Contributor> = Object.fromEntries(
   Object.entries(base.contributors).map(([id, c]) => [id, { id, ...(c as Omit<Contributor, 'id'>) }]),
@@ -45,6 +46,8 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
   const [edits, setEdits] = useState<Recipe[]>([]);
   const [people, setPeople] = useState<Contributor[]>([]);
   const [links, setLinks] = useState<api.Link[]>([]);
+  // Saved family tree rows. Empty until someone first edits the tree; the starter tree shows until then.
+  const [treeRows, setTreeRows] = useState<TreePerson[]>([]);
   const [myContributor, setMyContributor] = useState<string | null>(null);
   const [inviteError, setInviteError] = useState<string | null>(null);
   const [favCounts, setFavCounts] = useState<Record<string, number>>({});
@@ -68,6 +71,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       setEdits(data.recipes);
       setPeople(data.contributors || []);
       setLinks(data.links || []);
+      setTreeRows(data.tree || []);
       setFavCounts(data.favoriteCounts || {});
       setMyFavs(new Set(data.myFavorites || []));
       if (data.contributorId !== undefined) setMyContributor(data.contributorId);
@@ -254,5 +258,27 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       setEdits((all) => [...all.filter((x) => x.id !== r.id), r]);
     },
     uploadPhoto: (b: Blob) => api.uploadPhoto(mode!, b),
+    /** The family tree (the starter tree until someone saves a change). */
+    tree: treeRows.length ? treeRows : SEED,
+    /** Saves new or changed people. The first save also stores the starter tree. */
+    saveTree: async (changed: TreePerson[]) => {
+      const ids = new Set(changed.map((p) => p.id));
+      const people = treeRows.length ? changed : [...SEED.filter((p) => !ids.has(p.id)), ...changed];
+      await api.saveTreePeople(mode!, people);
+      setTreeRows((rows) => {
+        const all = new Map((rows.length ? rows : SEED).map((p) => [p.id, p]));
+        for (const p of changed) all.set(p.id, p);
+        return [...all.values()];
+      });
+    },
+    removeFromTree: async (id: string) => {
+      if (!treeRows.length) await api.saveTreePeople(mode!, SEED);
+      await api.removeTreePerson(mode!, id);
+      setTreeRows((rows) =>
+        (rows.length ? rows : SEED)
+          .filter((p) => p.id !== id)
+          .map((p) => ({ ...p, parents: p.parents?.filter((x) => x !== id), spouses: p.spouses?.filter((x) => x !== id) })),
+      );
+    },
   };
 }

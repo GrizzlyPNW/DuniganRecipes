@@ -1,7 +1,7 @@
 import { go } from '../lib/router';
 import type { Mode } from '../lib/api';
 
-export type Tab = 'home' | 'favorites' | 'shopping' | 'family' | 'book' | 'admin' | 'invite';
+export type Tab = 'home' | 'favorites' | 'shopping' | 'family' | 'tree' | 'book' | 'admin' | 'invite';
 
 const icons = {
   home: (on: boolean) => (
@@ -66,18 +66,22 @@ const icons = {
 };
 
 export function TabBar({ tab, listCount = 0 }: { tab: Tab; listCount?: number }) {
-  const item = (k: 'home' | 'favorites' | 'shopping' | 'family' | 'book', label: string, path: string, badge = 0) => (
+  const item = (k: 'home' | 'favorites' | 'shopping' | 'family' | 'book', label: string, path: string, badge = 0) => {
+    // The family tree is part of the Family tab.
+    const on = tab === k || (k === 'family' && tab === 'tree');
+    return (
     <button
-      className={'tab' + (tab === k ? ' on' : '')}
+      className={'tab' + (on ? ' on' : '')}
       onClick={() => tab !== k && go(path)}
-      aria-current={tab === k ? 'page' : undefined}
+      aria-current={on ? 'page' : undefined}
       aria-label={badge ? `${label}, ${badge} to get` : undefined}
     >
-      {icons[k](tab === k)}
+      {icons[k](on)}
       {badge > 0 && <span className="tab-badge">{badge > 99 ? '99+' : badge}</span>}
       <span>{label}</span>
     </button>
-  );
+    );
+  };
   return (
     <nav className="tabbar" aria-label="Main">
       {item('home', 'Recipes', '')}
@@ -111,6 +115,7 @@ export function Menu({
   const items: [string, Tab | 'add', string, string][] = [
     ['', 'home', 'Recipes', count + ' cards in the box'],
     ['family', 'family', 'Family', 'Whose kitchen it came from'],
+    ['tree', 'tree', 'Family tree', 'How everyone is related'],
     ['book', 'book', 'Book', "Mom's note · print a copy"],
     ['add', 'add', 'Add Recipe', 'Photograph or type a card'],
   ];

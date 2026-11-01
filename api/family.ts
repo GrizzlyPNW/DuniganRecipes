@@ -83,6 +83,13 @@ function ensureSchema(sql: Sql) {
       items jsonb not null default '[]',
       updated_at timestamptz not null default now()
     )`;
+    // The family tree: one row per person (see src/lib/tree.ts).
+    await sql`create table if not exists family_tree (
+      id text primary key,
+      data jsonb not null,
+      updated_by text,
+      updated_at timestamptz not null default now()
+    )`;
     // Personal invite links, one per cook.
     await sql`create table if not exists invites (
       token text primary key,
@@ -216,6 +223,32 @@ function cleanContributor(c: any) {
   };
 }
 
+/** Keeps only the fields a family tree person needs. */
+function cleanTreePerson(p: any) {
+  if (!p || typeof p.id !== 'string') return null;
+  const id = clip(p.id, 60).replace(/[^A-Za-z0-9_-]/g, '');
+  if (!id) return null;
+  const ids = (v: unknown, max: number) =>
+    (Array.isArray(v) ? v : [])
+      .map((x) => clip(x, 60))
+      .filter(Boolean)
+      .slice(0, max);
+  const unknown = p.unknown === true;
+  const name = clip(p.name, 80);
+  if (!name && !unknown) return null;
+  return {
+    id,
+    name,
+    sex: p.sex === 'f' || p.sex === 'm' ? p.sex : null,
+    parents: ids(p.parents, 2),
+    spouses: ids(p.spouses, 4),
+    contributorId: clip(p.contributorId, 60) || null,
+    born: clip(p.born, 20) || null,
+    note: clip(p.note, 500) || null,
+    ...(unknown ? { unknown: true } : {}),
+  };
+}
+
 /** Signed in + family member, or an error response. */
 async function requireMember(req: Request, sql: Sql): Promise<User | Response> {
   const user = await currentUser(req);
@@ -300,6 +333,7 @@ export async function GET(req: Request) {
     const links = (await sql`select l.contributor_id, l.user_id, m.name, m.image
       from contributor_links l left join members m on m.user_id = l.user_id`) as any[];
     const favCounts = (await sql`select recipe_id, count(*)::int as n from favorites group by recipe_id`) as any[];
+    const tree = (await sql`select data from family_tree`) as any[];
     const mine = (await sql`select recipe_id from favorites where user_id = ${who.id}`) as any[];
     return json({
       admin: who.admin,
@@ -307,6 +341,7 @@ export async function GET(req: Request) {
       myFavorites: mine.map((f) => f.recipe_id),
       contributorId: await linkedContributor(sql, who.id),
       contributors: contributors.map((c) => c.data),
+      tree: tree.map((t) => t.data),
       links: links.map((l) => ({ contributorId: l.contributor_id, userId: l.user_id, name: l.name, image: l.image })),
       stories: stories.map((s) => ({
         id: s.id,
@@ -471,6 +506,32 @@ export async function POST(req: Request) {
     // "This is me": tie the new cook to the person who added themselves.
     if (body.me === true && !(await linkedContributor(sql, who.id))) await linkContributor(sql, c.id, who.id);
     return json({ ok: true, contributor: c, contributorId: await linkedContributor(sql, who.id) });
+  }
+
+  // Anyone in the family can add relatives or fill in names.
+  if (op === 'tree-save') {
+    const people = (Array.isArray(body.people) ? body.people.slice(0, 50) : []).map(cleanTreePerson).filter(Boolean) as any[];
+    if (!people.length) return json({ error: 'Nobody to save' }, 400);
+    for (const p of people) {
+      await sql`insert into family_tree (id, data, updated_by) values (${p.id}, ${JSON.stringify(p)}::jsonb, ${who.name})
+        on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
+    }
+    return json({ ok: true, people });
+  }
+
+  // Only the admin can take someone off the tree. Their links to others go too.
+  if (op === 'tree-remove') {
+    if (!who.admin) return json({ error: 'Only the family admin can remove someone' }, 403);
+    const id = clip(body.id, 60);
+    if (!id) return json({ error: 'Bad request' }, 400);
+    await sql`delete from family_tree where id = ${id}`;
+    const rows = (await sql`select data from family_tree`) as any[];
+    for (const { data: p } of rows) {
+      if (!p.parents?.includes(id) && !p.spouses?.includes(id)) continue;
+      const next = { ...p, parents: (p.parents || []).filter((x: string) => x !== id), spouses: (p.spouses || []).filter((x: string) => x !== id) };
+      await sql`update family_tree set data = ${JSON.stringify(next)}::jsonb, updated_by = ${who.name}, updated_at = now() where id = ${p.id}`;
+    }
+    return json({ ok: true });
   }
 
   if (op === 'delete-story') {

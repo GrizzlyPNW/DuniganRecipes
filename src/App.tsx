@@ -6,6 +6,7 @@ import { setPendingInvite, setPendingToken } from './lib/api';
 import { MeContext, type Me } from './lib/session';
 import { Home, type Filters } from './components/Home';
 import { Family } from './components/Family';
+import { TreePage } from './components/Tree';
 import { Book } from './components/Book';
 import { ShoppingPage } from './components/Shopping';
 import { ShoppingContext, useShopping } from './lib/shopping';
@@ -25,6 +26,7 @@ const ROOTS: Partial<Record<Route['name'], Tab>> = {
   favorites: 'favorites',
   shopping: 'shopping',
   family: 'family',
+  tree: 'tree',
   book: 'book',
   admin: 'admin',
   'invite-family': 'invite',
@@ -106,6 +108,8 @@ export default function App() {
   const rootPage =
     tab === 'family' ? (
       <Family fam={fam} pick={pickWho} />
+    ) : tab === 'tree' ? (
+      <TreePage fam={fam} toast={toast} pickWho={pickWho} />
     ) : tab === 'shopping' ? (
       <ShoppingPage toast={toast} />
     ) : tab === 'book' ? (

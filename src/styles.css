@@ -593,3 +593,33 @@ button.invite-row:active { background: var(--tint); }
 .who-txt .t2 { font: 500 18px var(--serif); }
 .who-txt .s2 { font: 400 13px var(--sans); color: var(--muted); margin-top: 2px; }
 .who-yes { font: 600 13px var(--sans); color: var(--accent); white-space: nowrap; }
+
+/* Family tree */
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 18px; border-radius: 14px; background: var(--tint); }
+.seg button { height: 38px; border: 0; border-radius: 10px; background: transparent; font: 600 14px var(--sans); color: var(--muted2); }
+.seg button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(43, 37, 33, 0.12); }
+.tree-you { margin: 0 0 14px; padding: 10px 14px; border-radius: 12px; background: #f6e6dc; color: var(--accent-dark); font: 500 15px/1.4 var(--sans); }
+.tree-gen { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.tree-gen-t { margin: 0 0 10px; font: 600 11px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.tree-group { margin-bottom: 12px; }
+.tree-group-t { margin: 0 0 6px; font: italic 400 15px var(--serif); color: var(--muted2); }
+.tree-units { display: flex; flex-wrap: wrap; gap: 8px; }
+.tree-unit { display: flex; align-items: stretch; gap: 0; }
+.tree-unit.couple { padding: 4px; border-radius: 18px; background: var(--tint); }
+.tree-amp { align-self: center; padding: 0 3px; font: italic 400 16px var(--serif); color: var(--muted3); }
+.tree-card {
+  position: relative; width: 94px; padding: 12px 5px 10px; border-radius: 14px; border: 1px solid var(--line-strong);
+  background: var(--card); display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center;
+}
+.tree-card .nm { font: 500 15px/1.15 var(--serif); overflow-wrap: anywhere; }
+.tree-card .rl { font: 500 11.5px/1.2 var(--sans); color: var(--muted); }
+.tree-card.focus { border: 1.5px solid var(--accent); background: #fbefe7; }
+.tree-card.focus .rl { color: var(--accent); }
+.tree-card.unknown { border-style: dashed; background: transparent; }
+.tree-card.unknown .nm { color: var(--muted2); }
+.tree-card .you-badge { position: absolute; top: 6px; right: 6px; padding: 2px 5px; font-size: 9px; }
+.tree-note { margin: 0 0 14px; font: italic 400 16px/1.45 var(--serif); color: var(--muted2); }
+.tree-links { margin-bottom: 12px; }
+.tree-add-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tree-add-grid .btn { height: 44px; padding: 0 10px; font-size: 14px; }
+.tree-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; }

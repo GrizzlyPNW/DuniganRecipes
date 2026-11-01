@@ -1,4 +1,5 @@
 import type { Contributor, Recipe, Story } from '../types';
+import type { TreePerson } from './tree';
 import { blobToDataUrl } from './image';
 import { getToken } from './auth';
 
@@ -193,6 +194,31 @@ export interface FamilyData {
   contributorId?: string | null;
   contributors?: Contributor[];
   links?: Link[];
+  tree?: TreePerson[];
+}
+
+/* ---------- Family tree ---------- */
+
+const LOCAL_TREE = 'dunigan-tree-v1';
+export async function saveTreePeople(mode: Mode, people: TreePerson[]) {
+  if (mode === 'local') {
+    const ids = new Set(people.map((p) => p.id));
+    write(LOCAL_TREE, [...read<TreePerson[]>(LOCAL_TREE, []).filter((p) => !ids.has(p.id)), ...people]);
+    return;
+  }
+  await call('POST', 'tree-save', JSON.stringify({ people }));
+}
+export async function removeTreePerson(mode: Mode, id: string) {
+  if (mode === 'local') {
+    write(
+      LOCAL_TREE,
+      read<TreePerson[]>(LOCAL_TREE, [])
+        .filter((p) => p.id !== id)
+        .map((p) => ({ ...p, parents: p.parents?.filter((x) => x !== id), spouses: p.spouses?.filter((x) => x !== id) })),
+    );
+    return;
+  }
+  await call('POST', 'tree-remove', JSON.stringify({ id }));
 }
 
 export async function loadAll(mode: Mode): Promise<FamilyData> {
@@ -202,6 +228,7 @@ export async function loadAll(mode: Mode): Promise<FamilyData> {
       stories: read(LOCAL_STORIES, []),
       recipes: read(LOCAL_RECIPES, []),
       contributors: read(LOCAL_PEOPLE, []),
+      tree: read(LOCAL_TREE, []),
       myFavorites: favs,
       favoriteCounts: Object.fromEntries(favs.map((id) => [id, 1])),
     };

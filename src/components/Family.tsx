@@ -1,6 +1,7 @@
 import type { Family as Fam } from '../lib/store';
 import { plural } from '../lib/util';
 import { Avatar } from './bits';
+import { FamilySwitch } from './Tree';
 
 export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void }) {
   const { recipes, contributors: P } = fam;
@@ -13,6 +14,7 @@ export function Family({ fam, pick }: { fam: Fam; pick: (who: string) => void })
 
   return (
     <div className="screen with-tabs pad">
+      <FamilySwitch on="cooks" />
       <div className="eyebrow">The family</div>
       <h1 className="h1" style={{ marginBottom: 6 }}>
         Whose kitchen it came from
