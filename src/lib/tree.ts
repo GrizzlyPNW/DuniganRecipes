@@ -19,8 +19,8 @@ export interface TreePerson {
   unknown?: boolean;
 }
 
-/** The person the tree is centered on. It was her idea. */
-export const FOCUS = 'jeanette';
+/** Where the tree starts for someone who hasn't found themselves on it yet. */
+export const START = 'jeanette';
 
 export const SEED: TreePerson[] = [
   { id: 'jeanette', name: 'Jeanette Russell', sex: 'f', parents: ['jeanette-mom', 'jeanette-dad'], contributorId: 'jeanette' },
@@ -240,3 +240,37 @@ export function withChild(_P: People, personId: string, child: TreePerson, other
   return [{ ...child, parents: otherParent ? [personId, otherParent] : [personId] }];
 }
 
+
+/** Sections for the list view, closest family first. */
+export const GROUPS = [
+  'Parents',
+  'Husband or wife',
+  'Brothers and sisters',
+  'Children',
+  'Grandparents',
+  'Grandchildren',
+  'Aunts and uncles',
+  'Nieces and nephews',
+  'Cousins',
+  'In-laws and family by marriage',
+] as const;
+
+/** Which list section person b belongs in, seen from person a. */
+export function groupOf(P: People, a: string, b: string): (typeof GROUPS)[number] | null {
+  if (a === b || !P[a] || !P[b]) return null;
+  if (spousesOf(P, a).includes(b)) return 'Husband or wife';
+  const bl = blood(P, a, b);
+  if (bl) {
+    const [da, db] = bl;
+    if (da === 0) return db === 1 ? 'Children' : 'Grandchildren';
+    if (db === 0) return da === 1 ? 'Parents' : 'Grandparents';
+    if (da === 1 && db === 1) return 'Brothers and sisters';
+    if (db === 1) return 'Aunts and uncles';
+    if (da === 1) return 'Nieces and nephews';
+    return 'Cousins';
+  }
+  const r = relation(P, a, b);
+  if (!r) return null;
+  // An aunt's husband is still an uncle.
+  return /(aunt|uncle)$/i.test(r) ? 'Aunts and uncles' : 'In-laws and family by marriage';
+}
