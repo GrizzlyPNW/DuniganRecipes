@@ -11,6 +11,8 @@ export interface Filters {
   query: string;
   cat: string | null;
   who: string | null;
+  /** "My kitchen": recipes from your kitchen plus the ones you've hearted. */
+  mine: boolean;
 }
 
 export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filters; setF: (f: Filters) => void; favorites?: boolean }) {
@@ -18,7 +20,9 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
   const q = f.query.trim().toLowerCase();
   const { recipes, contributors: P, storiesByRecipe } = fam;
 
-  const pool = favorites ? recipes.filter((r) => fam.isFavorite(r.id)) : recipes;
+  const isMine = (r: (typeof recipes)[number]) => (!!fam.myContributor && r.contributor === fam.myContributor) || fam.isFavorite(r.id);
+  const mine = f.mine && !favorites;
+  const pool = favorites ? recipes.filter((r) => fam.isFavorite(r.id)) : mine ? recipes.filter(isMine) : recipes;
   const list = pool.filter(
     (r) =>
       (!f.cat || inCategory(r, f.cat)) &&
@@ -32,7 +36,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
     .sort((a, b) => (a === 'none' ? 1 : b === 'none' ? -1 : P[a].name.localeCompare(P[b].name)));
   // Every category shows, even empty ones like Smoking, so people know where new recipes can go.
   const cats = CATEGORIES;
-  const filtered = !!(f.cat || f.who);
+  const filtered = !!(f.cat || f.who || mine);
 
   return (
     <div className="screen with-tabs">
@@ -60,18 +64,29 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
         <div className="filter-btns">
           <button className={'filter-btn' + (f.who ? ' on' : '')} onClick={() => setSheet('cook')}>
             {f.who && P[f.who] ? <Avatar c={P[f.who]} size={22} font={10} /> : <CookIcon />}
-            <span>{f.who && P[f.who] ? P[f.who].short : 'Cook: Anyone'}</span>
+            <span>{f.who && P[f.who] ? P[f.who].short : 'Cook'}</span>
             <Caret />
           </button>
           <button className={'filter-btn' + (f.cat ? ' on' : '')} onClick={() => setSheet('cat')}>
-            <span>{f.cat || 'Category: All'}</span>
+            <span>{f.cat || 'Category'}</span>
             <Caret />
           </button>
+          {!favorites && (
+            <button className={'filter-btn' + (f.mine ? ' on' : '')} aria-pressed={f.mine} onClick={() => setF({ ...f, mine: !f.mine })}>
+              <KitchenIcon />
+              <span>My kitchen</span>
+            </button>
+          )}
         </div>
 
         {filtered && (
           <div className="active-filters" aria-live="polite">
             <span className="af-label">Filtered by</span>
+            {mine && (
+              <button className="af-chip" onClick={() => setF({ ...f, mine: false })} aria-label="Remove filter My kitchen">
+                My kitchen <b>✕</b>
+              </button>
+            )}
             {f.who && P[f.who] && (
               <button className="af-chip" onClick={() => setF({ ...f, who: null })} aria-label={'Remove filter ' + P[f.who].name}>
                 {P[f.who].name} <b>✕</b>
@@ -82,7 +97,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
                 {f.cat} <b>✕</b>
               </button>
             )}
-            <button className="link-btn" onClick={() => setF({ ...f, who: null, cat: null })}>
+            <button className="link-btn" onClick={() => setF({ ...f, who: null, cat: null, mine: false })}>
               Clear all
             </button>
           </div>
@@ -97,7 +112,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
       )}
 
       <div className="list-head row-between">
-        <span className="t">{q ? 'Results' : favorites ? 'Hearted recipes' : f.who && P[f.who] ? 'From ' + P[f.who].short + '’s kitchen' : f.cat || 'All recipes'}</span>
+        <span className="t">{q ? 'Results' : favorites ? 'Hearted recipes' : mine && !f.who && !f.cat ? 'My kitchen' : f.who && P[f.who] ? 'From ' + P[f.who].short + '’s kitchen' : f.cat || 'All recipes'}</span>
         <span className="meta">{plural(list.length, 'recipe')}</span>
       </div>
       <div className="pad">
@@ -111,7 +126,7 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="t">{r.title}</div>
                 <div className="s">
-                  {r.contributor !== 'none' && p ? p.name + ' · ' : ''}
+                  {mine && fam.myContributor && r.contributor === fam.myContributor ? 'Yours · ' : r.contributor !== 'none' && p ? p.name + ' · ' : ''}
                   {isTyped(r) ? r.category : 'Card only · needs typing'}
                 </div>
               </div>
@@ -131,6 +146,8 @@ export function Home({ fam, f, setF, favorites = false }: { fam: Family; f: Filt
           <div className="italic-empty">
             {favorites && !q && !filtered
               ? 'Tap the ♥ on any recipe to keep it here.'
+              : mine && !q && !f.who && !f.cat
+                ? 'Nothing here yet. Recipes you add from your kitchen show up here, and so does any recipe you tap the ♥ on.'
               : f.cat && !q && !f.who && !recipes.some((r) => inCategory(r, f.cat!))
                 ? `No ${f.cat} recipes yet.`
                 : 'Nothing in the box matches that yet.'}
@@ -198,6 +215,13 @@ const Caret = () => (
     <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+const KitchenIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" aria-hidden>
+    <path d="M4 10.5 12 4l8 6.5V20H4z" />
+    <path d="M12 17.2s-3.2-1.9-3.2-4.3a1.8 1.8 0 0 1 3.2-1.2 1.8 1.8 0 0 1 3.2 1.2c0 2.4-3.2 4.3-3.2 4.3Z" />
+  </svg>
+);
+
 const CookIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden style={{ flex: 'none' }}>
     <path d="M7 14h10v5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-5Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />

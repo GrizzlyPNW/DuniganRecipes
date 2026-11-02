@@ -644,3 +644,9 @@ button.invite-row:active { background: var(--tint); }
 .story-pick { height: 46px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .story-pick-preview { display: flex; align-items: center; gap: 12px; }
 .story-pick-preview img { width: 84px; height: 84px; object-fit: cover; border-radius: 10px; }
+
+/* Three filter buttons (Cook, Category, My kitchen) fit on one row on a phone. */
+@media (max-width: 420px) {
+  .filter-btns { gap: 6px; flex-wrap: nowrap; }
+  .filter-btn { padding: 0 10px; gap: 6px; min-width: 0; flex: 0 1 auto; }
+}

@@ -42,7 +42,7 @@ export default function App() {
   const fam = useFamily(me?.id ?? null, session.isPending);
   const shopping = useShopping(fam.mode, fam.access, me?.id ?? null);
   const route = useRoute();
-  const [filters, setFilters] = useState<Filters>({ query: '', cat: null, who: null });
+  const [filters, setFilters] = useState<Filters>({ query: '', cat: null, who: null, mine: false });
   const [panel, setPanel] = useState<'menu' | 'profile' | null>(null);
   const [toastText, setToastText] = useState<string | null>(null);
   const [storiesNonce, setStoriesNonce] = useState(0);
@@ -87,7 +87,7 @@ export default function App() {
   const tab = routeTab || rootTab;
 
   const pickWho = (who: string) => {
-    setFilters({ query: '', cat: null, who });
+    setFilters({ query: '', cat: null, who, mine: false });
     go('');
   };
 
