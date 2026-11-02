@@ -257,9 +257,9 @@ export async function saveRecipe(mode: Mode, recipe: Recipe) {
 }
 
 /** Uploads a compressed card photo and returns its URL. */
-export async function uploadPhoto(mode: Mode, jpeg: Blob): Promise<string> {
+export async function uploadPhoto(mode: Mode, jpeg: Blob, kind: 'card' | 'dish' = 'card'): Promise<string> {
   if (mode === 'local') return blobToDataUrl(jpeg);
-  const { url } = await call<{ url: string }>('POST', 'upload', jpeg, 'image/jpeg');
+  const { url } = await call<{ url: string }>('POST', kind === 'dish' ? 'upload&kind=dish' : 'upload', jpeg, 'image/jpeg');
   return url;
 }
 

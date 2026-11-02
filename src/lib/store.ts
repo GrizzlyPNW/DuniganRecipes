@@ -244,8 +244,8 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       if (ok && mode) await refresh(mode);
       return ok;
     },
-    addStory: async (recipeId: string, authorName: string, text: string) => {
-      const s = await api.addStory(mode!, { recipeId, authorName, text });
+    addStory: async (recipeId: string, authorName: string, text: string, photo: string | null = null) => {
+      const s = await api.addStory(mode!, { recipeId, authorName, text, photo });
       setStories((all) => [...all, s]);
       return s;
     },
@@ -257,7 +257,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       await api.saveRecipe(mode!, r);
       setEdits((all) => [...all.filter((x) => x.id !== r.id), r]);
     },
-    uploadPhoto: (b: Blob) => api.uploadPhoto(mode!, b),
+    uploadPhoto: (b: Blob, kind: 'card' | 'dish' = 'card') => api.uploadPhoto(mode!, b, kind),
     /** The family tree (the starter tree until someone saves a change). */
     tree: treeRows.length ? treeRows : SEED,
     /** Saves new or changed people. The first save also stores the starter tree. */

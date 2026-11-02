@@ -636,3 +636,11 @@ button.invite-row:active { background: var(--tint); }
 .tree-pick-row .t { flex: 1; min-width: 0; font: 500 16px var(--serif); color: var(--ink); }
 .tree-linked { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; }
 .tree-linked .t { font: 500 17px var(--serif); }
+
+/* Dish photos on family stories */
+.story-photo { display: block; width: 100%; padding: 0; border: 0; background: transparent; margin-bottom: 12px; }
+.story-photo img { display: block; width: 100%; max-height: 420px; object-fit: cover; border-radius: 12px; }
+.story:has(.story-photo):not(:has(p)) .story-photo { margin-bottom: 0; }
+.story-pick { height: 46px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.story-pick-preview { display: flex; align-items: center; gap: 12px; }
+.story-pick-preview img { width: 84px; height: 84px; object-fit: cover; border-radius: 10px; }

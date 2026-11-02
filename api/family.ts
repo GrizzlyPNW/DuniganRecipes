@@ -43,6 +43,7 @@ function ensureSchema(sql: Sql) {
       created_at timestamptz not null default now()
     )`;
     await sql`alter table stories add column if not exists author_id text`;
+    await sql`alter table stories add column if not exists photo text`;
     await sql`create index if not exists stories_recipe_idx on stories (recipe_id)`;
     await sql`create table if not exists recipe_edits (
       id text primary key,
@@ -341,7 +342,7 @@ export async function GET(req: Request) {
   if (op === 'data') {
     const who = await requireMember(req, sql);
     if (who instanceof Response) return who;
-    const stories = (await sql`select id, recipe_id, author_name, author_id, text, created_at from stories order by created_at asc`) as any[];
+    const stories = (await sql`select id, recipe_id, author_name, author_id, text, photo, created_at from stories order by created_at asc`) as any[];
     const edits = (await sql`select data from recipe_edits order by updated_at asc`) as any[];
     const contributors = (await sql`select data from contributors order by created_at asc`) as any[];
     const links = (await sql`select l.contributor_id, l.user_id, m.name, m.image
@@ -363,6 +364,7 @@ export async function GET(req: Request) {
         authorName: s.author_name,
         authorId: s.author_id,
         text: s.text,
+        photo: s.photo || null,
         createdAt: new Date(s.created_at).getTime(),
       })),
       recipes: edits.map((e) => e.data),
@@ -480,7 +482,8 @@ export async function POST(req: Request) {
     if (!process.env.BLOB_READ_WRITE_TOKEN) return json({ error: 'Photo storage is not connected' }, 503);
     const buf = Buffer.from(await req.arrayBuffer());
     if (!buf.length || buf.length > 4_000_000) return json({ error: 'Photo is too large' }, 413);
-    const blob = await put(`cards/${randomUUID()}.jpg`, buf, { access: 'public', contentType: 'image/jpeg' });
+    const folder = new URL(req.url).searchParams.get('kind') === 'dish' ? 'dishes' : 'cards';
+    const blob = await put(`${folder}/${randomUUID()}.jpg`, buf, { access: 'public', contentType: 'image/jpeg' });
     return json({ url: blob.url });
   }
 
@@ -491,10 +494,15 @@ export async function POST(req: Request) {
     const recipeId = clip(body.recipeId, 80);
     const authorName = clip(body.authorName, 80) || who.name;
     const text = clip(body.text, 5000);
-    if (!recipeId || !text) return json({ error: 'Write a few words first' }, 400);
-    const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text)
-      values (${recipeId}, ${authorName}, ${who.id}, ${text}) returning id, created_at`) as any[];
-    return json({ id: row.id, recipeId, authorName, authorId: who.id, text, createdAt: new Date(row.created_at).getTime() });
+    // Only photos from our own photo storage.
+    const photo =
+      typeof body.photo === 'string' && body.photo.length < 400 && /^https:\/\/[a-z0-9.-]+\.blob\.vercel-storage\.com\/\S+$/i.test(body.photo)
+        ? body.photo
+        : null;
+    if (!recipeId || (!text && !photo)) return json({ error: 'Add a photo or write a few words first' }, 400);
+    const [row] = (await sql`insert into stories (recipe_id, author_name, author_id, text, photo)
+      values (${recipeId}, ${authorName}, ${who.id}, ${text}, ${photo}) returning id, created_at`) as any[];
+    return json({ id: row.id, recipeId, authorName, authorId: who.id, text, photo, createdAt: new Date(row.created_at).getTime() });
   }
 
   if (op === 'shopping') {

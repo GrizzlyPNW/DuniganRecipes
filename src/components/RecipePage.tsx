@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
 import { back, go } from '../lib/router';
 import { useMe } from '../lib/session';
@@ -8,6 +8,7 @@ import { groupName, isGroup, isTyped, type Recipe } from '../types';
 import { ago, initials, makeContributor, plural } from '../lib/util';
 import { Avatar } from './bits';
 import { useShoppingList } from '../lib/shopping';
+import { compressImage } from '../lib/image';
 
 /** Opens the typing form and has it read the card photos right away. */
 export const AUTO_READ_KEY = 'dunigan-auto-read';
@@ -412,10 +413,17 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
   const [name, setName] = useState(me?.name || '');
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [big, setBig] = useState<string | null>(null);
+  const preview = useMemo(() => (photo ? URL.createObjectURL(photo) : null), [photo]);
+  useEffect(() => () => void (preview && URL.revokeObjectURL(preview)), [preview]);
   const list = [...(fam.storiesByRecipe[r.id] || [])].reverse();
-  const ready = name.trim() && text.trim();
+  const ready = name.trim() && (text.trim() || photo);
 
-  useEffect(() => setText(''), [r.id]);
+  useEffect(() => {
+    setText('');
+    setPhoto(null);
+  }, [r.id]);
   useEffect(() => {
     if (me?.name) setName((n) => n || me.name);
   }, [me?.name]);
@@ -432,12 +440,18 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
 
   async function submit() {
     if (!name.trim()) return toast('Add your name first');
-    if (!text.trim()) return toast('Write a few words first');
+    if (!text.trim() && !photo) return toast('Add a photo or write a few words first');
     setBusy(true);
     try {
-      await fam.addStory(r.id, name.trim(), text.trim());
+      let url: string | null = null;
+      if (photo) {
+        toast('Uploading your photo…');
+        url = await fam.uploadPhoto(await compressImage(photo, 1600, 0.8), 'dish');
+      }
+      await fam.addStory(r.id, name.trim(), text.trim(), url);
       setText('');
-      toast('Story added to ' + r.title);
+      setPhoto(null);
+      toast((url ? 'Photo' : 'Story') + ' added to ' + r.title);
     } catch (e) {
       toast((e as Error).message || 'Couldn’t save the story. Try again.');
     } finally {
@@ -452,7 +466,7 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
         <span className="meta">{list.length ? plural(list.length, 'story', 'stories') : ''}</span>
       </div>
       <p className="lead" style={{ fontSize: 14 }}>
-        Who made it, when, and what you remember. Anyone in the family can add one.
+        Made it? Share a photo of your dish, who you made it for, or what you remember. Anyone in the family can add one.
       </p>
       {fam.access !== 'member' ? (
         <AccessGate fam={fam} toast={toast} what="see and share stories" />
@@ -461,7 +475,12 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {list.map((s) => (
               <div key={s.id} className="story">
-                <p>{s.text}</p>
+                {s.photo && (
+                  <button className="story-photo" onClick={() => setBig(s.photo!)} aria-label={'See ' + s.authorName + '’s photo bigger'}>
+                    <img src={s.photo} alt={s.authorName + '’s ' + r.title} loading="lazy" />
+                  </button>
+                )}
+                {s.text && <p>{s.text}</p>}
                 <div className="story-foot">
                   <div className="ini">{initials(s.authorName)}</div>
                   <span>{s.authorName}</span>
@@ -487,15 +506,49 @@ function Stories({ fam, recipe: r, toast }: { fam: Family; recipe: Recipe; toast
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={3}
-              placeholder="Share a memory about this recipe…"
+              placeholder={photo ? 'Say something about it (optional)' : 'Share a memory about this recipe…'}
               aria-label="Your story"
             />
+            {preview ? (
+              <div className="story-pick-preview">
+                <img src={preview} alt="Your dish" />
+                <button type="button" className="link-btn" onClick={() => setPhoto(null)}>
+                  Remove photo
+                </button>
+              </div>
+            ) : (
+              <label className="btn btn-outline story-pick">
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => {
+                    setPhoto(e.target.files?.[0] || null);
+                    e.target.value = '';
+                  }}
+                />
+                Add a photo of your dish
+              </label>
+            )}
             <button className="btn" style={{ height: 50, background: ready ? '#a24a2a' : '#b9a999', color: '#fff' }} onClick={submit} disabled={busy}>
-              {busy ? 'Saving…' : 'Add my story'}
+              {busy ? 'Saving…' : photo && !text.trim() ? 'Share my photo' : 'Add my story'}
             </button>
           </div>
         </>
       )}
+      <AppPortal>
+        <Layer show={!!big} kind="fade" z={60}>
+          {big && (
+            <div className="lightbox" onClick={() => setBig(null)} role="dialog" aria-label="Dish photo">
+              <div className="row-between" style={{ padding: '0 8px', alignItems: 'center' }}>
+                <span style={{ font: '500 15px var(--sans)' }}>{r.title}</span>
+                <span style={{ font: '600 14px var(--sans)' }}>Close ✕</span>
+              </div>
+              <img src={big} alt={r.title} />
+            </div>
+          )}
+        </Layer>
+      </AppPortal>
     </>
   );
 }

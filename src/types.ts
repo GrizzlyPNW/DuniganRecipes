@@ -32,6 +32,8 @@ export interface Story {
   authorName: string;
   authorId?: string | null;
   text: string;
+  /** A photo of the dish they made. */
+  photo?: string | null;
   createdAt: number;
 }
 

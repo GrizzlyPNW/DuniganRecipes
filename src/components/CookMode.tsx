@@ -72,7 +72,7 @@ export function CookMode({
           {r.contributor !== 'none' ? `, from the kitchen of ${from.name}.` : '.'}
         </div>
         <button className="btn btn-block" style={{ marginTop: 36, height: 58, borderRadius: 18, background: 'var(--cook-accent)', color: 'var(--ink)', fontSize: 16 }} onClick={toStories}>
-          Add a story about today
+          Add a photo or story
         </button>
         <button
           className="btn btn-block"
