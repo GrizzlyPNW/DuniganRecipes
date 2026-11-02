@@ -241,13 +241,15 @@ export function withSpouse(P: People, personId: string, spouse: TreePerson, part
   const p = P[personId];
   const add = (list: string[] | undefined, x: string) => [...new Set([...(list || []), x])];
   return [
-    { ...spouse, spouses: [personId], partners: partner ? [personId] : [] },
+    { ...spouse, spouses: add(spouse.spouses, personId), partners: partner ? add(spouse.partners, personId) : spouse.partners || [] },
     { ...p, spouses: add(p.spouses, spouse.id), partners: partner ? add(p.partners, spouse.id) : p.partners },
   ];
 }
 
-export function withChild(_P: People, personId: string, child: TreePerson, otherParent: string | null): TreePerson[] {
-  return [{ ...child, parents: otherParent ? [personId, otherParent] : [personId] }];
+export function withChild(P: People, personId: string, child: TreePerson, otherParent: string | null): TreePerson[] {
+  // Someone already on the tree keeps a parent they already have, unless it's a nameless placeholder.
+  const kept = (child.parents || []).filter((x) => P[x] && !P[x].unknown && x !== personId && x !== otherParent);
+  return [{ ...child, parents: [personId, ...(otherParent ? [otherParent] : []), ...kept].slice(0, 2) }];
 }
 
 

@@ -731,9 +731,10 @@ function PersonSheet({
             otherParents={mode === 'child' ? spousesOf(P, id) : undefined}
             couple={mode === 'spouse'}
             canBeMe={!!fam.myContributor && !myCookTaken}
+            linkable={linkableFor(P, id, mode)}
             cancel={() => setMode('view')}
-            submit={(v, other, partner) => {
-              const person: TreePerson = { id: newId(), ...v };
+            submit={(v, other, partner, existing) => {
+              const person: TreePerson = existing ? P[existing] : { id: newId(), ...v };
               const changed =
                 mode === 'parent'
                   ? withParent(P, id, person)
@@ -742,13 +743,42 @@ function PersonSheet({
                     : mode === 'spouse'
                       ? withSpouse(P, id, person, !!partner)
                       : withChild(P, id, person, other ?? null);
-              save(changed, v.contributorId && v.contributorId === fam.myContributor ? 'You’re on the tree' : `${v.name.split(' ')[0]} was added`);
+              save(
+                changed,
+                existing
+                  ? `${shortName(P, P[existing])} is now linked`
+                  : v.contributorId && v.contributorId === fam.myContributor
+                    ? 'You’re on the tree'
+                    : `${v.name.split(' ')[0]} was added`,
+              );
             }}
           />
         )}
       </div>
     </>
   );
+}
+
+/**
+ * People already on the tree who can be linked as this kind of relative, instead of adding someone new.
+ * Only husbands, wives, partners and children: linking an existing parent or sibling could
+ * tangle two families, so those are always added fresh.
+ */
+function linkableFor(P: People, id: string, kind: AddKind): string[] {
+  if (kind !== 'spouse' && kind !== 'child') return [];
+  const ancestorsOf = (x: string, seen = new Set<string>()): Set<string> => {
+    for (const p of parentsOf(P, x)) if (!seen.has(p)) ancestorsOf(p, seen.add(p));
+    return seen;
+  };
+  const mineUp = ancestorsOf(id);
+  return Object.values(P)
+    .filter((x) => x.id !== id && !x.unknown && !mineUp.has(x.id))
+    .filter((x) =>
+      kind === 'spouse'
+        ? !spousesOf(P, id).includes(x.id) && (x.spouses?.length || 0) < 4
+        : !x.parents?.includes(id) && parentsOf(P, x.id).filter((y) => !P[y].unknown).length < 2 && !spousesOf(P, id).includes(x.id),
+    )
+    .map((x) => x.id);
 }
 
 type Fields = Pick2<TreePerson, 'name' | 'sex' | 'born' | 'note' | 'contributorId'>;
@@ -763,6 +793,7 @@ function PersonForm({
   otherParents,
   couple,
   canBeMe,
+  linkable,
   cancel,
   submit,
 }: {
@@ -776,10 +807,14 @@ function PersonForm({
   couple?: boolean;
   /** The viewer isn't on the tree yet, so offer "It's me". */
   canBeMe?: boolean;
+  /** Adding someone: people already on the tree who can be linked instead of typed in. Undefined when editing. */
+  linkable?: string[];
   cancel: () => void;
-  submit: (v: Fields, otherParent?: string | null, partner?: boolean) => void;
+  submit: (v: Fields, otherParent?: string | null, partner?: boolean, existing?: string) => void;
 }) {
   const [partner, setPartner] = useState(false);
+  const [existing, setExisting] = useState<string | null>(null);
+  const [picked, setPicked] = useState(false);
   const [name, setName] = useState(start.unknown ? '' : start.name);
   const [sex, setSex] = useState<TreePerson['sex']>(start.sex ?? null);
   const [born, setBorn] = useState(start.born || '');
@@ -796,11 +831,12 @@ function PersonForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!name.trim()) return;
+        if (!name.trim() && !existing) return;
         submit(
           { name: name.trim(), sex, born: born.trim() || null, note: note.trim() || null, contributorId: cook || null },
           otherParents ? other || null : undefined,
           couple ? partner : undefined,
+          existing || undefined,
         );
       }}
     >
@@ -821,12 +857,53 @@ function PersonForm({
           {cook === fam.myContributor ? '✓ It’s me' : 'It’s me (I’m adding myself)'}
         </button>
       )}
-      <div className="form-group">
-        <label className="field-label" htmlFor="tp-name">
-          Name
-        </label>
-        <input id="tp-name" className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="First and last name" autoFocus />
-      </div>
+      {existing || picked ? (
+        <div className="form-group">
+          <div className="field-label">Linked to</div>
+          <div className="tree-linked">
+            {existing ? <Face fam={fam} p={P[existing]} size={40} /> : <Face fam={fam} p={{ id: 'x', name, contributorId: cook }} size={40} />}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div className="t">{existing ? displayName(P, P[existing]) : name}</div>
+              <div className="meta">{existing ? 'Already on the tree' : fam.linkByContributor[cook] ? 'In the app' : 'Cook in the app'}</div>
+            </div>
+            <button
+              type="button"
+              className="link-btn"
+              onClick={() => {
+                setExisting(null);
+                setPicked(false);
+                setCook('');
+                setName('');
+              }}
+            >
+              Change
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="form-group">
+          <label className="field-label" htmlFor="tp-name">
+            Name
+          </label>
+          <input id="tp-name" className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="First and last name" autoFocus />
+          {linkable && (
+            <LinkPicker
+              fam={fam}
+              P={P}
+              query={name}
+              linkable={linkable}
+              cooks={cooks.filter((c) => c.id !== fam.myContributor)}
+              onTree={(id) => setExisting(id)}
+              onCook={(c) => {
+                setCook(c.id);
+                setPicked(true);
+                setName(c.name);
+              }}
+            />
+          )}
+        </div>
+      )}
+      {!existing && (
       <div className="form-group">
         <div className="field-label">They are a</div>
         <div className="also-chips">
@@ -844,6 +921,7 @@ function PersonForm({
         </div>
         <p className="field-help">So the tree can say sister or brother, aunt or uncle.</p>
       </div>
+      )}
       {couple && (
         <div className="form-group">
           <div className="field-label">They are</div>
@@ -876,6 +954,8 @@ function PersonForm({
           </select>
         </div>
       )}
+      {!existing && (
+      <>
       <div className="form-group">
         <label className="field-label" htmlFor="tp-born">
           Born (optional)
@@ -901,14 +981,72 @@ function PersonForm({
         </label>
         <textarea id="tp-note" className="field" rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Where they lived, what they were known for…" />
       </div>
+      </>
+      )}
       <div className="two-btns">
         <button type="button" className="btn btn-outline" onClick={cancel}>
           Cancel
         </button>
-        <button type="submit" className="btn btn-accent" disabled={busy || !name.trim()}>
+        <button type="submit" className="btn btn-accent" disabled={busy || (!name.trim() && !existing)}>
           {busy ? 'Saving…' : 'Save'}
         </button>
       </div>
     </form>
+  );
+}
+
+/** "Already in the app?" People on the tree or cooks in the app, to link instead of typing a name. */
+function LinkPicker({
+  fam,
+  P,
+  query,
+  linkable,
+  cooks,
+  onTree,
+  onCook,
+}: {
+  fam: Family;
+  P: People;
+  query: string;
+  linkable: string[];
+  cooks: { id: string; name: string }[];
+  onTree: (id: string) => void;
+  onCook: (c: { id: string; name: string }) => void;
+}) {
+  const [all, setAll] = useState(false);
+  const q = query.trim().toLowerCase();
+  const hit = (n: string) => !q || n.toLowerCase().split(/s+/).some((w) => w.startsWith(q)) || n.toLowerCase().includes(q);
+  const rows = [
+    ...linkable.map((id) => ({ key: 't' + id, name: displayName(P, P[id]), sub: 'On the tree', face: P[id], pick: () => onTree(id) })),
+    ...cooks.map((c) => ({
+      key: 'c' + c.id,
+      name: c.name,
+      sub: fam.linkByContributor[c.id] ? 'In the app' : plural(fam.recipes.filter((r) => r.contributor === c.id).length, 'recipe'),
+      face: { id: 'c' + c.id, name: c.name, contributorId: c.id } as TreePerson,
+      pick: () => onCook(c),
+    })),
+  ]
+    .filter((r) => hit(r.name))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (!rows.length) return null;
+  const shown = all ? rows : rows.slice(0, q ? 8 : 4);
+  return (
+    <div className="tree-pick">
+      <div className="field-help" style={{ margin: '10px 0 4px' }}>
+        {q ? 'Is it one of these? Tap to link them.' : 'Already in the app? Tap to link them, or type a new name.'}
+      </div>
+      {shown.map((r) => (
+        <button type="button" key={r.key} className="tree-pick-row" onClick={r.pick}>
+          <Face fam={fam} p={r.face} size={30} />
+          <span className="t">{r.name}</span>
+          <span className="meta">{r.sub}</span>
+        </button>
+      ))}
+      {!q && !all && rows.length > 4 && (
+        <button type="button" className="link-btn" style={{ marginTop: 4 }} onClick={() => setAll(true)}>
+          Show more
+        </button>
+      )}
+    </div>
   );
 }

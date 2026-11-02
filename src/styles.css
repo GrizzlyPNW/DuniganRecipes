@@ -628,3 +628,11 @@ button.invite-row:active { background: var(--tint); }
 .tree-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; }
 
 .family-code { padding: 12px 14px; border-radius: 12px; background: var(--tint); font: 600 20px/1.2 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.06em; overflow-wrap: anywhere; user-select: all; }
+
+/* Linking someone already in the app */
+.tree-pick { border: 1px solid var(--line); border-radius: 12px; padding: 2px 12px 8px; margin-top: 8px; }
+.tree-pick-row { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
+.tree-pick-row:last-of-type { border-bottom: 0; }
+.tree-pick-row .t { flex: 1; min-width: 0; font: 500 16px var(--serif); color: var(--ink); }
+.tree-linked { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; }
+.tree-linked .t { font: 500 17px var(--serif); }
