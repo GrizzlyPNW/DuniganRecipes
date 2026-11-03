@@ -7,6 +7,7 @@ export type CardText = {
   title: string;
   temp: string;
   makes: string;
+  note: string;
   ingredients: string[];
   steps: string[];
   raw: string;
@@ -59,15 +60,109 @@ export async function readCard(photos: (Blob | string)[], progress?: (p: number)
   });
   try {
     const texts: string[] = [];
+    let title = '';
     for (const p of photos) {
-      const { data } = await worker.recognize(await prepare(p));
-      texts.push(data.text);
+      const { data } = await worker.recognize(await prepare(p), {}, { text: true, blocks: true });
+      const text = keepThisRecipe(columnText(data as unknown as OcrPage), title);
+      if (!title) title = sortCard(text).title;
+      texts.push(text);
       done++;
     }
     return sortCard(texts.join('\n'));
   } finally {
     await worker.terminate();
   }
+}
+
+type Box = { x0: number; y0: number; x1: number; y1: number };
+type OcrWord = { text: string; bbox: Box };
+export type OcrPage = { text: string; blocks?: { paragraphs: { lines: { words: OcrWord[] }[] }[] }[] | null };
+
+/**
+ * Text in reading order for a card with two columns (ingredients beside steps). OCR reads
+ * straight across, mixing the columns, so this finds the empty strip between them and reads
+ * the left column before the right. Cards without columns come back as they were read.
+ */
+export function columnText(page: OcrPage) {
+  const lines = (page.blocks || []).flatMap((b) => b.paragraphs.flatMap((p) => p.lines.map((l) => l.words.filter((w) => w.text.trim()))));
+  const rows = lines.filter((ws) => ws.length);
+  if (rows.length < 4) return page.text;
+  const left = Math.min(...rows.map((ws) => ws[0].bbox.x0));
+  const right = Math.max(...rows.map((ws) => ws[ws.length - 1].bbox.x1));
+  const width = right - left;
+  // How many lines have a wide gap that crosses x, with words on both sides.
+  const splitsAt = (ws: OcrWord[], x: number) => {
+    const h = Math.max(8, ...ws.map((w) => w.bbox.y1 - w.bbox.y0));
+    for (let i = 1; i < ws.length; i++) {
+      const a = ws[i - 1].bbox.x1;
+      const b = ws[i].bbox.x0;
+      if (a < x && b > x && b - a > h * 1.2) return true;
+    }
+    return false;
+  };
+  const covers = (ws: OcrWord[], x: number) => ws.some((w) => w.bbox.x0 < x && w.bbox.x1 > x);
+  let best = 0;
+  let bestX = 0;
+  for (let x = left + width * 0.15; x < left + width * 0.7; x += width / 100) {
+    const n = rows.filter((ws) => splitsAt(ws, x)).length;
+    const crossed = rows.filter((ws) => covers(ws, x)).length;
+    if (n - crossed > best) {
+      best = n - crossed;
+      bestX = x;
+    }
+  }
+  if (best < 4) return page.text;
+  // A line split at the strip goes into two columns; a run of them is read left, then right.
+  const out: string[] = [];
+  let colL: string[] = [];
+  let colR: string[] = [];
+  const flush = () => {
+    out.push(...colL, ...colR);
+    colL = [];
+    colR = [];
+  };
+  const join = (ws: OcrWord[]) => ws.map((w) => w.text).join(' ');
+  for (const ws of rows) {
+    if (covers(ws, bestX)) {
+      flush();
+      out.push(join(ws));
+      continue;
+    }
+    const l = ws.filter((w) => w.bbox.x1 <= bestX);
+    const r = ws.filter((w) => w.bbox.x0 >= bestX);
+    // Only one side: a heading or wrapped line. Keep it in its column.
+    if (l.length) colL.push(join(l));
+    if (r.length) colR.push(join(r));
+  }
+  flush();
+  return out.join('\n');
+}
+
+/** A printed "Page Break" or a row of dashes or dots. */
+const BREAK = /page\s*break|^[\s\-–—_.:oe°]{8,}$/i;
+const words = (s: string) => s.toLowerCase().match(/[a-z]{4,}/g) || [];
+
+/**
+ * A photo of a printed page can show the end of the page before it and the top of the next
+ * recipe. Keeps only the parts, between page breaks, that belong to this recipe.
+ */
+export function keepThisRecipe(text: string, title: string) {
+  const parts: string[][] = [[]];
+  for (const l of text.split('\n')) {
+    if (BREAK.test(l.trim()) && l.trim().length > 6) parts.push([]);
+    else parts[parts.length - 1].push(l);
+  }
+  const chunks = parts.map((p) => p.join('\n')).filter((p) => /[A-Za-z]{4,}/.test(p));
+  if (chunks.length <= 1) return chunks[0] || '';
+  const tw = words(title).filter((w) => !['with', 'from', 'back'].includes(w));
+  // The part with this recipe's name (or "(back)") on it, if we can tell.
+  const mine = (c: string) => {
+    const cw = new Set(words(c.split('\n').slice(0, 6).join(' ')));
+    // Most of the name, so "Apple Slaw with Cider Dressing" isn't taken for "Apple Cider Pulled Pork".
+    return tw.length ? tw.filter((w) => cw.has(w)).length >= Math.max(1, Math.ceil(tw.length * 0.75)) : /\(back\)/i.test(c);
+  };
+  const keep = chunks.filter(mine);
+  return (keep.length ? keep : [chunks.reduce((a, b) => (b.length > a.length ? b : a))]).join('\n');
 }
 
 const FRACTIONS: Record<string, string> = { '1/2': '½', '1/4': '¼', '3/4': '¾', '1/3': '⅓', '2/3': '⅔', '1/8': '⅛' };
@@ -86,7 +181,10 @@ const tidy = (l: string) =>
     .replace(/\b(\d+\.\d)9(?=\s+[a-z])/g, '$1 g')
     // A lone | or l before a word is almost always a 1; ½ often comes out as %.
     .replace(/^[|l!]\s+(?=[a-z])/, '1 ')
-    .replace(/(\d)%/g, '$1½')
+    .replace(/\b(\d)%(?=\s*(?:c\b|cups?|tsp|tbsp|t\b|teaspoons?|tablespoons?|lbs?|oz|sticks?))/gi, '$1½')
+    .replace(/\bIb(s?)\b/g, 'lb$1')
+    .replace(/\b(\d)o\b/g, '$10')
+    .replace(/jalape(?:fi|ñ|n)os/gi, 'jalapeños')
     .replace(/[|_~`•■□©®]+/g, ' ')
     .replace(/\s[=<>»«]+(?=\s|$)/g, ' ')
     .replace(/¥/g, '½')
@@ -119,6 +217,11 @@ const FROM_LINE = /^(from|from the kitchen of|from the desk of|recipe from)\b/i;
 
 /** Sorts OCR text into the recipe form's fields. Exported for testing. */
 export function sortCard(raw: string): CardText {
+  raw = raw
+    .split('\n')
+    .filter((l) => !BREAK.test(l.trim()))
+    .join('\n');
+  const sections = bySection(raw);
   const lines = raw
     .split('\n')
     .map(tidy)
@@ -135,10 +238,14 @@ export function sortCard(raw: string): CardText {
   if (t && +t[1] >= 200 && +t[1] <= 550) temp = t[1] + '°';
   const mk = flat.match(/\b(?:makes|yields?)\s+(?:about\s+)?(\d[^.;]{0,30})/i);
   if (mk) makes = mk[1].trim();
+  // "Source: Luke's own • Serves 4 with leftovers • Smoke: 7–9 hr" under the title.
+  const sv = flat.match(/\bserves\s+(\d[\d\s–-]*(?:\s*(?:with|to|people|as)[A-Za-z ]{0,20})?)/i);
+  if (sv && !makes) makes = sv[1].replace(/\s+[A-Z][a-z]*$/, '').trim();
 
   const rest: string[] = [];
   for (const l of lines) {
-    const m = l.match(/^(serves|makes|yield|yields|servings)\s*:?\s*(.+)$/i);
+    const m = l.match(/^(serves|makes|yield|yields|servings)\s*:?\s*((?:about\s+)?\d.*)$/i);
+    if (/^(source|from)\s*:.*(serves|•)/i.test(l)) continue;
     if (m) {
       if (!makes || /^serv/i.test(m[1])) makes = /^serv/i.test(m[1]) && /^\d[\d\s–-]*$/.test(m[2]) ? m[2] + ' servings' : m[2];
       continue;
@@ -147,10 +254,23 @@ export function sortCard(raw: string): CardText {
     rest.push(l.replace(/^recipe( for)?\s*:\s*/i, ''));
   }
 
-  // Title: the first short line that isn't an ingredient.
+  // Title: the first short line that isn't an ingredient or a category heading.
   let title = '';
-  const ti = rest.findIndex((l, i) => i < 4 && l.length <= 50 && !isIngredient(l));
-  if (ti >= 0) title = rest.splice(ti, 1)[0].replace(/[.:]$/, '');
+  const ti = rest.findIndex((l, i) => i < 5 && l.length <= 50 && !isIngredient(l) && !isCategory(l));
+  if (ti >= 0) title = rest.splice(ti, 1)[0].replace(/[.:]$/, '').replace(/\s*\(back\)\s*$/i, '');
+
+  // A printed card with Ingredients / Steps / Notes headings: trust the headings.
+  if (sections) {
+    // Headings repeated at the top of the back of the card aren't part of the recipe.
+    const tw = words(title).join(' ');
+    const extra = (l: string) => isCategory(l) || /\(back\)\s*$/i.test(l) || (!!tw && words(l).join(' ') === tw);
+    const clean = (ls: string[]) => ls.map(tidy).filter((l) => l && !extra(l));
+    const ingredients = joinWrapped(clean(sections.ingredients).filter(hasWords));
+    // A wrapped step line can be all numbers: "107–121 °C (225–250 °F)."
+    const steps = splitSteps(clean(sections.steps).filter((l) => /[A-Za-z0-9]{2,}/.test(l)));
+    const note = clean(sections.notes).filter(hasWords).join(' ');
+    return { title, temp, makes, note, ingredients, steps, raw };
+  }
 
   const ingredients: string[] = [];
   const stepText: string[] = [];
@@ -174,7 +294,54 @@ export function sortCard(raw: string): CardText {
   const steps = splitSteps(stepText)
     .map((s) => s.replace(/\s*\b(?:makes|yields?)\s+(?:about\s+)?\d[^.;]{0,30}\.?\s*$/i, '').trim())
     .filter(Boolean);
-  return { title, temp, makes, ingredients, steps, raw };
+  return { title, temp, makes, note: '', ingredients, steps, raw };
+}
+
+const isCategory = (l: string) => /^[A-Z&,' ]{4,}$/.test(l.trim()) && l.trim().split(' ').length <= 4;
+
+const HEAD: Record<string, 'ingredients' | 'steps' | 'notes'> = {
+  ingredients: 'ingredients',
+  steps: 'steps',
+  directions: 'steps',
+  instructions: 'steps',
+  method: 'steps',
+  notes: 'notes',
+  note: 'notes',
+  tips: 'notes',
+};
+/** Splits text under "INGREDIENTS", "STEPS" and "NOTES" headings. Null if the card has none. */
+function bySection(raw: string) {
+  const out = { ingredients: [] as string[], steps: [] as string[], notes: [] as string[] };
+  let cur: keyof typeof out | null = null;
+  let found = 0;
+  for (const line of raw.split('\n')) {
+    const l = line.trim();
+    // OCR often clips the first letters of a heading at the photo's edge ("REDIENTS", "TES").
+    const h = l.toLowerCase().replace(/[^a-z]/g, '');
+    const key =
+      l.length <= 16 && /^[A-Z\s:]+$/.test(l)
+        ? HEAD[h] || (h.length >= 5 && 'ingredients'.endsWith(h) ? 'ingredients' : h.length >= 3 && 'notes'.endsWith(h) ? 'notes' : undefined)
+        : undefined;
+    if (key) {
+      cur = key;
+      found++;
+      continue;
+    }
+    if (cur) out[cur].push(l);
+  }
+  return found && (out.ingredients.length || out.steps.length) ? out : null;
+}
+
+/** "Apple spice pork" + "seasoning, enough to coat" + "generously": one ingredient. */
+function joinWrapped(lines: string[]) {
+  const out: string[] = [];
+  for (const l of lines) {
+    const prev = out[out.length - 1];
+    const open = prev && (prev.split('(').length > prev.split(')').length || /\b(or|and|of|to|for|plus|with|the|a)$|[,(–-]$/i.test(prev));
+    if (prev && (open || /^[a-z(]/.test(l))) out[out.length - 1] = prev + ' ' + l;
+    else out.push(l);
+  }
+  return out;
 }
 
 /** Joins wrapped lines back together, then splits on step numbers or sentences. */

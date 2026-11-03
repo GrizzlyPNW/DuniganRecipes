@@ -234,6 +234,7 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
       if (!title.trim() && r.title) setTitle(r.title);
       if (!temp.trim() && r.temp) setTemp(r.temp);
       if (!makes.trim() && r.makes) setMakes(r.makes);
+      if (!note.trim() && r.note) setNote(r.note);
       if (!ings.trim()) setIngs(r.ingredients.join('\n'));
       if (!steps.trim()) setSteps(r.steps.join('\n'));
       setShowTyping(true);
