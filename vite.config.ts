@@ -29,8 +29,11 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
-            // Card photos: cache as they are viewed so the box works offline.
-            urlPattern: ({ url }) => url.pathname.startsWith('/cards/') || url.hostname.endsWith('.blob.vercel-storage.com'),
+            // Card photos: cache as they are viewed so the box works offline. Only photos shown
+            // on screen (no-cors): those copies can't be opened by code, so "Type it up" fetches
+            // its own copy from the network instead of getting one of these.
+            urlPattern: ({ url, request }) =>
+              request.mode === 'no-cors' && (url.pathname.startsWith('/cards/') || url.hostname.endsWith('.blob.vercel-storage.com')),
             handler: 'CacheFirst',
             options: { cacheName: 'card-photos', expiration: { maxEntries: 600 }, cacheableResponse: { statuses: [0, 200] } },
           },

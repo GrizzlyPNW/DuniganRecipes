@@ -12,9 +12,23 @@ export type CardText = {
   raw: string;
 };
 
+/** Gets a saved photo. If the phone's offline copy can't be opened, asks the server for a fresh one. */
+async function load(url: string): Promise<Blob> {
+  try {
+    const res = await fetch(url);
+    if (res.ok) return await res.blob();
+  } catch {
+    /* try a fresh copy */
+  }
+  const fresh = url + (url.includes('?') ? '&' : '?') + 'read=' + Date.now();
+  const res = await fetch(fresh, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Photo not found');
+  return res.blob();
+}
+
 /** Shrinks and sharpens a photo so OCR is faster and more accurate. */
 async function prepare(src: Blob | string): Promise<HTMLCanvasElement> {
-  const blob = typeof src === 'string' ? await (await fetch(src)).blob() : src;
+  const blob = typeof src === 'string' ? await load(src) : src;
   const bmp = await createImageBitmap(blob, { imageOrientation: 'from-image' } as ImageBitmapOptions);
   const scale = Math.min(1, 2000 / Math.max(bmp.width, bmp.height));
   const c = document.createElement('canvas');
