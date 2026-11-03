@@ -179,12 +179,14 @@ export function GoogleButton({ label = 'Sign in with Google' }: { label?: string
 function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
+  const [failed, setFailed] = useState(false);
   async function submit() {
     if (!code.trim()) return toast('Type the family code first');
     setBusy(true);
     const ok = await fam.join(code).catch(() => false);
     setBusy(false);
-    toast(ok ? 'Welcome to the family box' : 'That code didn’t match');
+    setFailed(!ok);
+    if (ok) toast('Welcome to the family box');
   }
   return (
     <div className="join-box">
@@ -196,7 +198,10 @@ function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
         <input
           className="field"
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(e) => {
+            setCode(e.target.value);
+            setFailed(false);
+          }}
           onKeyDown={(e) => e.key === 'Enter' && submit()}
           placeholder="Your code"
           aria-label="Your invite code or the family code"
@@ -207,6 +212,11 @@ function CodeBox({ fam, toast }: { fam: Family; toast: (t: string) => void }) {
           {busy ? '…' : 'Join'}
         </button>
       </div>
+      {failed && (
+        <p className="field-help" role="alert" style={{ margin: '10px 0 0', color: 'var(--accent)', fontWeight: 600 }}>
+          That code didn’t match. Check the code in your invite text, or tap the link in that text instead. Still stuck? Ask Luke to send you a new one.
+        </p>
+      )}
     </div>
   );
 }

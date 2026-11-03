@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Family } from '../lib/store';
 import { CATEGORIES, isBaseContributor } from '../lib/store';
-import { back, go, replace } from '../lib/router';
+import { back, go, replace, setLeaveGuard } from '../lib/router';
 import { compressImage } from '../lib/image';
 import { makeContributor, newId, parseIngredients, parseSteps } from '../lib/util';
 import { groupName, isGroup, type Recipe } from '../types';
@@ -72,6 +72,90 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
   const [busy, setBusy] = useState(false);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
+  // Keep what's typed on this phone, so a reload, a slip of the back button or a dead
+  // battery doesn't lose a long card. Photos can't be kept this way, only the words.
+  const draftKey = 'dunigan-draft-' + (existing?.id || kind);
+  const fields = { title, category, alsoIn, who, newCook, temp, time, makes, note, ings, steps };
+  const snap = JSON.stringify(fields);
+  const start = useRef(snap);
+  const [restored, setRestored] = useState(false);
+  useEffect(() => {
+    try {
+      const d = JSON.parse(localStorage.getItem(draftKey) || 'null') as typeof fields | null;
+      if (!d || JSON.stringify(d) === start.current) return;
+      setTitle(d.title);
+      setCategory(d.category);
+      setAlsoIn(d.alsoIn);
+      setWho(d.who);
+      setNewCook(d.newCook);
+      setTemp(d.temp);
+      setTime(d.time);
+      setMakes(d.makes);
+      setNote(d.note);
+      setIngs(d.ings);
+      setSteps(d.steps);
+      if (d.ings || d.steps) setShowTyping(true);
+      setRestored(true);
+    } catch {
+      /* no draft */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey]);
+  const dirty = snap !== start.current || photos.some(Boolean);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        if (snap !== start.current) localStorage.setItem(draftKey, snap);
+        else localStorage.removeItem(draftKey);
+      } catch {
+        /* storage full or blocked */
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [snap, draftKey]);
+  const clearDraft = () => {
+    try {
+      localStorage.removeItem(draftKey);
+    } catch {
+      /* ignore */
+    }
+  };
+  const startOver = () => {
+    const d = JSON.parse(start.current) as typeof fields;
+    setTitle(d.title);
+    setCategory(d.category);
+    setAlsoIn(d.alsoIn);
+    setWho(d.who);
+    setNewCook(d.newCook);
+    setTemp(d.temp);
+    setTime(d.time);
+    setMakes(d.makes);
+    setNote(d.note);
+    setIngs(d.ings);
+    setSteps(d.steps);
+    clearDraft();
+    setRestored(false);
+  };
+  // Ask before Back, Cancel or a swipe throws the work away.
+  const dirtyRef = useRef(dirty);
+  dirtyRef.current = dirty && !busy;
+  useEffect(
+    () =>
+      setLeaveGuard(() => {
+        if (!dirtyRef.current) return true;
+        if (!window.confirm(existing ? 'Leave without saving your changes?' : 'Leave without adding this recipe? What you typed stays saved on this phone for next time.')) return false;
+        return true;
+      }),
+    [existing],
+  );
+  useEffect(() => {
+    const warn = (e: BeforeUnloadEvent) => {
+      if (dirtyRef.current && photos.some(Boolean)) e.preventDefault();
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [photos]);
+
   const previews = useMemo(() => photos.map((f) => (f ? URL.createObjectURL(f) : null)), [photos]);
 
   const heading = kind === 'photo' ? 'Photograph a card' : kind === 'type' ? 'Type it in' : existing?.cardImages.length ? 'Type up this card' : 'Edit recipe';
@@ -122,6 +206,8 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
         steps: stepList.length ? stepList : null,
       };
       await fam.saveRecipe(r);
+      clearDraft();
+      dirtyRef.current = false;
       toast(existing ? 'Saved. Thank you!' : 'Added to the box');
       replace('recipe/' + r.id);
     } catch (e) {
@@ -202,6 +288,14 @@ export function RecipeForm({ fam, kind, existing, toast }: { fam: Family; kind: 
         <h1 className="h1" style={{ fontSize: 30 }}>
           {heading}
         </h1>
+        {restored && (
+          <div className="draft-note" role="status">
+            <span>We kept what you typed last time{kind === 'photo' ? '. Add the photos again.' : '.'}</span>
+            <button type="button" className="link-btn" onClick={startOver}>
+              Start over
+            </button>
+          </div>
+        )}
 
         {existing && existing.cardImages.length > 0 && (
           <div className="form-group">

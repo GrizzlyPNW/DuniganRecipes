@@ -14,11 +14,17 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
   const [draft, setDraft] = useState('');
   const [savingCode, setSavingCode] = useState(false);
 
+  const [changes, setChanges] = useState<api.Change[] | null>(null);
+  const [moreChanges, setMoreChanges] = useState(false);
+  const [restoring, setRestoring] = useState<string | null>(null);
+  const [backingUp, setBackingUp] = useState(false);
+
   const load = useCallback(async () => {
     try {
-      const [m, c] = await Promise.all([api.listMembers(), api.getInviteCode()]);
+      const [m, c, ch] = await Promise.all([api.listMembers(), api.getInviteCode(), api.listChanges()]);
       setMembers(m);
       setCode(c);
+      setChanges(ch);
     } catch (e) {
       toast((e as Error).message);
     }
@@ -94,6 +100,55 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
       toast((e as Error).message);
     } finally {
       setBusyId(null);
+    }
+  }
+
+  // What a change was about, in words. Older versions carry their own name; new ones are looked up.
+  const nameOf = (it: api.Change['items'][number]) =>
+    it.label ||
+    (it.kind === 'recipe' ? fam.recipes.find((r) => r.id === it.itemId)?.title : it.kind === 'tree' ? fam.tree.find((p) => p.id === it.itemId)?.name : '') ||
+    'someone';
+  const describe = (c: api.Change) => {
+    const it = c.items[0];
+    const names = [...new Set(c.items.map(nameOf))];
+    const list = names.slice(0, 3).join(', ') + (names.length > 3 ? ' and ' + (names.length - 3) + ' more' : '');
+    if (it.action === 'restore') return 'Put back an earlier version: ' + list;
+    if (it.kind === 'story') return 'Deleted a story: “' + (it.label.length > 60 ? it.label.slice(0, 60) + '…' : it.label) + '”';
+    if (it.kind === 'recipe') return (it.had ? 'Edited ' : 'Changed the original card of ') + list;
+    if (c.items.some((x) => x.action === 'remove')) return 'Took ' + nameOf(c.items.find((x) => x.action === 'remove')!) + ' off the tree';
+    return 'Changed the tree: ' + list;
+  };
+  async function putBack(c: api.Change) {
+    if (!confirm('Put back the version from before this change? Anything changed on these since will be replaced too. You can undo this the same way.')) return;
+    setRestoring(c.batch);
+    try {
+      await api.restoreChange(c.batch);
+      await fam.refresh();
+      setChanges(await api.listChanges());
+      toast('Put back');
+    } catch (e) {
+      toast((e as Error).message);
+    } finally {
+      setRestoring(null);
+    }
+  }
+  async function backup() {
+    setBackingUp(true);
+    try {
+      const data = await api.exportAll();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'dunigan-recipes-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+      toast('Backup downloaded');
+    } catch (e) {
+      toast((e as Error).message);
+    } finally {
+      setBackingUp(false);
     }
   }
 
@@ -196,6 +251,47 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
           ))}
         </>
       )}
+
+      <h2 className="h2" style={{ fontSize: 22, margin: '28px 0 4px' }}>
+        Recent changes
+      </h2>
+      <p className="field-help" style={{ margin: '0 0 8px' }}>
+        If someone changes or deletes something by mistake, put back the earlier version here.
+      </p>
+      {!changes && <div className="italic-empty">Loading…</div>}
+      {changes?.length === 0 && <div className="italic-empty">No changes yet. Edits to recipes and the tree, and deleted stories, will show here.</div>}
+      {changes?.slice(0, moreChanges ? undefined : 8).map((c) => (
+        <div key={c.batch} className="change-row">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="t">{describe(c)}</div>
+            <div className="s">
+              {c.by || 'Someone'} · {new Date(c.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+            </div>
+          </div>
+          {c.restored ? (
+            <span className="meta">Put back ✓</span>
+          ) : (
+            <button className="btn btn-outline" onClick={() => putBack(c)} disabled={!!restoring}>
+              {restoring === c.batch ? '…' : 'Put back'}
+            </button>
+          )}
+        </div>
+      ))}
+      {changes && changes.length > 8 && !moreChanges && (
+        <button className="link-btn" onClick={() => setMoreChanges(true)}>
+          Show older changes
+        </button>
+      )}
+
+      <div className="admin-card" style={{ marginTop: 28 }}>
+        <div className="t">Back up the family box</div>
+        <p className="field-help" style={{ margin: '4px 0 12px' }}>
+          Downloads one file with every recipe edit, story, cook, tree person and favorite. Keep it somewhere safe, like your Google Drive. Photos stay online; the file lists their links. It includes members’ emails, so don’t share it.
+        </p>
+        <button className="btn btn-accent btn-block" onClick={backup} disabled={backingUp}>
+          {backingUp ? 'Preparing…' : 'Download backup'}
+        </button>
+      </div>
     </div>
   );
 }

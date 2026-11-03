@@ -30,9 +30,9 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Card photos: cache as they are viewed so the box works offline.
-            urlPattern: ({ url }) => url.pathname.startsWith('/cards/') || url.pathname.includes('/storage/v1/object/public/'),
+            urlPattern: ({ url }) => url.pathname.startsWith('/cards/') || url.hostname.endsWith('.blob.vercel-storage.com'),
             handler: 'CacheFirst',
-            options: { cacheName: 'card-photos', expiration: { maxEntries: 400 } },
+            options: { cacheName: 'card-photos', expiration: { maxEntries: 600 }, cacheableResponse: { statuses: [0, 200] } },
           },
           {
             urlPattern: ({ url }) => url.origin.includes('fonts.g'),

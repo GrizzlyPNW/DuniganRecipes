@@ -98,6 +98,21 @@ function ensureSchema(sql: Sql) {
       updated_by text,
       updated_at timestamptz not null default now()
     )`;
+    // Earlier versions of recipes, tree people and deleted stories, so a mistake can be put back.
+    // One "batch" is everything a single save changed.
+    await sql`create table if not exists revisions (
+      id bigserial primary key,
+      batch text not null,
+      kind text not null,
+      item_id text not null,
+      action text not null,
+      data jsonb,
+      old_by text,
+      changed_by text,
+      changed_at timestamptz not null default now(),
+      restored_at timestamptz
+    )`;
+    await sql`create index if not exists revisions_batch_idx on revisions (batch)`;
     // Personal invite links, one per cook.
     await sql`create table if not exists invites (
       token text primary key,
@@ -121,10 +136,12 @@ async function familyCode(sql: Sql) {
   return (rows[0]?.value || process.env.FAMILY_CODE || '').trim();
 }
 
+/** Compares codes ignoring case, spaces and dashes, so "dunigan 2024" matches "DUNIGAN-2024". */
 function codeOk(given: unknown, want: string) {
-  if (!want || typeof given !== 'string' || !given) return false;
-  const a = Buffer.from(given.trim());
-  const b = Buffer.from(want.trim());
+  const norm = (v: string) => v.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!want || typeof given !== 'string' || !norm(given) || !norm(want)) return false;
+  const a = Buffer.from(norm(given));
+  const b = Buffer.from(norm(want));
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
@@ -182,6 +199,31 @@ async function memberState(sql: Sql, user: User): Promise<'member' | 'blocked' |
   const rows = (await sql`select blocked from members where user_id = ${user.id}`) as { blocked: boolean }[];
   if (!rows.length) return 'none';
   return rows[0].blocked ? 'blocked' : 'member';
+}
+
+/** JSON with sorted keys, to tell whether a save actually changed anything. */
+const stable = (v: unknown): string =>
+  v && typeof v === 'object'
+    ? Array.isArray(v)
+      ? '[' + v.map(stable).join(',') + ']'
+      : '{' + Object.keys(v).sort().map((k) => JSON.stringify(k) + ':' + stable((v as any)[k])).join(',') + '}'
+    : JSON.stringify(v ?? null);
+
+type Kind = 'recipe' | 'tree' | 'story';
+/** Copies the current version of something into revisions before it's changed or deleted. */
+async function keep(sql: Sql, batch: string, kind: Kind, id: string, action: string, by: string, next?: unknown) {
+  const rows = (
+    kind === 'recipe'
+      ? await sql`select data, updated_by as old_by from recipe_edits where id = ${id}`
+      : kind === 'tree'
+        ? await sql`select data, updated_by as old_by from family_tree where id = ${id}`
+        : await sql`select row_to_json(s) as data, author_name as old_by from stories s where id::text = ${id}`
+  ) as any[];
+  const old = rows[0]?.data ?? null;
+  if (next !== undefined && old && stable(old) === stable(next)) return;
+  if (kind === 'story' && !old) return;
+  await sql`insert into revisions (batch, kind, item_id, action, data, old_by, changed_by)
+    values (${batch}, ${kind}, ${id}, ${action}, ${old === null ? null : JSON.stringify(old)}::jsonb, ${rows[0]?.old_by ?? null}, ${by})`;
 }
 
 const clip = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -337,6 +379,35 @@ export async function GET(req: Request) {
     const who = await requireAdmin(req, sql);
     if (who instanceof Response) return who;
     return json({ code: await familyCode(sql) });
+  }
+
+  // Recent changes the admin can put back.
+  if (op === 'changes') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const rows = (await sql`select batch, min(changed_at) as at, max(changed_by) as by, max(restored_at) as restored,
+        json_agg(json_build_object('kind', kind, 'itemId', item_id, 'action', action, 'had', data is not null,
+          'label', left(coalesce(data->>'title', data->>'name', data->>'text', ''), 80)) order by id) as items
+      from revisions group by batch order by min(changed_at) desc limit 80`) as any[];
+    return json({
+      changes: rows.map((r) => ({ batch: r.batch, at: new Date(r.at).getTime(), by: r.by, restored: !!r.restored, items: r.items })),
+    });
+  }
+
+  // Everything the family has added, as one file the admin can keep.
+  if (op === 'export') {
+    const who = await requireAdmin(req, sql);
+    if (who instanceof Response) return who;
+    const [stories, recipes, contributors, links, tree, favorites, members] = await Promise.all([
+      sql`select id, recipe_id, author_name, author_id, text, photo, created_at from stories order by created_at`,
+      sql`select data, updated_by, updated_at from recipe_edits order by updated_at`,
+      sql`select data, created_by, created_at from contributors order by created_at`,
+      sql`select contributor_id, user_id, linked_at from contributor_links`,
+      sql`select data, updated_by, updated_at from family_tree`,
+      sql`select user_id, recipe_id, created_at from favorites`,
+      sql`select user_id, name, email, joined_at, blocked from members order by joined_at`,
+    ]);
+    return json({ app: 'The Dunigan Recipes', exportedAt: new Date().toISOString(), exportedBy: who.name, stories, recipes, contributors, links, tree, favorites, members });
   }
 
   if (op === 'data') {
@@ -546,7 +617,9 @@ export async function POST(req: Request) {
   if (op === 'tree-save') {
     const people = (Array.isArray(body.people) ? body.people.slice(0, 50) : []).map(cleanTreePerson).filter(Boolean) as any[];
     if (!people.length) return json({ error: 'Nobody to save' }, 400);
+    const batch = randomUUID();
     for (const p of people) {
+      await keep(sql, batch, 'tree', p.id, 'edit', who.name, p);
       await sql`insert into family_tree (id, data, updated_by) values (${p.id}, ${JSON.stringify(p)}::jsonb, ${who.name})
         on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
     }
@@ -565,10 +638,13 @@ export async function POST(req: Request) {
         !p || p.parents?.length || p.spouses?.length || all.some((r) => r.data.parents?.includes(id) || r.data.spouses?.includes(id));
       if (tied) return json({ error: 'Only the family admin can remove someone who is still connected to the tree' }, 403);
     }
+    const batch = randomUUID();
+    await keep(sql, batch, 'tree', id, 'remove', who.name);
     await sql`delete from family_tree where id = ${id}`;
     const rows = (await sql`select data from family_tree`) as any[];
     for (const { data: p } of rows) {
       if (!p.parents?.includes(id) && !p.spouses?.includes(id)) continue;
+      await keep(sql, batch, 'tree', p.id, 'edit', who.name);
       const next = { ...p, parents: (p.parents || []).filter((x: string) => x !== id), spouses: (p.spouses || []).filter((x: string) => x !== id), partners: (p.partners || []).filter((x: string) => x !== id) };
       await sql`update family_tree set data = ${JSON.stringify(next)}::jsonb, updated_by = ${who.name}, updated_at = now() where id = ${p.id}`;
     }
@@ -580,7 +656,42 @@ export async function POST(req: Request) {
     const [row] = (await sql`select author_id from stories where id::text = ${id}`) as { author_id: string | null }[];
     if (!row) return json({ ok: true });
     if (row.author_id !== who.id && !who.admin) return json({ error: 'You can only delete your own stories' }, 403);
+    await keep(sql, randomUUID(), 'story', id, 'delete', who.name);
     await sql`delete from stories where id::text = ${id}`;
+    return json({ ok: true });
+  }
+
+  // Puts back the versions from before one change. The current versions are kept first,
+  // so putting something back can itself be undone.
+  if (op === 'restore') {
+    if (!who.admin) return json({ error: 'Only the family admin can put back changes' }, 403);
+    const batch = clip(body.batch, 64);
+    const rows = (await sql`select kind, item_id, data from revisions where batch = ${batch} order by id desc`) as any[];
+    if (!rows.length) return json({ error: 'That change wasn’t found' }, 404);
+    const undo = randomUUID();
+    for (const r of rows) {
+      const id = r.item_id;
+      if (r.kind === 'story') {
+        const s = r.data;
+        if (!s) continue;
+        await sql`insert into stories (id, recipe_id, author_name, author_id, text, photo, created_at)
+          values (${s.id}, ${s.recipe_id}, ${s.author_name}, ${s.author_id}, ${s.text}, ${s.photo}, ${s.created_at})
+          on conflict (id) do nothing`;
+        continue;
+      }
+      await keep(sql, undo, r.kind, id, 'restore', who.name);
+      if (r.kind === 'recipe') {
+        if (r.data) await sql`insert into recipe_edits (id, data, updated_by) values (${id}, ${JSON.stringify(r.data)}::jsonb, ${who.name})
+          on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
+        // No earlier version means it was the original card: go back to that.
+        else await sql`delete from recipe_edits where id = ${id}`;
+      } else {
+        if (r.data) await sql`insert into family_tree (id, data, updated_by) values (${id}, ${JSON.stringify(r.data)}::jsonb, ${who.name})
+          on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
+        else await sql`delete from family_tree where id = ${id}`;
+      }
+    }
+    await sql`update revisions set restored_at = now() where batch = ${batch}`;
     return json({ ok: true });
   }
 
@@ -590,6 +701,7 @@ export async function POST(req: Request) {
     if (!r || typeof r.id !== 'string' || !clip(r.title, 200) || raw.length > 60_000) {
       return json({ error: 'Recipe is missing a title' }, 400);
     }
+    await keep(sql, randomUUID(), 'recipe', r.id, 'edit', who.name, r);
     await sql`insert into recipe_edits (id, data, updated_by) values (${r.id}, ${raw}::jsonb, ${who.name})
       on conflict (id) do update set data = excluded.data, updated_by = excluded.updated_by, updated_at = now()`;
     return json({ ok: true });

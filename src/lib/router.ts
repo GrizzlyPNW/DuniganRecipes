@@ -68,8 +68,28 @@ export const replace = (path: string) => {
   history.replaceState(null, '', '#/' + path);
   window.dispatchEvent(new HashChangeEvent('hashchange'));
 };
+/**
+ * A page with unsaved work can ask "Discard?" before an in-app back (Back, Cancel, swipe).
+ * Once the person says yes the guard clears, so the back that follows goes through.
+ */
+let guard: (() => boolean) | null = null;
+export const setLeaveGuard = (g: () => boolean) => {
+  guard = g;
+  return () => {
+    if (guard === g) guard = null;
+  };
+};
+export const canLeave = () => {
+  if (!guard || guard()) {
+    guard = null;
+    return true;
+  }
+  return false;
+};
+
 /** Go back if we came from inside the app, otherwise to a fallback route. */
 export const back = (fallback = '') => {
+  if (!canLeave()) return;
   if (depth > 0) {
     depth--;
     history.back();

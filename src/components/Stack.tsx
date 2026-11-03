@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { canLeave } from '../lib/router';
 import { createPortal } from 'react-dom';
 
 /**
@@ -86,7 +87,7 @@ export function Layer({
     const speed = d.dx / Math.max(1, performance.now() - d.t);
     const node = el.current;
     node.style.transition = 'transform 0.22s cubic-bezier(.2,.8,.2,1)';
-    if (d.dx > width * 0.35 || speed > 0.6) {
+    if ((d.dx > width * 0.35 || speed > 0.6) && canLeave()) {
       node.style.transform = 'translateX(100%)';
       swiped.current = true;
       setTimeout(() => onBack?.(), 200);

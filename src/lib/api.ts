@@ -47,6 +47,13 @@ export const setPendingInvite = (code: string | null) => {
   }
 };
 
+/* ---------- Offline copy ---------- */
+
+const OFFLINE = 'dunigan-offline-v1';
+/** The last family data this phone loaded, so the recipe box still opens with no signal. */
+export const saveOffline = (userId: string | null, data: FamilyData) => write(OFFLINE, { userId, data, at: Date.now() });
+export const readOffline = () => read<{ userId: string | null; data: FamilyData; at: number } | null>(OFFLINE, null);
+
 export async function detectMode(): Promise<{ mode: Mode; photos: boolean }> {
   try {
     const res = await fetch('/api/family?op=health');
@@ -55,7 +62,8 @@ export async function detectMode(): Promise<{ mode: Mode; photos: boolean }> {
       if (h.shared) return { mode: 'shared', photos: !!h.photos };
     }
   } catch {
-    /* no server: local mode */
+    // No connection. If this phone has the family's data saved, open that.
+    if (readOffline()) return { mode: 'shared', photos: false };
   }
   return { mode: 'local', photos: true };
 }
@@ -137,6 +145,19 @@ export interface Member {
 export const listMembers = () => call<{ members: Member[] }>('GET', 'members').then((r) => r.members);
 export const setMemberRemoved = (userId: string, removed: boolean) =>
   call('POST', removed ? 'remove-member' : 'restore-member', JSON.stringify({ userId }));
+/* ---------- Edit history and backup (admin) ---------- */
+
+export interface Change {
+  batch: string;
+  at: number;
+  by: string | null;
+  restored: boolean;
+  items: { kind: 'recipe' | 'tree' | 'story'; itemId: string; action: 'edit' | 'remove' | 'delete' | 'restore'; had: boolean; label: string }[];
+}
+export const listChanges = () => call<{ changes: Change[] }>('GET', 'changes').then((r) => r.changes);
+export const restoreChange = (batch: string) => call('POST', 'restore', JSON.stringify({ batch }));
+export const exportAll = () => call<Record<string, unknown>>('GET', 'export');
+
 export const getInviteCode = () => call<{ code: string }>('GET', 'invite').then((r) => r.code);
 export const setFamilyCode = (code: string) =>
   call<{ code: string }>('POST', 'set-code', JSON.stringify({ code })).then((r) => r.code);

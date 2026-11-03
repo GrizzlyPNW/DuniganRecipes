@@ -53,5 +53,11 @@ export async function getToken(): Promise<string | null> {
 
 export async function signOut() {
   cached = null;
+  try {
+    // The offline copy of the family's data belongs to whoever was signed in.
+    localStorage.removeItem('dunigan-offline-v1');
+  } catch {
+    /* ignore */
+  }
   await authClient.signOut();
 }

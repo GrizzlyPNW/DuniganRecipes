@@ -62,34 +62,52 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
 
   // Each sign-in check bumps this; results from an older check are ignored.
   const gen = useRef(0);
+  const uid = useRef(userId);
+  uid.current = userId;
+
+  const apply = useCallback((data: api.FamilyData) => {
+    setStories(data.stories);
+    setEdits(data.recipes);
+    setPeople(data.contributors || []);
+    setLinks(data.links || []);
+    setTreeRows(data.tree || []);
+    setFavCounts(data.favoriteCounts || {});
+    setMyFavs(new Set(data.myFavorites || []));
+    if (data.contributorId !== undefined) setMyContributor(data.contributorId);
+    if (typeof data.admin === 'boolean') setAdmin(data.admin);
+    setAccess('member');
+  }, []);
+
+  /** No signal: open the copy saved on this phone, if there is one. */
+  const openOffline = useCallback(() => {
+    const saved = api.readOffline();
+    if (!saved || (uid.current && saved.userId && saved.userId !== uid.current)) return false;
+    apply(saved.data);
+    setError('You’re offline. Showing the recipes saved on this phone.');
+    return true;
+  }, [apply]);
 
   const refresh = useCallback(async (m: api.Mode, g = gen.current) => {
     try {
       const data = await api.loadAll(m);
       if (g !== gen.current) return;
-      setStories(data.stories);
-      setEdits(data.recipes);
-      setPeople(data.contributors || []);
-      setLinks(data.links || []);
-      setTreeRows(data.tree || []);
-      setFavCounts(data.favoriteCounts || {});
-      setMyFavs(new Set(data.myFavorites || []));
-      if (data.contributorId !== undefined) setMyContributor(data.contributorId);
-      if (typeof data.admin === 'boolean') setAdmin(data.admin);
-      setAccess('member');
+      apply(data);
       setError(null);
+      if (m === 'shared') api.saveOffline(uid.current, data);
     } catch (e) {
       if (g !== gen.current) return;
       const status = e instanceof api.ApiError ? e.status : 0;
       if (status === 403) setAccess('not-member');
       else if (status === 401) setAccess('signed-out');
-      else {
+      else if (openOffline()) {
+        /* showing the saved copy */
+      } else {
         // A network blip: keep what we had, but never stay stuck on "loading".
         setAccess((a) => (a === 'loading' ? 'signed-out' : a));
         setError('Couldn’t reach the family box. Check your connection.');
       }
     }
-  }, []);
+  }, [apply, openOffline]);
 
   // Work out what this person can see whenever the server mode or the signed-in user changes.
   useEffect(() => {
@@ -100,6 +118,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
       return;
     }
     if (!userId) {
+      if (!navigator.onLine && openOffline()) return;
       setAdmin(false);
       setBlocked(false);
       setAccess('signed-out');
@@ -140,6 +159,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
         if (cancelled) return;
         // Never leave the app waiting: fall back to the signed-out view.
         const status = e instanceof api.ApiError ? e.status : 0;
+        if (status === 0 && openOffline()) return;
         setAccess(status === 403 ? 'not-member' : 'signed-out');
         if (status !== 401) setError('Couldn’t reach the family box. Check your connection.');
       }
@@ -147,7 +167,7 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     return () => {
       cancelled = true;
     };
-  }, [mode, userId, sessionPending, refresh, checkNonce]);
+  }, [mode, userId, sessionPending, refresh, checkNonce, openOffline]);
 
   // Pick up new stories from the rest of the family when the app comes back into view.
   useEffect(() => {

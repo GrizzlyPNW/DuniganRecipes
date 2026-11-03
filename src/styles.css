@@ -650,3 +650,37 @@ button.invite-row:active { background: var(--tint); }
   .filter-btns { gap: 6px; flex-wrap: nowrap; }
   .filter-btn { padding: 0 10px; gap: 6px; min-width: 0; flex: 0 1 auto; }
 }
+
+/* Cook mode: timers that keep running across steps, and the ingredients sheet */
+.timers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.timer-chip { display: flex; align-items: stretch; border-radius: 16px; background: rgba(229, 154, 120, 0.18); border: 1.5px solid var(--cook-accent); overflow: hidden; }
+.timer-chip.paused { background: rgba(247, 242, 232, 0.06); border-color: rgba(247, 242, 232, 0.3); }
+.timer-chip .tc-main { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 6px 8px 14px; border: 0; background: transparent; color: var(--paper); min-height: 52px; }
+.timer-chip .tc-main b { font: 500 24px/1 var(--serif); font-variant-numeric: tabular-nums; }
+.timer-chip .tc-main span { font: 500 12px var(--sans); color: #d8cbb9; }
+.timer-chip .tc-x { width: 44px; border: 0; background: transparent; color: var(--paper); font-size: 15px; }
+.cook-tools { display: flex; flex-wrap: wrap; gap: 10px; }
+.timer-start.ghost { border-color: rgba(247, 242, 232, 0.3); }
+.cook-ings { position: absolute; inset: 0; z-index: 2; background: var(--ink); display: flex; flex-direction: column; padding: calc(var(--top) + 16px) 22px calc(var(--bottom) + 24px); }
+.cook-ings .big { font: 400 34px/1.15 var(--serif); }
+.cook-ings-list { flex: 1; overflow-y: auto; }
+.cook-ings .ci { display: flex; gap: 14px; align-items: flex-start; width: 100%; text-align: left; padding: 12px 0; border: 0; border-bottom: 1px solid rgba(247, 242, 232, 0.1); background: transparent; color: var(--paper); font: 400 19px/1.35 var(--sans); }
+.cook-ings .ci .box { flex: none; width: 26px; height: 26px; border-radius: 8px; border: 1.5px solid rgba(247, 242, 232, 0.4); display: grid; place-items: center; font-size: 14px; }
+.cook-ings .ci.on { color: rgba(247, 242, 232, 0.45); text-decoration: line-through; }
+.cook-ings .ci.on .box { background: var(--cook-accent); border-color: var(--cook-accent); color: var(--ink); }
+.timer-ring { position: absolute; inset: 0; z-index: 5; background: rgba(28, 22, 18, 0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; color: var(--paper); }
+.timer-ring .bell { font-size: 64px; animation: ring-shake 0.9s ease-in-out infinite; }
+.timer-ring .big { font: 400 44px/1.1 var(--serif); }
+.timer-ring .sub { font: 500 16px var(--sans); color: #d8cbb9; }
+.timer-ring .btn { margin-top: 20px; max-width: 320px; height: 64px; border-radius: 20px; background: var(--cook-accent); color: var(--ink); font-size: 18px; }
+@keyframes ring-shake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-14deg); } 75% { transform: rotate(14deg); } }
+@media (prefers-reduced-motion: reduce) { .timer-ring .bell { animation: none; } }
+
+/* "We kept what you typed" on the recipe form */
+.draft-note { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0 18px; padding: 10px 14px; border-radius: 12px; background: var(--card, #fffaf0); border: 1px solid rgba(0, 0, 0, 0.08); font: 500 14px/1.35 var(--sans); }
+
+/* Admin: recent changes that can be put back */
+.change-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line, rgba(0, 0, 0, 0.08)); }
+.change-row .t { font: 500 15px/1.35 var(--sans); }
+.change-row .s { font: 400 13px var(--sans); color: var(--muted, #6b6158); margin-top: 2px; }
+.change-row .btn { flex: none; height: 44px; padding: 0 14px; }
