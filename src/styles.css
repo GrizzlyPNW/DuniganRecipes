@@ -425,7 +425,7 @@ select.field { appearance: none; background-image: linear-gradient(45deg, transp
 .meta-strip > div:last-child { border-right: 0; }
 .meta-strip .k { font: 500 11px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .meta-strip .v { margin-top: 3px; font: 500 17px var(--serif); }
-.card-note { margin-top: 16px; padding: 14px 16px; background: var(--tint); border-radius: 14px; font: italic 400 17px/1.4 var(--serif); }
+.card-note { white-space: pre-line; margin-top: 16px; padding: 14px 16px; background: var(--tint); border-radius: 14px; font: italic 400 17px/1.4 var(--serif); }
 .ing { width: 100%; display: flex; gap: 14px; align-items: flex-start; padding: 11px 0; border: 0; border-bottom: 1px solid rgba(43, 37, 33, 0.08); background: transparent; text-align: left; }
 .box { flex: none; margin-top: 1px; width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid rgba(43, 37, 33, 0.35); color: #fff; display: flex; align-items: center; justify-content: center; font: 600 13px var(--sans); }
 .ing span { font: 400 17px/1.35 var(--sans); }

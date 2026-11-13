@@ -707,5 +707,15 @@ export async function POST(req: Request) {
     return json({ ok: true });
   }
 
+  // Deletes a recipe someone added in the app. The admin can put it back from Recent changes.
+  if (op === 'delete-recipe') {
+    if (!who.admin) return json({ error: 'Only the family admin can delete recipes' }, 403);
+    const id = clip(body.id, 200);
+    if (!id) return json({ error: 'Which recipe?' }, 400);
+    await keep(sql, randomUUID(), 'recipe', id, 'delete', who.name);
+    await sql`delete from recipe_edits where id = ${id}`;
+    return json({ ok: true });
+  }
+
   return json({ error: 'Unknown request' }, 404);
 }

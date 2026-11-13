@@ -272,6 +272,26 @@ export function RecipePage({
             </div>
           </>
         )}
+        {fam.admin && fam.access === 'member' && !fam.isBaseRecipe(r.id) && (
+          <div className="pad" style={{ marginTop: 28, textAlign: 'center' }}>
+            <button
+              className="link-btn"
+              style={{ color: 'var(--accent)' }}
+              onClick={async () => {
+                if (!confirm('Delete “' + r.title + '” from the recipe box? You can put it back from Recent changes on your Admin page.')) return;
+                try {
+                  await fam.deleteRecipe(r.id);
+                  toast('Recipe deleted');
+                  back();
+                } catch (e) {
+                  toast((e as Error).message || 'Couldn’t delete it. Try again.');
+                }
+              }}
+            >
+              Delete this recipe
+            </button>
+          </div>
+        )}
         {r.cardImages.length === 0 && (
           <div ref={cardRef} className="pad" style={{ marginTop: 28 }}>
             <div className="dashed">

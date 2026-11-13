@@ -277,6 +277,14 @@ export async function saveRecipe(mode: Mode, recipe: Recipe) {
   await call('POST', 'recipe', JSON.stringify({ recipe }));
 }
 
+export async function deleteRecipe(mode: Mode, id: string) {
+  if (mode === 'local') {
+    write(LOCAL_RECIPES, read<Recipe[]>(LOCAL_RECIPES, []).filter((r) => r.id !== id));
+    return;
+  }
+  await call('POST', 'delete-recipe', JSON.stringify({ id }));
+}
+
 /** Uploads a compressed card photo and returns its URL. */
 export async function uploadPhoto(mode: Mode, jpeg: Blob, kind: 'card' | 'dish' = 'card'): Promise<string> {
   if (mode === 'local') return blobToDataUrl(jpeg);

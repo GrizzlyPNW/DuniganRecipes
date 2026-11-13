@@ -26,6 +26,7 @@ const withCurrentCategory = (r: Recipe): Recipe => ({
   alsoIn: r.alsoIn?.map((c) => RENAMED[c] || c),
 });
 export const isBaseContributor = (id: string) => id in baseContributors;
+const baseRecipeIds = new Set(baseRecipes.map((r) => r.id));
 
 /**
  * - loading: still checking the server and the sign-in
@@ -272,6 +273,12 @@ export function useFamily(userId: string | null, sessionPending: boolean) {
     deleteStory: async (id: string) => {
       await api.deleteStory(mode!, id);
       setStories((all) => all.filter((s) => s.id !== id));
+    },
+    /** True for recipes that came with the app (they can be edited but not deleted). */
+    isBaseRecipe: (id: string) => baseRecipeIds.has(id),
+    deleteRecipe: async (id: string) => {
+      await api.deleteRecipe(mode!, id);
+      setEdits((all) => all.filter((x) => x.id !== id));
     },
     saveRecipe: async (r: Recipe) => {
       await api.saveRecipe(mode!, r);

@@ -114,6 +114,7 @@ export function AdminPage({ fam, toast }: { fam: Family; toast: (t: string) => v
     const list = names.slice(0, 3).join(', ') + (names.length > 3 ? ' and ' + (names.length - 3) + ' more' : '');
     if (it.action === 'restore') return 'Put back an earlier version: ' + list;
     if (it.kind === 'story') return 'Deleted a story: “' + (it.label.length > 60 ? it.label.slice(0, 60) + '…' : it.label) + '”';
+    if (it.kind === 'recipe' && it.action === 'delete') return 'Deleted the recipe ' + list;
     if (it.kind === 'recipe') return (it.had ? 'Edited ' : 'Changed the original card of ') + list;
     if (c.items.some((x) => x.action === 'remove')) return 'Took ' + nameOf(c.items.find((x) => x.action === 'remove')!) + ' off the tree';
     return 'Changed the tree: ' + list;
